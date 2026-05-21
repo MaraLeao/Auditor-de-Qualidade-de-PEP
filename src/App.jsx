@@ -80,7 +80,7 @@ const EXAMPLE_INPUT = `[
 
 const EXAMPLE_OUTPUT = {
   prontuario: "19.265.867",
-  conformidade_geral: 96.25,
+  conformidade_geral: 90.7,
   secoes: [
     {
       id: "A",
@@ -102,9 +102,9 @@ const EXAMPLE_OUTPUT = {
     {
       id: "B",
       titulo: "Anamneses e Evoluções Médicas",
-      conformidade: 100,
+      conformidade: 91.6,
       total: 12,
-      conformes: 12,
+      conformes: 11,
       itens: [
         { item: "HDA (Anamnese)", valor: "Presente", status: "conforme" },
         { item: "HD / CID (Anamnese)", valor: "Colelitíase, HAS", status: "conforme" },
@@ -117,7 +117,7 @@ const EXAMPLE_OUTPUT = {
         { item: "Exame Físico (Evolução 20/11)", valor: "Presente", status: "conforme" },
         { item: "Conduta (Evolução 20/11)", valor: "Presente", status: "conforme" },
         { item: "HD / CID (Evolução 21/11)", valor: "2º DPO", status: "conforme" },
-        { item: "Frequência diária das evoluções", valor: "20/11 e 21/11 ✓", status: "conforme" },
+        { item: "Frequência diária das evoluções", valor: "Ausente no 3º dia", status: "nao_conforme", observacao: "Evolução médica ausente no 3º dia de internação" },
       ]
     },
     {
@@ -174,11 +174,12 @@ const EXAMPLE_OUTPUT = {
   quantitativo: [
     { tipo: "Anamnese Médica", "19/11": true, "20/11": false, "21/11": false, total: 1, conformidade: 100 },
     { tipo: "Anamnese Enfermagem", "19/11": true, "20/11": false, "21/11": false, total: 1, conformidade: 87.5 },
-    { tipo: "Evolução Médica", "19/11": false, "20/11": true, "21/11": true, total: 2, conformidade: 100 },
+    { tipo: "Evolução Médica", "19/11": false, "20/11": true, "21/11": false, total: 1, conformidade: 50 },
     { tipo: "Evolução Enfermagem", "19/11": true, "20/11": true, "21/11": true, total: 3, conformidade: 100 },
     { tipo: "Serviço Social", "19/11": false, "20/11": true, "21/11": false, total: 1, conformidade: 100 },
   ],
   nao_conformidades: [
+    { secao: "B", item: "Evolução Médica Diária", descricao: "Evolução médica ausente no 3º dia de internação" },
     { secao: "C", item: "CID do Procedimento Cirúrgico", descricao: "CID ausente na descrição cirúrgica" },
     { secao: "D", item: "Antecedentes Familiares — Anamnese de Enfermagem", descricao: "AF não registrado pela equipe de enfermagem" },
   ]
