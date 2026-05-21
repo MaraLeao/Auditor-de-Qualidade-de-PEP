@@ -1,36 +1,20 @@
-# Auditor de Qualidade de PEP
+# Auditor de Prontuários
 
-Bem-vindo ao projeto **Auditor de Qualidade de PEP** (Prontuário Eletrônico do Paciente).
+Demo de IA auditora de prontuários eletrônicos.
 
-## Descrição
-
-Este projeto tem como objetivo avaliar, auditar e garantir a qualidade dos registros no Prontuário Eletrônico do Paciente.
-
-## Requisitos
-
-*   [Adicione os requisitos aqui]
-
-## Instalação
-
-Instruções para configurar e rodar o projeto localmente.
+## Rodando localmente
 
 ```bash
-# Clone o repositório
-git clone https://github.com/MaraLeao/Auditor-de-Qualidade-de-PEP.git
-
-# Acesse o diretório do projeto
-cd Auditor-de-Qualidade-de-PEP
-
-# Instale as dependências (exemplo)
-# npm install
+npm install
+npm run dev
 ```
 
-## Como usar
+## Deploy na Vercel
 
-*   [Adicione instruções de uso aqui]
+1. Suba o projeto no GitHub
+2. Acesse [vercel.com](https://vercel.com) → **Add New Project**
+3. Importe o repositório
+4. As configurações são detectadas automaticamente (Vite + React)
+5. Clique em **Deploy** ✅
 
-## Estrutura do Projeto
-
-*   `src/`: Código-fonte da aplicação.
-*   `docs/`: Documentação adicional.
-*   `tests/`: Testes automatizados.
+Nenhuma variável de ambiente necessária — o projeto roda 100% no frontend.
