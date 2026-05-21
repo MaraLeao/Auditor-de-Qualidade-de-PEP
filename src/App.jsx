@@ -529,10 +529,13 @@ export default function App() {
             onBlurCapture={e => e.currentTarget.style.borderColor='var(--border2)'}>
             <textarea ref={textareaRef} value={input} onChange={e => setInput(e.target.value)}
               onKeyDown={handleKey}
+              readOnly={input === EXAMPLE_INPUT}
               placeholder='Cole o array JSON com os registros do atendimento...'
               rows={4}
               style={{ width:'100%', background:'transparent', border:'none', outline:'none',
-                color:'var(--text)', fontFamily:'var(--mono)', fontSize:12,
+                color: input === EXAMPLE_INPUT ? 'var(--text2)' : 'var(--text)',
+                cursor: input === EXAMPLE_INPUT ? 'not-allowed' : 'text',
+                fontFamily:'var(--mono)', fontSize:12,
                 padding:'14px 16px', resize:'none', lineHeight:1.6 }} />
             <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between',
               padding:'8px 12px', borderTop:'1px solid var(--border)' }}>
@@ -548,6 +551,23 @@ export default function App() {
                   <button onClick={() => setInput('')} style={{ background:'transparent', border:'1px solid var(--border)',
                     color:'var(--text3)', padding:'5px 12px', borderRadius:6,
                     fontSize:11, fontFamily:'var(--mono)', cursor:'pointer' }}>limpar</button>
+                )}
+                {input === EXAMPLE_INPUT && (
+                  <span style={{
+                    color: 'var(--yellow)',
+                    fontSize: 10,
+                    fontFamily: 'var(--mono)',
+                    alignSelf: 'center',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 4,
+                    padding: '2px 8px',
+                    background: 'var(--yellow2)',
+                    border: '1px solid #ffd74020',
+                    borderRadius: 4
+                  }}>
+                    🔒 Exemplo (Leitura)
+                  </span>
                 )}
               </div>
               <div style={{ display:'flex', alignItems:'center', gap:10 }}>
