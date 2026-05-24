@@ -246,15 +246,46 @@ export const EXAMPLE_OUTPUT = {
       total: 9,
       conformes: 9,
       itens: [
-        { item: "Prontuário", valor: "58.907.003", status: "conforme" },
-        { item: "Data de Nascimento", valor: "18/07/1956", status: "conforme" },
-        { item: "Idade", valor: "69 anos", status: "conforme" },
-        { item: "Período da Internação", valor: "15/04/2024, 09:15 → 18/04/2024, 10:30 (3 dias e 1 hora)", status: "conforme" },
-        { item: "Diagnóstico Identificado", valor: "COLELITIASE COM COLECISTITE AGUDA", status: "conforme" },
-        { item: "CID", valor: "K81.0", status: "conforme" },
-        { item: "Especialidade Cirurgia", valor: "CIRURGIA GERAL", status: "conforme" },
-        { item: "Procedimento Cirurgico Realizado", valor: "Colecistectomia videolaparoscópica", status: "conforme" },
-        { item: "Unidade Funcional", valor: "8º NORTE", status: "conforme" },
+        {
+          item: "Prontuário",
+          valor: "58.907.003",
+          status: "conforme"
+        },
+        {
+          item: "Data de nascimento",
+          valor: "18/07/1956",
+          status: "conforme"
+        },
+        {
+          item: "Idade",
+          valor: "69 anos",
+          status: "conforme"
+        },
+        {
+          item: "Período da internação",
+          valor: "15/04/2024, 09:15 → 18/04/2024, 10:30 (3 dias e 1 hora)",
+          status: "conforme"
+        },
+        {
+          item: "Diagnóstico/CID",
+          valor: "COLELITIASE COM COLECISTITE AGUDA | K81.0",
+          status: "conforme"
+        },
+        {
+          item: "Especialidade cirúrgica",
+          valor: "CIRURGIA GERAL",
+          status: "conforme"
+        },
+        {
+          item: "Unidade funcional da internação",
+          valor: "8º NORTE",
+          status: "conforme"
+        },
+        {
+          item: "Unidade funcional cirúrgica",
+          valor: "BLOCO CIRÚRGICO",
+          status: "conforme"
+        }
       ]
     },
     {
@@ -268,55 +299,135 @@ export const EXAMPLE_OUTPUT = {
           titulo: "Anamnese Médica",
           data: "15/04/2024, 23:15",
           itens: [
-            { item: "HDA", valor: "", status: "nao_conforme", observacao: "Campo ausente na descrição (#HDA)" },
-            { item: "HD / CID", valor: "COLELITIASE COM COLECISTITE AGUDA | K81.0", status: "conforme" },
-            { item: "Antecedentes Pessoais", valor: "", status: "nao_conforme", observacao: "Campo ausente na descrição" },
-            { item: "Antecedentes Familiares", valor: "", status: "nao_conforme", observacao: "Campo ausente na descrição (#AF)" },
-            { item: "Exame Físico", valor: "Presente", status: "conforme" },
-            { item: "Conduta Terapêutica", valor: "Presente", status: "conforme" },
-            { item: "Criação Anamnese ≤ 12h", valor: "15/04/2024, 09:15 → 15/04/2024 23:15", status: "nao_conforme", observacao: "Anamnese foi criada 14h após a admissão." },
-            { item: "Identificação cronológica adequada", valor: "Presente", status: "conforme" },
+            {
+              item: "HDA",
+              valor: "Presente",
+              status: "nao_conforme",
+              observacao: "Campo ausente na descrição (#HDA)"
+            },
+            {
+              item: "HD/CID",
+              valor: "Presente",
+              status: "nao_conforme",
+              observacao: "Campo ausente na descrição (#HDA)"
+            },
+            {
+              item: "AP/APP",
+              valor: "Presente",
+              status: "nao_conforme",
+              observacao: "Campo ausente na descrição"
+            },
+            {
+              item: "AF",
+              valor: "Presente",
+              status: "nao_conforme",
+              observacao: "Campo ausente na descrição (#AF)"
+            },
+            {
+              item: "Exame físico",
+              valor: "Presente",
+              status: "conforme"
+            },
+            {
+              item: "Conduta terapêutica",
+              valor: "Presente",
+              status: "conforme"
+            },
+            {
+              item: "Tempo da anamnese",
+              valor: "15/04/2024, 09:15 → 15/04/2024 23:15",
+              status: "nao_conforme",
+              observacao: "Anamnese foi criada 14h após a admissão."
+            }
           ]
         },
         {
           titulo: "Evolução Médica 1",
           data: "16/04/2024",
           itens: [
-            { item: "Evolução Diária", valor: "Presente", status: "conforme" },
-            { item: "HD / CID ", valor: "Colecistite aguda com litíase | K81.0", status: "conforme" },
-            { item: "Exame Físico", valor: "Presente", status: "conforme" },
-            { item: "Condutas", valor: "", status: "nao_conforme", observacao: "Campo ausente na descrição" },
-            { item: "Queixas/ Intercorrências", valor: "Dor abdominal, distensão e evolução clínica descritas", status: "conforme" },
-            { item: "Identificação cronológica adequada", valor: "", status: "nao_conforme", observacao: "Data e hora ausentes" },
-            { item: "Separação adequada entre categorias profissionais", valor: "Sem conteúdo de outra categoria", status: "conforme" },
+            {
+              item: "Evolução diária",
+              valor: "Presente",
+              status: "conforme"
+            },
+            {
+              item: "Exame físico",
+              valor: "Presente",
+              status: "conforme"
+            },
+            {
+              item: "Condutas",
+              valor: "",
+              status: "nao_conforme",
+              observacao: "Campo ausente na descrição"
+            },
+            {
+              item: "Queixas/intercorrências",
+              valor: "Dor abdominal, distensão e evolução clínica descritas",
+              status: "conforme"
+            }
           ]
         },
         {
           titulo: "Evolução Médica 2",
           data: "17/04/2024",
           itens: [
-            { item: "Evolução Diária", valor: "Ausente", status: "nao_conforme", observacao: "Registro ausente" },
-            { item: "HD / CID ", valor: "Ausente", status: "nao_conforme", observacao: "Registro ausente" },
-            { item: "Exame Físico", valor: "Ausente", status: "nao_conforme", observacao: "Registro ausente" },
-            { item: "Condutas", valor: "Ausente", status: "nao_conforme", observacao: "Registro ausentes" },
-            { item: "Queixas/ Intercorrências", valor: "Ausente", status: "nao_conforme", observacao: "Registro ausentes" },
-            { item: "Identificação cronológica adequada", valor: "Ausente", status: "nao_conforme", observacao: "Registro ausente" },
-            { item: "Separação adequada entre categorias profissionais", valor: "Ausente", status: "nao_conforme", observacao: "Registro ausente" },
+            {
+              item: "Evolução diária",
+              valor: "Ausente",
+              status: "nao_conforme",
+              observacao: "Registro ausente"
+            },
+            {
+              item: "Exame físico",
+              valor: "Ausente",
+              status: "nao_conforme",
+              observacao: "Registro ausente"
+            },
+            {
+              item: "Condutas",
+              valor: "",
+              status: "nao_conforme",
+              observacao: "Registro ausentes"
+            },
+            {
+              item: "Queixas/intercorrências",
+              valor: "Ausente",
+              status: "nao_conforme",
+              observacao: "Registro ausentes"
+            }
           ]
         },
         {
           titulo: "Evolução Médica 3",
           data: "18/04/2024",
           itens: [
-            { item: "Evolução Diária", valor: "Ausente", status: "nao_conforme", observacao: "Registro ausente" },
-            { item: "HD / CID ", valor: "Ausente", status: "nao_conforme", observacao: "Registro ausente" },
-            { item: "Exame Físico", valor: "Ausente", status: "nao_conforme", observacao: "Registro ausente" },
-            { item: "Condutas", valor: "Ausente", status: "nao_conforme", observacao: "Registro ausentes" },
-            { item: "Queixas/ Intercorrências", valor: "Ausente", status: "nao_conforme", observacao: "Registro ausentes" },
-            { item: "Identificação cronológica adequada", valor: "Ausente", status: "nao_conforme", observacao: "Registro ausente" },
-            { item: "Separação adequada entre categorias profissionais", valor: "Ausente", status: "nao_conforme", observacao: "Registro ausente" },
+            {
+              item: "Evolução diária",
+              valor: "Ausente",
+              status: "nao_conforme",
+              observacao: "Registro ausente"
+            },
+            {
+              item: "Exame físico",
+              valor: "Ausente",
+              status: "nao_conforme",
+              observacao: "Registro ausente"
+            },
+            {
+              item: "Condutas",
+              valor: "",
+              status: "nao_conforme",
+              observacao: "Registro ausentes"
+            },
+            {
+              item: "Queixas/intercorrências",
+              valor: "Ausente",
+              status: "nao_conforme",
+              observacao: "Registro ausentes"
+            }
           ]
-        },
+        }
       ]
     },
     {
@@ -326,16 +437,51 @@ export const EXAMPLE_OUTPUT = {
       total: 8,
       conformes: 8,
       itens: [
-        { item: "Especialidade da Cirurgia", valor: "Cirurgia Geral", status: "conforme" },
-        { item: "Unidade Funcional", valor: "Bloco Cirúrgico", status: "conforme" },
-        { item: "Data da Cirurgia", valor: "16/04/2024", status: "conforme" },
-        { item: "Início da Cirurgia", valor: "11:20", status: "conforme" },
-        { item: "Fim da Cirurgia", valor: "12:45", status: "conforme" },
-        { item: "CID do Procedimento", valor: "K81.0", status: "conforme" },
-        { item: "Procedimento realizado", valor: "Colecistectomia videolaparoscópica", status: "conforme" },
-        { item: "Técnica Cirúrgica", valor: "Itens identificados na descrição cirúrgica - Posicionamento cirúrgico, Tipo anestésico, Antissepsia e campos estéreis, Técnica de pneumoperitônio, Número e tamanho de trocateres,Achados intraoperatórios, Retirada da vesícula biliar, Eletrocauterização, Síntese da pele, Curativo oclusivo", status: "conforme" },
-        { item: "Uso de OPME", valor: "", status: "nao_aplicavel" },
-        { item: "Curativo Cirúrgico", valor: "Curativo oclusivo em incisões de trocateres", status: "conforme" }
+        {
+          item: "Especialidade",
+          valor: "Cirurgia Geral",
+          status: "conforme"
+        },
+        {
+          item: "Unidade funcional",
+          valor: "Bloco Cirúrgico",
+          status: "conforme"
+        },
+        {
+          item: "Data",
+          valor: "16/04/2024",
+          status: "conforme"
+        },
+        {
+          item: "Horário início",
+          valor: "11:20",
+          status: "conforme"
+        },
+        {
+          item: "Horário fim",
+          valor: "12:45",
+          status: "conforme"
+        },
+        {
+          item: "CID",
+          valor: "K81.0",
+          status: "conforme"
+        },
+        {
+          item: "Procedimento",
+          valor: "K81.0",
+          status: "conforme"
+        },
+        {
+          item: "Técnica operatória",
+          valor: "Presente",
+          status: "conforme"
+        },
+        {
+          item: "OPME",
+          valor: "",
+          status: "nao_aplicavel"
+        }
       ]
     },
     {
@@ -349,56 +495,182 @@ export const EXAMPLE_OUTPUT = {
           titulo: "Anamnese Enfermagem",
           data: "15/04/2024, 23:15",
           itens: [
-            { item: "HDA", valor: "COLELITÍASE COM COLECISTITE AGUDA", status: "conforme" },
-            { item: "HD/CID", valor: "COLELITÍASE COM COLECISTITE AGUDA | K81.0", status: "conforme" },
-            { item: "Antecedentes Pessoais", valor: "Presente", status: "conforme" },
-            { item: "Antecedentes Familiares", valor: "", status: "nao_conforme", observacao: "Antecedentes familiares ausentes" },
-            { item: "Exame Físico", valor: "Presente", status: "conforme" },
-            { item: "Escala de Braden", valor: "BRADEN 18", status: "conforme" },
-            { item: "Escala de Morse", valor: "MORSE 55", status: "conforme" },
-            { item: "Conduta terapêutica", valor: "Presente", status: "conforme" },
-            { item: "Criação Anamnese Enf. ≤ 12h", valor: "Dentro do prazo", status: "conforme" }
+            {
+              item: "Motivo da internação",
+              valor: "COLELITÍASE COM COLECISTITE AGUDA",
+              status: "conforme"
+            },
+            {
+              item: "AP/APP",
+              valor: "Presente",
+              status: "conforme"
+            },
+            {
+              item: "AF",
+              valor: "Presente",
+              status: "nao_conforme",
+              observacao: "Antecedentes familiares ausentes"
+            },
+            {
+              item: "Exame físico",
+              valor: "Presente",
+              status: "conforme"
+            },
+            {
+              item: "Escala de Braden",
+              valor: "BRADEN 18",
+              status: "conforme"
+            },
+            {
+              item: "Escala de Morse",
+              valor: "MORSE 55",
+              status: "conforme"
+            },
+            {
+              item: "Condutas",
+              valor: "Presente",
+              status: "conforme"
+            },
+            {
+              item: "Horário",
+              valor: "Dentro do prazo",
+              status: "conforme"
+            }
           ]
         },
         {
           titulo: "Evolução Enfermagem 1",
           data: "16/04/2024",
           itens: [
-            { item: "HD/CID", valor: "COLELITÍASE COM COLESTITIS AGUDA | K81.0", status: "conforme" },
-            { item: "Exame Físico Completo", valor: "Presente e detalhado", status: "conforme" },
-            { item: "Condutas Realizadas", valor: "", status: "nao_conforme", observacao: "Condutas ausente" },
-            { item: "Escala de Braden", valor: "", status: "nao_conforme", observacao: "Escala de Braden ausente" },
-            { item: "Escala de Morse", valor: "", status: "nao_conforme", observacao: "Escala de Morse ausente" },
-            { item: "Curativo", valor: "", status: "nao_aplicavel" },
-            { item: "Identificação cronológica adequada", valor: "", status: "nao_conforme", observacao: "Data e hora da evolução ausente" }
+            {
+              item: "Evolução diária",
+              valor: "Presente",
+              status: "conforme"
+            },
+            {
+              item: "HD/CID",
+              valor: "COLELITÍASE COM COLESTITIS AGUDA | K81.0",
+              status: "conforme"
+            },
+            {
+              item: "Exame físico",
+              valor: "Presente e detalhado",
+              status: "conforme"
+            },
+            {
+              item: "Condutas",
+              valor: "Presente",
+              status: "nao_conforme",
+              observacao: "Condutas ausente"
+            },
+            {
+              item: "Escalas",
+              valor: "Presentes",
+              status: "nao_conforme",
+              observacao: "Escala de Braden ausente"
+            },
+            {
+              item: "Curativos",
+              valor: "",
+              status: "nao_aplicavel"
+            },
+            {
+              item: "Horários",
+              valor: "Presente",
+              status: "nao_conforme",
+              observacao: "Data e hora da evolução ausente"
+            }
           ]
         },
         {
           titulo: "Evolução Enfermagem 2",
           data: "17/04/2024",
           itens: [
-            { item: "HD/CID", valor: "COLELITÍASE COM COLESTITIS AGUDA | K81.0", status: "conforme" },
-            { item: "Exame Físico Completo", valor: "Presente", status: "conforme" },
-            { item: "Condutas Realizadas", valor: "Presente", status: "conforme" },
-            { item: "Escala de Braden", valor: "BRADEN 20", status: "conforme" },
-            { item: "Escala de Morse", valor: "MORSE 25", status: "conforme" },
-            { item: "Curativo", valor: "", status: "nao_aplicavel" },
-            { item: "Identificação cronológica adequada", valor: "", status: "nao_conforme", observacao: "Data e hora da evolução ausente" },
+            {
+              item: "Evolução diária",
+              valor: "Presente",
+              status: "conforme"
+            },
+            {
+              item: "HD/CID",
+              valor: "COLELITÍASE COM COLESTITIS AGUDA | K81.0",
+              status: "conforme"
+            },
+            {
+              item: "Exame físico",
+              valor: "Presente",
+              status: "conforme"
+            },
+            {
+              item: "Condutas",
+              valor: "Presente",
+              status: "conforme"
+            },
+            {
+              item: "Escalas",
+              valor: "BRADEN 20",
+              status: "conforme"
+            },
+            {
+              item: "Curativos",
+              valor: "",
+              status: "nao_aplicavel"
+            },
+            {
+              item: "Horários",
+              valor: "Presente",
+              status: "nao_conforme",
+              observacao: "Data e hora da evolução ausente"
+            }
           ]
         },
         {
           titulo: "Evolução Enfermagem 3",
           data: "18/04/2024",
           itens: [
-            { item: "HD/CID", valor: "", status: "nao_conforme", observacao: "Registro ausente" },
-            { item: "Exame Físico Completo", valor: "", status: "nao_conforme", observacao: "Registro ausente" },
-            { item: "Condutas Realizadas", valor: "", status: "nao_conforme", observacao: "Registro ausente" },
-            { item: "Escala de Braden", valor: "", status: "nao_conforme", observacao: "Registro ausente" },
-            { item: "Escala de Morse", valor: "", status: "nao_conforme", observacao: "Registro ausente" },
-            { item: "Curativo", valor: "", status: "nao_aplicavel" },
-            { item: "Identificação cronológica adequada", valor: "", status: "nao_conforme", observacao: "Registro ausente" },
+            {
+              item: "Evolução diária",
+              valor: "Ausente",
+              status: "nao_conforme",
+              observacao: "Registro ausente"
+            },
+            {
+              item: "HD/CID",
+              valor: "Presente",
+              status: "nao_conforme",
+              observacao: "Registro ausente"
+            },
+            {
+              item: "Exame físico",
+              valor: "Presente",
+              status: "nao_conforme",
+              observacao: "Registro ausente"
+            },
+            {
+              item: "Condutas",
+              valor: "Presente",
+              status: "nao_conforme",
+              observacao: "Registro ausente"
+            },
+            {
+              item: "Escalas",
+              valor: "Presentes",
+              status: "nao_conforme",
+              observacao: "Registro ausente"
+            },
+            {
+              item: "Curativos",
+              valor: "",
+              status: "nao_aplicavel"
+            },
+            {
+              item: "Horários",
+              valor: "Presente",
+              status: "nao_conforme",
+              observacao: "Registro ausente"
+            }
           ]
-        },
+        }
       ]
     },
     {
@@ -412,63 +684,175 @@ export const EXAMPLE_OUTPUT = {
           titulo: "Fisioterapia",
           data: "",
           itens: [
-            { item: "Descrição da consulta", valor: "Presente", status: "conforme" },
-            { item: "Condutas/procedimentos fisioterapêuticos", valor: "Presente", status: "conforme" },
-            { item: "Evolução funcional", valor: "Presente", status: "conforme" },
-            { item: "Identificação cronológica adequada", valor: "", status: "nao_conforme", observacao: "Data e hora da evolução ausente" },
+            {
+              item: "Assistência descrita",
+              valor: "Presente",
+              status: "conforme"
+            },
+            {
+              item: "Condutas registradas",
+              valor: "Presente",
+              status: "conforme"
+            }
           ]
         },
         {
           titulo: "Nutrição",
           data: "",
           itens: [
-            { item: "Descrição da consulta", valor: "Presente", status: "conforme" },
-            { item: "Tipo de dieta descrito", valor: "Presente", status: "conforme" },
-            { item: "Evolução nutricional", valor: "Presente", status: "conforme" },
-            { item: "Orientação nutricional", valor: "Presente", status: "conforme" },
-            { item: "Dieta enteral/parenteral", valor: "", status: "nao_aplicavel" },
-            { item: "Identificação cronológica adequada", valor: "", status: "nao_conforme", observacao: "Data e hora da evolução ausente" },
+            {
+              item: "Assistência descrita",
+              valor: "Presente",
+              status: "conforme"
+            },
+            {
+              item: "Condutas registradas",
+              valor: "Presente",
+              status: "conforme"
+            }
           ]
         },
         {
           titulo: "Terapia Ocupacional (TO)",
           data: "",
-          itens: [{ item: "Registro de Terapia Ocupacional", valor: "", status: "nao_aplicavel" }]
+          itens: [
+            {
+              item: "Assistência descrita",
+              valor: "",
+              status: "nao_se_aplica"
+            },
+            {
+              item: "Condutas registradas",
+              valor: "",
+              status: "nao_se_aplica"
+            }
+          ]
         },
         {
           titulo: "Psicologia",
           data: "",
-          itens: [{ item: "Registro de Psicologia", valor: "", status: "nao_aplicavel" }]
+          itens: [
+            {
+              item: "Assistência descrita",
+              valor: "",
+              status: "nao_se_aplica"
+            },
+            {
+              item: "Condutas registradas",
+              valor: "",
+              status: "nao_se_aplica"
+            }
+          ]
         },
         {
           titulo: "Fonoaudiologia",
           data: "",
-          itens: [{ item: "Registro de Fonoaudiologia", valor: "", status: "nao_aplicavel" }]
+          itens: [
+            {
+              item: "Assistência descrita",
+              valor: "",
+              status: "nao_se_aplica"
+            },
+            {
+              item: "Condutas registradas",
+              valor: "",
+              status: "nao_se_aplica"
+            }
+          ]
         },
         {
           titulo: "Serviço Social",
           data: "",
-          itens: [{ item: "Registro de Serviço Social", valor: "", status: "nao_aplicavel" }]
+          itens: [
+            {
+              item: "Assistência descrita",
+              valor: "",
+              status: "nao_se_aplica"
+            },
+            {
+              item: "Condutas registradas",
+              valor: "",
+              status: "nao_se_aplica"
+            }
+          ]
         },
         {
           titulo: "Farmácia Clínica",
           data: "",
-          itens: [{ item: "Registro de Farmácia Clínica", valor: "", status: "nao_aplicavel" }]
+          itens: [
+            {
+              item: "Assistência descrita",
+              valor: "",
+              status: "nao_se_aplica"
+            },
+            {
+              item: "Condutas registradas",
+              valor: "",
+              status: "nao_se_aplica"
+            }
+          ]
         }
       ]
-    },
+    }
   ],
   quantitativo: [
-    { tipo: "Anamnese Médica", "19/11": true, "20/11": false, "21/11": false, total: 1, conformidade: 100 },
-    { tipo: "Anamnese Enfermagem", "19/11": true, "20/11": false, "21/11": false, total: 1, conformidade: 87.5 },
-    { tipo: "Evolução Médica", "19/11": false, "20/11": true, "21/11": false, total: 1, conformidade: 50 },
-    { tipo: "Evolução Enfermagem", "19/11": true, "20/11": true, "21/11": true, total: 3, conformidade: 100 },
-    { tipo: "Serviço Social", "19/11": false, "20/11": true, "21/11": false, total: 1, conformidade: 100 },
+    {
+      tipo: "Anamnese Médica",
+      "19/11": true,
+      "20/11": false,
+      "21/11": false,
+      total: 1,
+      conformidade: 100
+    },
+    {
+      tipo: "Anamnese Enfermagem",
+      "19/11": true,
+      "20/11": false,
+      "21/11": false,
+      total: 1,
+      conformidade: 87.5
+    },
+    {
+      tipo: "Evolução Médica",
+      "19/11": false,
+      "20/11": true,
+      "21/11": false,
+      total: 1,
+      conformidade: 50
+    },
+    {
+      tipo: "Evolução Enfermagem",
+      "19/11": true,
+      "20/11": true,
+      "21/11": true,
+      total: 3,
+      conformidade: 100
+    },
+    {
+      tipo: "Serviço Social",
+      "19/11": false,
+      "20/11": true,
+      "21/11": false,
+      total: 1,
+      conformidade: 100
+    }
   ],
   nao_conformidades: [
-    { secao: "B", item: "Evolução Médica Diária", descricao: "Evolução médica ausente no 3º dia de internação" },
-    { secao: "C", item: "CID do Procedimento Cirúrgico", descricao: "CID ausente na descrição cirúrgica" },
-    { secao: "D", item: "Antecedentes Familiares — Anamnese de Enfermagem", descricao: "AF não registrado pela equipe de enfermagem" },
+    {
+      secao: "B",
+      item: "Evolução Médica Diária",
+      descricao: "Evolução médica ausente no 3º dia de internação"
+    },
+    {
+      secao: "C",
+      item: "CID do Procedimento Cirúrgico",
+      descricao: "CID ausente na descrição cirúrgica"
+    },
+    {
+      secao: "D",
+      item: "Antecedentes Familiares — Anamnese de Enfermagem",
+      descricao: "AF não registrado pela equipe de enfermagem"
+    }
   ]
 }
 
@@ -626,7 +1010,7 @@ export const EXAMPLE_INPUT_2 = `[
   "Categoria Profissional": "ENFERMAGEM",
   "Tipo do registro": "Evolução",
   "criacao_anamnsese": "17/04/2024, 01:02",
-  "Descricao do registro": "#HD: OBSTRUÇÃO INTESTINAL POR HÉRNIA INGUINAL ESTRANGULADA #MEDICAÇÕES EM USO: MORFINA 5MG IV 8/8H, CEFTRIAXONA 2G IV 24H, METRONIDAZOL 500MG IV 8/8H, HEPARINA 5000 UI SC 12/12H #EVOLUÇÃO: PACIENTE EM VIGÍLIA, RESPONDENDO A COMANDOS, COM DOR CONTÍNUA EM ESCALA EVA 7. ABDOMEN DURÃO, DOLOROSO À PALPAÇÃO, SEM SONS HIDROAÉREOS. DIURESE DE 40ML/H. SPO2 96% COM O2 A 4L/MIN. #EXAME FÍSICO: PULSO 110 BPM, PA 110/70 MMHG, TEMP 37,8°C. PÉLVIS E MEMBROS INF. COM EDEMA LEVE, SEM ULCERAS. #EXAMES COMPLEMENTARES: RX ABDOMINAL: NÍVEIS HIDROAÉREOS MÚLTIPLOS. HEMOGLOBINA 9,8 G/DL (BAIXA). LEUCOCITOSE 14.200. DHL ELEVADA. #CD: EVOLUÇÃO PÓS-CIRÚRGICA DE HÉRNIA INGUINAL ESTRANGULADA COM RESSECÇÃO INTESTINAL. MANUTENÇÃO DE CUIDADOS INTENSIVOS. #ESCALAS(EVA/Braden/Morse/FUGULIN): EVA 9, BRADEN 14, MORSE 35, FUGULIN 3. #CURATIVO: TROCA DE CURATIVO CIRÚRGICO NA REGIÃO INGUINAL DIREITA, TAMANHO DA LESÃO APROX. 15 CM, BORDAS BEM APROXIMADAS, SEM PRESENÇA DE EXSUDATO, SEM SINAIS DE NECROSE. ASPECTO LIMPO E SECO, FECHADO COM GAZE ESTÉRIL E ADESIVO HIPOALERGÊNICO.",,
+  "Descricao do registro": "#HD: OBSTRUÇÃO INTESTINAL POR HÉRNIA INGUINAL ESTRANGULADA #MEDICAÇÕES EM USO: MORFINA 5MG IV 8/8H, CEFTRIAXONA 2G IV 24H, METRONIDAZOL 500MG IV 8/8H, HEPARINA 5000 UI SC 12/12H #EVOLUÇÃO: PACIENTE EM VIGÍLIA, RESPONDENDO A COMANDOS, COM DOR CONTÍNUA EM ESCALA EVA 7. ABDOMEN DURÃO, DOLOROSO À PALPAÇÃO, SEM SONS HIDROAÉREOS. DIURESE DE 40ML/H. SPO2 96% COM O2 A 4L/MIN. #EXAME FÍSICO: PULSO 110 BPM, PA 110/70 MMHG, TEMP 37,8°C. PÉLVIS E MEMBROS INF. COM EDEMA LEVE, SEM ULCERAS. #EXAMES COMPLEMENTARES: RX ABDOMINAL: NÍVEIS HIDROAÉREOS MÚLTIPLOS. HEMOGLOBINA 9,8 G/DL (BAIXA). LEUCOCITOSE 14.200. DHL ELEVADA. #CD: EVOLUÇÃO PÓS-CIRÚRGICA DE HÉRNIA INGUINAL ESTRANGULADA COM RESSECÇÃO INTESTINAL. MANUTENÇÃO DE CUIDADOS INTENSIVOS. #ESCALAS(EVA/Braden/Morse/FUGULIN): EVA 9, BRADEN 14, MORSE 35, FUGULIN 3. #CURATIVO: TROCA DE CURATIVO CIRÚRGICO NA REGIÃO INGUINAL DIREITA, TAMANHO DA LESÃO APROX. 15 CM, BORDAS BEM APROXIMADAS, SEM PRESENÇA DE EXSUDATO, SEM SINAIS DE NECROSE. ASPECTO LIMPO E SECO, FECHADO COM GAZE ESTÉRIL E ADESIVO HIPOALERGÊNICO.",
   "Descrição Cirurgica": "1. PACIENTE EM DECÚBITO DORSAL, ANESTESIA GERAL INDUZIDA. 2. ASSEPSIA E ANTISSEPSIA DA REGIÃO INGUINAL E ABDOMINAL INFERIOR. 3. INCISÃO LONGITUDINAL NA REGIÃO INGUINAL, EXPOSIÇÃO DO ANEL INGUINAL. 4. IDENTIFICAÇÃO E LIBERAÇÃO DO HÉRNIA INGUINAL ESTRANGULADA COM COMPROMETIMENTO DO LAÇO INTESTINAL. 5. RESSECÇÃO DE 15CM DE INTESTINO DELGADO COM LESÃO ISQUÊMICA, ANASTOMOSE TERMINOTERMINAL COM SUTURA INTERROMPIDA DE 3-0 POLIPROPILENO. 6. REPARO DA HÉRNIA COM PRÓTESE DE POLIPROPILENO, FIXADA COM PONTOS DE SUTURA NÃO ABSORVÍVEL. 7. LAVAGEM ABDOMINAL COM SOLUÇÃO FISIOLÓGICA A 0,9%. 8. FECHAMENTO DOS PLANOS MUSCULARES E PELE COM SUTURA CONTÍNUA DE NYLON 2-0. 9. CURATIVO ESTÉRIL COM GAZE E FITA ADHESIVA."
 },
 {
@@ -736,8 +1120,8 @@ export const EXAMPLE_INPUT_2 = `[
 ]`
 
 export const EXAMPLE_OUTPUT_2 = {
-  prontuario: "42.470.129",
-  conformidade_geral: 100.0,
+  prontuario: "24.440.208",
+  conformidade_geral: 100,
   secoes: [
     {
       id: "A",
@@ -746,15 +1130,46 @@ export const EXAMPLE_OUTPUT_2 = {
       total: 9,
       conformes: 9,
       itens: [
-        { item: "Prontuário", valor: "24.440.208", status: "conforme" },
-        { item: "Data de Nascimento", valor: "30/10/1956", status: "conforme" },
-        { item: "Idade", valor: "67 anos", status: "conforme" },
-        { item: "Período da Internação", valor: "15/04/2024 às 03:15, 09:15 → 18/04/2024 às 14:30 (3 dias e 11 horas)", status: "conforme" },
-        { item: "Diagnóstico Identificado", valor: "Obstrução intestinal por hérnia inguinal estrangulada", status: "conforme" },
-        { item: "CID", valor: "K46.1", status: "conforme" },
-        { item: "Especialidade Cirurgia", valor: "CIRURGIA GERAL", status: "conforme" },
-        { item: "Procedimento Cirurgico Realizado", valor: "Herniorrafia inguinal emergencial com ressecção intestinal", status: "conforme" },
-        { item: "Unidade Funcional", valor: "UTI ADULTA", status: "conforme" },
+        {
+          item: "Prontuário",
+          valor: "24.440.208",
+          status: "conforme"
+        },
+        {
+          item: "Data de nascimento",
+          valor: "30/10/1956",
+          status: "conforme"
+        },
+        {
+          item: "Idade",
+          valor: "67 anos",
+          status: "conforme"
+        },
+        {
+          item: "Período da internação",
+          valor: "15/04/2024 às 03:15, 09:15 → 18/04/2024 às 14:30 (3 dias e 11 horas)",
+          status: "conforme"
+        },
+        {
+          item: "Diagnóstico/CID",
+          valor: "Obstrução intestinal por hérnia inguinal estrangulada | K46.1",
+          status: "conforme"
+        },
+        {
+          item: "Especialidade cirúrgica",
+          valor: "CIRURGIA GERAL",
+          status: "conforme"
+        },
+        {
+          item: "Unidade funcional da internação",
+          valor: "UTI ADULTA",
+          status: "conforme"
+        },
+        {
+          item: "Unidade funcional cirúrgica",
+          valor: "BLOCO CIRÚRGICO",
+          status: "conforme"
+        }
       ]
     },
     {
@@ -768,40 +1183,93 @@ export const EXAMPLE_OUTPUT_2 = {
           titulo: "Anamnese Médica",
           data: "15/04/2024, 23:15",
           itens: [
-            { item: "HDA", valor: "Presente", status: "conforme" },
-            { item: "HD / CID", valor: "Presente", status: "conforme" },
-            { item: "Antecedentes Pessoais", valor: "Presente", status: "conforme" },
-            { item: "Antecedentes Familiares", valor: "Presente", status: "conforme" },
-            { item: "Exame Físico", valor: "Presente", status: "conforme" },
-            { item: "Conduta Terapêutica", valor: "Presente", status: "conforme" },
-            { item: "Criação Anamnese ≤ 12h", valor: "05/04/2024 09:15 → 05/04/2024 09:45", status: "conforme" },
-            { item: "Identificação cronológica adequada", valor: "Presente", status: "conforme" },
+            {
+              item: "HDA",
+              valor: "Presente",
+              status: "conforme"
+            },
+            {
+              item: "HD/CID",
+              valor: "Presente",
+              status: "conforme"
+            },
+            {
+              item: "AP/APP",
+              valor: "Presente",
+              status: "conforme"
+            },
+            {
+              item: "AF",
+              valor: "Presente",
+              status: "conforme"
+            },
+            {
+              item: "Exame físico",
+              valor: "Presente",
+              status: "conforme"
+            },
+            {
+              item: "Conduta terapêutica",
+              valor: "Presente",
+              status: "conforme"
+            },
+            {
+              item: "Tempo da anamnese",
+              valor: "05/04/2024 09:15 → 05/04/2024 09:45",
+              status: "conforme"
+            }
           ]
         },
         {
           titulo: "Evolução Médica 1",
           data: "15/04/2024 às 15:44",
           itens: [
-            { item: "Evolução Diária", valor: "Presente", status: "conforme" },
-            { item: "HD / CID ", valor: "Presente", status: "conforme" },
-            { item: "Exame Físico", valor: "Presente", status: "conforme" },
-            { item: "Condutas", valor: "Presente", status: "conforme" },
-            { item: "Queixas/ Intercorrências", valor: "Presente", status: "conforme" },
-            { item: "Identificação cronológica adequada", valor: "Presente", status: "conforme" },
-            { item: "Separação adequada entre categorias profissionais", valor: "Sem conteúdo de outra categoria", status: "conforme" },
+            {
+              item: "Evolução diária",
+              valor: "Presente",
+              status: "conforme"
+            },
+            {
+              item: "Exame físico",
+              valor: "Presente",
+              status: "conforme"
+            },
+            {
+              item: "Condutas",
+              valor: "Presente",
+              status: "conforme"
+            },
+            {
+              item: "Queixas/intercorrências",
+              valor: "Presente",
+              status: "conforme"
+            }
           ]
         },
         {
           titulo: "Evolução Médica 2",
           data: "16/04/2024, 00:03",
           itens: [
-            { item: "Evolução Diária", valor: "Presente", status: "conforme" },
-            { item: "HD / CID ", valor: "Presente", status: "conforme" },
-            { item: "Exame Físico", valor: "Presente", status: "conforme" },
-            { item: "Condutas", valor: "Presente", status: "conforme" },
-            { item: "Queixas/ Intercorrências", valor: "Presente", status: "conforme" },
-            { item: "Identificação cronológica adequada", valor: "Presente", status: "conforme" },
-            { item: "Separação adequada entre categorias profissionais", valor: "Presente", status: "conforme" },
+            {
+              item: "Evolução diária",
+              valor: "Presente",
+              status: "conforme"
+            },
+            {
+              item: "Exame físico",
+              valor: "Presente",
+              status: "conforme"
+            },
+            {
+              item: "Condutas",
+              valor: "Presente",
+              status: "conforme"
+            },
+            {
+              item: "Queixas/intercorrências",
+              valor: "Presente",
+              status: "conforme"
+            }
           ]
         }
       ]
@@ -813,16 +1281,51 @@ export const EXAMPLE_OUTPUT_2 = {
       total: 8,
       conformes: 8,
       itens: [
-        { item: "Especialidade da Cirurgia", valor: "CIRURGIA GERAL", status: "conforme" },
-        { item: "Unidade Funcional", valor: "BLOCO CIRURGICO", status: "conforme" },
-        { item: "Data da Cirurgia", valor: "15/04/2024", status: "conforme" },
-        { item: "Início da Cirurgia", valor: "06:45", status: "conforme" },
-        { item: "Fim da Cirurgia", valor: "09:20", status: "conforme" },
-        { item: "CID do Procedimento", valor: "K46.1", status: "conforme" },
-        { item: "Procedimento realizado", valor: "Presente", status: "conforme" },
-        { item: "Técnica Cirúrgica", valor: "Presente", status: "conforme" },
-        { item: "Uso de OPME", valor: "Presente", status: "conforme" },
-        { item: "Curativo Cirúrgico", valor: "Presente", status: "conforme" }
+        {
+          item: "Especialidade",
+          valor: "CIRURGIA GERAL",
+          status: "conforme"
+        },
+        {
+          item: "Unidade funcional",
+          valor: "BLOCO CIRURGICO",
+          status: "conforme"
+        },
+        {
+          item: "Data",
+          valor: "15/04/2024",
+          status: "conforme"
+        },
+        {
+          item: "Horário início",
+          valor: "06:45",
+          status: "conforme"
+        },
+        {
+          item: "Horário fim",
+          valor: "09:20",
+          status: "conforme"
+        },
+        {
+          item: "CID",
+          valor: "K46.1",
+          status: "conforme"
+        },
+        {
+          item: "Procedimento",
+          valor: "K46.1",
+          status: "conforme"
+        },
+        {
+          item: "Técnica operatória",
+          valor: "Presente. Curativo: Presente",
+          status: "conforme"
+        },
+        {
+          item: "OPME",
+          valor: "Presente",
+          status: "conforme"
+        }
       ]
     },
     {
@@ -836,41 +1339,128 @@ export const EXAMPLE_OUTPUT_2 = {
           titulo: "Anamnese Enfermagem",
           data: "15/04/2024, 23:15",
           itens: [
-            { item: "HDA", valor: "Presente", status: "conforme" },
-            { item: "HD/CID", valor: "Presente", status: "conforme" },
-            { item: "Antecedentes Pessoais", valor: "Presente", status: "conforme" },
-            { item: "Antecedentes Familiares", valor: "Presente", status: "conforme" },
-            { item: "Exame Físico", valor: "Presente", status: "conforme" },
-            { item: "Escala de Braden", valor: "14", status: "conforme" },
-            { item: "Escala de Morse", valor: "45", status: "conforme" },
-            { item: "Conduta terapêutica", valor: "Presente", status: "conforme" },
-            { item: "Criação Anamnese Enf. ≤ 12h", valor: "Dentro do prazo", status: "conforme" }
+            {
+              item: "Motivo da internação",
+              valor: "Presente",
+              status: "conforme"
+            },
+            {
+              item: "AP/APP",
+              valor: "Presente",
+              status: "conforme"
+            },
+            {
+              item: "AF",
+              valor: "Presente",
+              status: "conforme"
+            },
+            {
+              item: "Exame físico",
+              valor: "Presente",
+              status: "conforme"
+            },
+            {
+              item: "Escala de Braden",
+              valor: "14",
+              status: "conforme"
+            },
+            {
+              item: "Escala de Morse",
+              valor: "45",
+              status: "conforme"
+            },
+            {
+              item: "Condutas",
+              valor: "Presente",
+              status: "conforme"
+            },
+            {
+              item: "Horário",
+              valor: "Dentro do prazo",
+              status: "conforme"
+            }
           ]
         },
         {
           titulo: "Evolução Enfermagem 1",
           data: "16/04/2024 16:42",
           itens: [
-            { item: "HD/CID", valor: "Presente", status: "conforme" },
-            { item: "Exame Físico Completo", valor: "Presente", status: "conforme" },
-            { item: "Condutas Realizadas", valor: "Presente", status: "conforme" },
-            { item: "Escala de Braden", valor: "14", status: "conforme" },
-            { item: "Escala de Morse", valor: "35", status: "conforme" },
-            { item: "Curativo", valor: "Presente", status: "conforme" },
-            { item: "Identificação cronológica adequada", valor: "Presente", status: "conforme" }
+            {
+              item: "Evolução diária",
+              valor: "Presente",
+              status: "conforme"
+            },
+            {
+              item: "HD/CID",
+              valor: "Presente",
+              status: "conforme"
+            },
+            {
+              item: "Exame físico",
+              valor: "Presente",
+              status: "conforme"
+            },
+            {
+              item: "Condutas",
+              valor: "Presente",
+              status: "conforme"
+            },
+            {
+              item: "Escalas",
+              valor: "14",
+              status: "conforme"
+            },
+            {
+              item: "Curativos",
+              valor: "Presente",
+              status: "conforme"
+            },
+            {
+              item: "Horários",
+              valor: "Presente",
+              status: "conforme"
+            }
           ]
         },
         {
           titulo: "Evolução Enfermagem 2",
           data: "17/04/2024, 09:21",
           itens: [
-            { item: "HD/CID", valor: "Presente", status: "conforme" },
-            { item: "Exame Físico Completo", valor: "Presente", status: "conforme" },
-            { item: "Condutas Realizadas", valor: "Presente", status: "conforme" },
-            { item: "Escala de Braden", valor: "15", status: "conforme" },
-            { item: "Escala de Morse", valor: "45", status: "conforme" },
-            { item: "Curativo", valor: "Presente", status: "conforme" },
-            { item: "Identificação cronológica adequada", valor: "Presente", status: "conforme" },
+            {
+              item: "Evolução diária",
+              valor: "Presente",
+              status: "conforme"
+            },
+            {
+              item: "HD/CID",
+              valor: "Presente",
+              status: "conforme"
+            },
+            {
+              item: "Exame físico",
+              valor: "Presente",
+              status: "conforme"
+            },
+            {
+              item: "Condutas",
+              valor: "Presente",
+              status: "conforme"
+            },
+            {
+              item: "Escalas",
+              valor: "15",
+              status: "conforme"
+            },
+            {
+              item: "Curativos",
+              valor: "Presente",
+              status: "conforme"
+            },
+            {
+              item: "Horários",
+              valor: "Presente",
+              status: "conforme"
+            }
           ]
         }
       ]
@@ -886,86 +1476,221 @@ export const EXAMPLE_OUTPUT_2 = {
           titulo: "Fisioterapia 1",
           data: "17/04/2024, 09:21",
           itens: [
-            { item: "Descrição da consulta", valor: "Presente", status: "conforme" },
-            { item: "Condutas/procedimentos fisioterapêuticos", valor: "Presente", status: "conforme" },
-            { item: "Evolução funcional", valor: "Presente", status: "conforme" },
-            { item: "Identificação cronológica adequada", valor: "Presente", status: "conforme" },
+            {
+              item: "Assistência descrita",
+              valor: "Presente",
+              status: "conforme"
+            },
+            {
+              item: "Condutas registradas",
+              valor: "Presente",
+              status: "conforme"
+            }
           ]
         },
         {
           titulo: "Fisioterapia 2",
           data: "17/-4/2024, 17:41",
           itens: [
-            { item: "Descrição da consulta", valor: "Presente", status: "conforme" },
-            { item: "Condutas/procedimentos fisioterapêuticos", valor: "Presente", status: "conforme" },
-            { item: "Evolução funcional", valor: "Presente", status: "conforme" },
-            { item: "Identificação cronológica adequada", valor: "Presente", status: "conforme" },
+            {
+              item: "Assistência descrita",
+              valor: "Presente",
+              status: "conforme"
+            },
+            {
+              item: "Condutas registradas",
+              valor: "Presente",
+              status: "conforme"
+            }
           ]
         },
         {
           titulo: "Nutrição 1",
           data: "18/04/2024, 02:00",
           itens: [
-            { item: "Descrição da consulta", valor: "Presente", status: "conforme" },
-            { item: "Tipo de dieta descrito", valor: "Presente", status: "conforme" },
-            { item: "Evolução nutricional", valor: "Presente", status: "conforme" },
-            { item: "Orientação nutricional", valor: "Presente", status: "conforme" },
-            { item: "Dieta enteral/parenteral", valor: "Presente", status: "conforme" },
-            { item: "Identificação cronológica adequada", valor: "Presente", status: "conforme" },
+            {
+              item: "Assistência descrita",
+              valor: "Presente",
+              status: "conforme"
+            },
+            {
+              item: "Condutas registradas",
+              valor: "Presente",
+              status: "conforme"
+            }
           ]
         },
         {
           titulo: "Nutrição 2",
           data: "18/04/2024, 10:20",
           itens: [
-            { item: "Descrição da consulta", valor: "Presente", status: "conforme" },
-            { item: "Tipo de dieta descrito", valor: "Presente", status: "conforme" },
-            { item: "Evolução nutricional", valor: "Presente", status: "conforme" },
-            { item: "Orientação nutricional", valor: "Presente", status: "conforme" },
-            { item: "Dieta enteral/parenteral", valor: "Presente", status: "conforme" },
-            { item: "Identificação cronológica adequada", valor: "Presente", status: "conforme" },
+            {
+              item: "Assistência descrita",
+              valor: "Presente",
+              status: "conforme"
+            },
+            {
+              item: "Condutas registradas",
+              valor: "Presente",
+              status: "conforme"
+            }
           ]
         },
         {
           titulo: "Terapia Ocupacional (TO)",
           data: "",
-          itens: [{ item: "Registro de Terapia Ocupacional", valor: "", status: "nao_aplicavel" }]
+          itens: [
+            {
+              item: "Assistência descrita",
+              valor: "",
+              status: "nao_se_aplica"
+            },
+            {
+              item: "Condutas registradas",
+              valor: "",
+              status: "nao_se_aplica"
+            }
+          ]
         },
         {
           titulo: "Psicologia",
           data: "",
-          itens: [{ item: "Registro de Psicologia", valor: "", status: "nao_aplicavel" }]
+          itens: [
+            {
+              item: "Assistência descrita",
+              valor: "",
+              status: "nao_se_aplica"
+            },
+            {
+              item: "Condutas registradas",
+              valor: "",
+              status: "nao_se_aplica"
+            }
+          ]
         },
         {
           titulo: "Fonoaudiologia",
           data: "",
-          itens: [{ item: "Registro de Fonoaudiologia", valor: "", status: "nao_aplicavel" }]
+          itens: [
+            {
+              item: "Assistência descrita",
+              valor: "",
+              status: "nao_se_aplica"
+            },
+            {
+              item: "Condutas registradas",
+              valor: "",
+              status: "nao_se_aplica"
+            }
+          ]
         },
         {
           titulo: "Serviço Social",
           data: "",
-          itens: [{ item: "Registro de Serviço Social", valor: "", status: "nao_aplicavel" }]
+          itens: [
+            {
+              item: "Assistência descrita",
+              valor: "",
+              status: "nao_se_aplica"
+            },
+            {
+              item: "Condutas registradas",
+              valor: "",
+              status: "nao_se_aplica"
+            }
+          ]
         },
         {
           titulo: "Farmácia Clínica",
           data: "",
-          itens: [{ item: "Registro de Farmácia Clínica", valor: "", status: "nao_aplicavel" }]
+          itens: [
+            {
+              item: "Assistência descrita",
+              valor: "",
+              status: "nao_se_aplica"
+            },
+            {
+              item: "Condutas registradas",
+              valor: "",
+              status: "nao_se_aplica"
+            }
+          ]
         }
       ]
-    },
+    }
   ],
   quantitativo: [
-    { tipo: "Anamnese Médica", "15/04": true, "16/04": false, "17/04": false, "18/04": false, total: 1, conformidade: 100 },
-    { tipo: "Anamnese Enfermagem", "15/04": true, "16/04": false, "17/04": false, "18/04": false, total: 1, conformidade: 100 },
-    { tipo: "Evolução Médica", "15/04": true, "16/04": true, "17/04": false, "18/04": false, total: 2, conformidade: 100 },
-    { tipo: "Evolução Enfermagem", "15/04": false, "16/04": true, "17/04": true, "18/04": false, total: 2, conformidade: 71.4 },
-    { tipo: "Fisioterapia", "15/04": false, "16/04": false, "17/04": true, "18/04": false, total: 2, conformidade: 100 },
-    { tipo: "Nutrição", "15/04": false, "16/04": false, "17/04": false, "18/04": true, total: 2, conformidade: 100 },
+    {
+      tipo: "Anamnese Médica",
+      "15/04": true,
+      "16/04": false,
+      "17/04": false,
+      "18/04": false,
+      total: 1,
+      conformidade: 100
+    },
+    {
+      tipo: "Anamnese Enfermagem",
+      "15/04": true,
+      "16/04": false,
+      "17/04": false,
+      "18/04": false,
+      total: 1,
+      conformidade: 100
+    },
+    {
+      tipo: "Evolução Médica",
+      "15/04": true,
+      "16/04": true,
+      "17/04": false,
+      "18/04": false,
+      total: 2,
+      conformidade: 100
+    },
+    {
+      tipo: "Evolução Enfermagem",
+      "15/04": false,
+      "16/04": true,
+      "17/04": true,
+      "18/04": false,
+      total: 2,
+      conformidade: 71.4
+    },
+    {
+      tipo: "Fisioterapia",
+      "15/04": false,
+      "16/04": false,
+      "17/04": true,
+      "18/04": false,
+      total: 2,
+      conformidade: 100
+    },
+    {
+      tipo: "Nutrição",
+      "15/04": false,
+      "16/04": false,
+      "17/04": false,
+      "18/04": true,
+      total: 2,
+      conformidade: 100
+    }
   ],
   nao_conformidades: [
-    { secao: "D", item: "Escala de Braden", descricao: "Escala de Braden não registrada na Evolução de Enfermagem do dia 16/04" },
-    { secao: "D", item: "Escala de Morse", descricao: "Escala de Morse não registrada na Evolução de Enfermagem do dia 16/04" },
-    { secao: "D", item: "Curativo", descricao: "Descrição do curativo incompleta nas Evoluções de Enfermagem de 16/04 e 17/04" }
+    {
+      secao: "D",
+      item: "Escala de Braden",
+      descricao: "Escala de Braden não registrada na Evolução de Enfermagem do dia 16/04"
+    },
+    {
+      secao: "D",
+      item: "Escala de Morse",
+      descricao: "Escala de Morse não registrada na Evolução de Enfermagem do dia 16/04"
+    },
+    {
+      secao: "D",
+      item: "Curativo",
+      descricao: "Descrição do curativo incompleta nas Evoluções de Enfermagem de 16/04 e 17/04"
+    }
   ]
 }
 
@@ -978,7 +1703,7 @@ export const EXAMPLES = [
   },
   {
     id: "2",
-    name: "Prontuário 42.470.129 (Insuficiência Cardíaca)",
+    name: "Prontuário 24.440.208 (Herniorrafia Inguinal)",
     input: EXAMPLE_INPUT_2,
     output: EXAMPLE_OUTPUT_2
   }
