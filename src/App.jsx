@@ -410,8 +410,54 @@ const EXAMPLE_OUTPUT = {
       conformidade: 100,
       total: 1,
       conformes: 1,
-      itens: [
-        { item: "Serviço Social (20/11)", valor: "Registro conforme", status: "conforme" },
+      subgrupos: [
+        {
+          titulo: "Fisioterapia",
+          data: "",
+          itens: [
+            { item: "Descrição da consulta", valor: "Presente", status: "conforme" },
+            { item: "Condutas/procedimentos fisioterapêuticos", valor: "Presente", status: "conforme" },
+            { item: "Evolução funcional", valor: "Presente", status: "conforme" },
+            { item: "Identificação cronológica adequada", valor: "", status: "nao_conforme", observacao: "Data e hora da evolução ausente" },
+          ]
+        },
+        {
+          titulo: "Nutrição",
+          data: "",
+          itens: [
+            { item: "Descrição da consulta", valor: "Presente", status: "conforme" },
+            { item: "Tipo de dieta descrito", valor: "Presente", status: "conforme" },
+            { item: "Evolução nutricional", valor: "Presente", status: "conforme" },
+            { item: "Orientação nutricional", valor: "Presente", status: "conforme" },
+            { item: "Dieta enteral/parenteral", valor: "", status: "nao_aplicavel" },
+            { item: "Identificação cronológica adequada", valor: "", status: "nao_conforme", observacao: "Data e hora da evolução ausente" },
+          ]
+        },
+        {
+          titulo: "Terapia Ocupacional (TO)",
+          data: "",
+          itens: [{ item: "Registro de Terapia Ocupacional", valor: "", status: "nao_aplicavel" }]
+        },
+        {
+          titulo: "Psicologia",
+          data: "",
+          itens: [{ item: "Registro de Psicologia", valor: "", status: "nao_aplicavel" }]
+        },
+        {
+          titulo: "Fonoaudiologia",
+          data: "",
+          itens: [{ item: "Registro de Fonoaudiologia", valor: "", status: "nao_aplicavel" }]
+        },
+        {
+          titulo: "Serviço Social",
+          data: "",
+          itens: [{ item: "Registro de Serviço Social", valor: "", status: "nao_aplicavel" }]
+        },
+        {
+          titulo: "Farmácia Clínica",
+          data: "",
+          itens: [{ item: "Registro de Farmácia Clínica", valor: "", status: "nao_aplicavel" }]
+        }
       ]
     },
   ],
@@ -429,12 +475,228 @@ const EXAMPLE_OUTPUT = {
   ]
 }
 
+const EXAMPLE_INPUT_2 = `[
+  {
+    "Prontuário": "12.345.678",
+    "Atendimento": "8.765.432",
+    "Data De Nascimento pact": "25/12/1988",
+    "Data da internação": "20/05/2024, 08:00",
+    "Data de saída": "22/05/2024, 14:00",
+    "Data de óbito": "",
+    "Sexo": "M",
+    "Código Sus pact": "123.456.789",
+    "Especialidade cirurgia": "CIRURGIA GERAL",
+    "Procedimento cirurgico Realizado": "Apendicectomia videolaparoscópica",
+    "Procedimento Interno Realizado": "Apendicectomia videolaparoscópica",
+    "Cid procedimento": "K35.8",
+    "Data Inicio Cirurgia": "20/05/2024, 14:30",
+    "Data Fim Cirurgia": "20/05/2024, 15:45",
+    "UF cirurgia": "BLOCO CIRURGICO",
+    "Unidade Funcional Internaçao": "4º ANDAR",
+    "Utilizou O2?": "Não",
+    "Usou Antibiótico Profilático?": "Sim",
+    "Seguiu protoc Cirurgia Segura?": "Sim",
+    "Categoria Profissional": "MEDICINA",
+    "Tipo do registro": "Anamnese",
+    "criacao_anamnsese": "20/05/2024, 10:30",
+    "Descricao do registro": "#HDA: Dor abdominal de início súbito em região periumbilical que migrou para fossa ilíaca direita, associada a anorexia e náuseas. #EXAME FÍSICO: Abdômen doloroso à palpação profunda em fossa ilíaca direita, com sinal de Blumberg presente. Afebril. #CD: Apendicite aguda. Indicada apendicectomia videolaparoscópica de urgência.",
+    "Descrição Cirurgica": "1. Decúbito dorsal. Anestesia geral. 2. Pneumoperitônio por técnica fechada. 3. Trocartes em cicatriz umbilical e fossas ilíacas. 4. Apêndice cecal edemaciado com fibrina em ponta. 5. Apendicectomia com ligadura da base. 6. Sem intercorrências. Pele suturada. Curativo simples."
+  },
+  {
+    "Prontuário": "12.345.678",
+    "Atendimento": "8.765.432",
+    "Data De Nascimento pact": "25/12/1988",
+    "Data da internação": "20/05/2024, 08:00",
+    "Data de saída": "22/05/2024, 14:00",
+    "Sexo": "M",
+    "Categoria Profissional": "MEDICINA",
+    "Tipo do registro": "Evolução",
+    "Descricao do registro": "1º PO de apendicectomia. Paciente refere melhora importante da dor abdominal, deambulando, tolerando dieta líquida sem náuseas. Sinais vitais estáveis. Abdômen pouco doloroso na região dos trocartes. Sem sinais de infecção. Conduta: Alta hospitalar programada."
+  }
+]`
+
+const EXAMPLE_OUTPUT_2 = {
+  prontuario: "12.345.678",
+  conformidade_geral: 100.0,
+  secoes: [
+    {
+      id: "A",
+      titulo: "Identificação do Atendimento",
+      conformidade: 100,
+      total: 9,
+      conformes: 9,
+      itens: [
+        { item: "Nome do Paciente", valor: "Pedro Souza", status: "conforme" },
+        { item: "Número do Prontuário", valor: "12.345.678", status: "conforme" },
+        { item: "Número do Atendimento", valor: "8.765.432", status: "conforme" },
+        { item: "Data de Nascimento", valor: "25/12/1988", status: "conforme" },
+        { item: "Data de Internação", valor: "20/05/2024", status: "conforme" },
+        { item: "Data de Alta", valor: "22/05/2024", status: "conforme" },
+        { item: "Sexo", valor: "Masculino", status: "conforme" },
+        { item: "Idade", valor: "35 anos", status: "conforme" },
+        { item: "Dias de Internação", valor: "2 dias", status: "conforme" }
+      ]
+    },
+    {
+      id: "B",
+      titulo: "Anamneses e Evoluções Médicas",
+      conformidade: 100,
+      total: 16,
+      conformes: 16,
+      subgrupos: [
+        {
+          titulo: "Anamnese Médica",
+          data: "20/05/2024, 10:30",
+          itens: [
+            { item: "HDA", valor: "Dor em FID, náuseas", status: "conforme" },
+            { item: "HD / CID", valor: "Apendicite aguda | K35.8", status: "conforme" },
+            { item: "Antecedentes Pessoais", valor: "Negativos", status: "conforme" },
+            { item: "Exame Físico", valor: "Blumberg presente", status: "conforme" },
+            { item: "Conduta Terapêutica", valor: "Cirurgia de urgência", status: "conforme" },
+            { item: "Criação Anamnese ≤ 12h", valor: "Dentro do prazo", status: "conforme" },
+            { item: "Identificação cronológica adequada", valor: "Presente", status: "conforme" }
+          ]
+        },
+        {
+          titulo: "Evolução Médica 1",
+          data: "21/05/2024",
+          itens: [
+            { item: "Evolução Diária", valor: "1º PO sem queixas", status: "conforme" },
+            { item: "HD / CID ", valor: "K35.8", status: "conforme" },
+            { item: "Exame Físico", valor: "Afebril, abdômen flácido", status: "conforme" },
+            { item: "Condutas", valor: "Manter analgesia", status: "conforme" },
+            { item: "Queixas/ Intercorrências", valor: "Sem queixas", status: "conforme" },
+            { item: "Identificação cronológica adequada", valor: "Presente", status: "conforme" },
+            { item: "Separação adequada entre categorias profissionais", valor: "Conforme", status: "conforme" }
+          ]
+        },
+        {
+          titulo: "Evolução Médica 2",
+          data: "22/05/2024",
+          itens: [
+            { item: "Evolução Diária", valor: "Alta hospitalar", status: "conforme" },
+            { item: "Identificação cronológica adequada", valor: "Presente", status: "conforme" }
+          ]
+        }
+      ]
+    },
+    {
+      id: "C",
+      titulo: "Cirurgia",
+      conformidade: 100,
+      total: 6,
+      conformes: 6,
+      itens: [
+        { item: "Início da Cirurgia", valor: "14:30", status: "conforme" },
+        { item: "Fim da Cirurgia", valor: "15:45", status: "conforme" },
+        { item: "CID do Procedimento", valor: "K35.8", status: "conforme" },
+        { item: "Procedimento realizado", valor: "Apendicectomia videolaparoscópica", status: "conforme" },
+        { item: "Técnica Cirúrgica", valor: "Apendicectomia por laparoscopia", status: "conforme" },
+        { item: "Uso de OPME", valor: "", status: "nao_aplicavel" },
+        { item: "Curativo Cirúrgico", valor: "Curativo simples", status: "conforme" }
+      ]
+    },
+    {
+      id: "D",
+      titulo: "Anamnese e Evoluções de Enfermagem",
+      conformidade: 100,
+      total: 16,
+      conformes: 16,
+      subgrupos: [
+        {
+          titulo: "Anamnese Enfermagem",
+          data: "20/05/2024, 11:15",
+          itens: [
+            { item: "HDA", valor: "Dor em abdômen", status: "conforme" },
+            { item: "HD/CID", valor: "Apendicite aguda", status: "conforme" },
+            { item: "Antecedentes Pessoais", valor: "Negativos", status: "conforme" },
+            { item: "Exame Físico", valor: "Presente", status: "conforme" },
+            { item: "Escala de Braden", valor: "Braden 23", status: "conforme" },
+            { item: "Escala de Morse", valor: "Morse 0", status: "conforme" },
+            { item: "Conduta terapêutica", valor: "Acompanhamento cirúrgico", status: "conforme" },
+            { item: "Criação Anamnese Enf. ≤ 12h", valor: "Dentro do prazo", status: "conforme" }
+          ]
+        },
+        {
+          titulo: "Evolução Enfermagem 1",
+          data: "21/05/2024",
+          itens: [
+            { item: "HD/CID", valor: "K35.8", status: "conforme" },
+            { item: "Exame Físico Completo", valor: "Conforme", status: "conforme" },
+            { item: "Condutas Realizadas", valor: "Medicações administradas", status: "conforme" },
+            { item: "Escala de Braden", valor: "Braden 23", status: "conforme" },
+            { item: "Escala de Morse", valor: "Morse 0", status: "conforme" },
+            { item: "Curativo", valor: "", status: "nao_aplicavel" },
+            { item: "Identificação cronológica adequada", valor: "Presente", status: "conforme" }
+          ]
+        },
+        {
+          titulo: "Evolução Enfermagem 2",
+          data: "22/05/2024",
+          itens: [
+            { item: "HD/CID", valor: "K35.8", status: "conforme" },
+            { item: "Exame Físico Completo", valor: "Conforme", status: "conforme" },
+            { item: "Identificação cronológica adequada", valor: "Presente", status: "conforme" }
+          ]
+        }
+      ]
+    },
+    {
+      id: "E",
+      titulo: "Outras Categorias Profissionais",
+      conformidade: 100,
+      total: 2,
+      conformes: 2,
+      subgrupos: [
+        {
+          titulo: "Fisioterapia",
+          data: "21/05/2024",
+          itens: [
+            { item: "Descrição da consulta", valor: "Fisioterapia motora", status: "conforme" },
+            { item: "Evolução funcional", valor: "Deambulação precoce incentivada", status: "conforme" }
+          ]
+        },
+        {
+          titulo: "Serviço Social",
+          data: "",
+          itens: [{ item: "Registro de Serviço Social", valor: "", status: "nao_aplicavel" }]
+        }
+      ]
+    }
+  ]
+}
+
+const EXAMPLES = [
+  {
+    id: "1",
+    name: "Prontuário 58.907.003 (Colecistite)",
+    input: EXAMPLE_INPUT,
+    output: EXAMPLE_OUTPUT
+  },
+  {
+    id: "2",
+    name: "Prontuário 12.345.678 (Apendicite)",
+    input: EXAMPLE_INPUT_2,
+    output: EXAMPLE_OUTPUT_2
+  }
+]
+
 function simulateAudit(jsonText) {
   try { JSON.parse(jsonText) } catch { return null }
 
   const output = JSON.parse(JSON.stringify(EXAMPLE_OUTPUT))
 
   output.secoes.forEach(sec => {
+    if (sec.subgrupos) {
+      sec.subgrupos.forEach(sub => {
+        if (sub.itens && !Array.isArray(sub.itens)) {
+          sub.itens = [sub.itens]
+        }
+      })
+    } else if (sec.itens && !Array.isArray(sec.itens)) {
+      sec.itens = [sec.itens]
+    }
+
     const relevantItens = sec.subgrupos
       ? sec.subgrupos.flatMap(sub => sub.itens || [])
       : (sec.itens || [])
@@ -451,6 +713,88 @@ function simulateAudit(jsonText) {
   const overallTotal = output.secoes.reduce((acc, sec) => acc + sec.total, 0)
   const overallConformes = output.secoes.reduce((acc, sec) => acc + sec.conformes, 0)
   output.conformidade_geral = overallTotal > 0 ? Math.round((overallConformes / overallTotal) * 1000) / 10 : 100
+
+  // Dynamic quantitativo calculation
+  const days = ['15/04', '16/04', '17/04', '18/04']
+  output.days = days
+
+  const getSubgroupData = (secId, titleSub) => {
+    const sec = output.secoes.find(s => s.id === secId)
+    if (!sec) return []
+    return sec.subgrupos 
+      ? sec.subgrupos.filter(sub => sub.titulo.toLowerCase().includes(titleSub.toLowerCase()))
+      : []
+  }
+
+  const buildQuantitativoRow = (tipo, secId, titleSub, isEvolution) => {
+    const subs = getSubgroupData(secId, titleSub)
+    const row = { tipo }
+    let presentCount = 0
+    let totalApp = 0
+    let totalConf = 0
+
+    days.forEach(d => {
+      const subForDay = subs.find(sub => (sub.data && sub.data.includes(d)) || sub.titulo.includes(d))
+      if (subForDay) {
+        let isPresent = false
+        if (isEvolution) {
+          const isAbsent = subForDay.itens.every(it => it.status === 'nao_conforme' && (it.valor === 'Ausente' || it.observacao === 'Registro ausente'))
+          isPresent = !isAbsent
+        } else {
+          isPresent = true
+        }
+
+        row[d] = isPresent
+        if (isPresent) presentCount++
+
+        const app = subForDay.itens.filter(it => it.status === 'conforme' || it.status === 'nao_conforme')
+        totalApp += app.length
+        totalConf += app.filter(it => it.status === 'conforme').length
+      } else {
+        row[d] = false
+      }
+    })
+
+    row.total = presentCount
+    row.conformidade = totalApp > 0 ? Math.round((totalConf / totalApp) * 1000) / 10 : 100
+    return row
+  }
+
+  output.quantitativo = [
+    buildQuantitativoRow('Anamnese Médica', 'B', 'Anamnese Médica', false),
+    buildQuantitativoRow('Anamnese Enfermagem', 'D', 'Anamnese Enfermagem', false),
+    buildQuantitativoRow('Evolução Médica', 'B', 'Evolução Médica', true),
+    buildQuantitativoRow('Evolução Enfermagem', 'D', 'Evolução Enfermagem', true),
+    buildQuantitativoRow('Serviço Social', 'E', 'Serviço Social', false),
+  ]
+
+  const dynamicNaoConformidades = []
+  output.secoes.forEach(sec => {
+    if (sec.subgrupos) {
+      sec.subgrupos.forEach(sub => {
+        sub.itens.forEach(it => {
+          if (it.status === 'nao_conforme') {
+            dynamicNaoConformidades.push({
+              secao: sec.id,
+              item: `${sub.titulo} — ${it.item}`,
+              descricao: it.observacao || 'Registro não conforme'
+            })
+          }
+        })
+      })
+    } else if (sec.itens) {
+      sec.itens.forEach(it => {
+        if (it.status === 'nao_conforme') {
+          dynamicNaoConformidades.push({
+            secao: sec.id,
+            item: it.item,
+            descricao: it.observacao || 'Registro não conforme'
+          })
+        }
+      })
+    }
+  })
+  output.nao_conformidades = dynamicNaoConformidades
 
   return output
 }
@@ -611,7 +955,7 @@ function Section({ sec, defaultOpen = false, isMobile }) {
 
 function ResultCard({ r, isMobile }) {
   const [tab, setTab] = useState('secoes')
-  const days = ['19/11', '20/11', '21/11']
+  const days = r.days || ['19/11', '20/11', '21/11']
 
   return (
     <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: '2px 12px 12px 12px' }}>
