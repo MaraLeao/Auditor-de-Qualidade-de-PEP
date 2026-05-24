@@ -2,101 +2,261 @@ import { useState, useRef, useEffect } from 'react'
 
 const EXAMPLE_INPUT = `[
   {
-    "Prontuário": "19.265.867",
-    "Atendimento": "1.180.074",
-    "Data De Nascimento pact": "18/06/1959",
-    "Data da internação": "19/11/2023, 08:45",
-    "Data de saída": "21/11/2023, 11:32",
+    "Prontuário": "58.907.003",
+    "Atendimento": "9.973.132",
+    "Data De Nascimento pact": "18/7/1956",
+    "Data da internação": "15/04/2024, 09:15",
+    "Data de saída": "18/04/2024, 10:30",
     "Data de óbito": "",
     "Sexo": "F",
-    "Código Sus pact": "407.030.034",
+    "Código Sus pact": "948.337.921",
+    "Especialidade cirurgia": "CIRURGIA GERAL",
+    "Procedimento cirurgico Realizado": "Colecistectomia videolaparoscópica",
+    "Procedimento Interno Realizado": "Colecistectomia videolaparoscópica",
+    "Cid procedimento": "K81.0",
+    "Data Inicio Cirurgia": "16/04/2024, 11:20",
+    "Data Fim Cirurgia": "16/04/2024, 12:45",
+    "UF cirurgia": "BLOCO CIRURGICO",
+    "Unidade Funcional Internaçao": "8º NORTE",
+    "Utilizou O2?": "Sim",
+    "Usou Antibiótico Profilático?": "Sim",
+    "Seguiu protoc Cirurgia Segura?": "Não",
     "Categoria Profissional": "MEDICINA",
     "Tipo do registro": "Anamnese",
-    "criacao_anamnsese": "19/11/2023, 10:48",
-    "Descricao do registro": "FICHA DE ADMISSÃO\\n#QPD/HDA: PACIENTE REFERE DOR ABDOMINAL EM HCD...\\n#ANTECEDENTES PESSOAIS: HAS\\n#ANTECEDENTES FAMILIARES: MÃE: CANCER HEPÁTICO\\n#EXAME FÍSICO: EBG, CONSCIENTE, ORIENTADA...\\n#HD: COLELITIASE, HAS\\n#CD: INTERNAMENTO HOSPITALAR",
+    "criacao_anamnsese": "15/04/2024, 23:15",
+    "Descricao do registro": "#MEDICAÇÕES EM USO: Ceftriaxona 1g IV 12/12h, Metronidazol 500mg IV 8/8h, Paracetamol 1g IV 6/6h, Omeprazol 40mg IV 24/24h, Ranitidina 50mg IV 8/8h #EVOLUÇÃO: PACIENTE EVOLUI COM REDUÇÃO DA DOR ABDOMINAL E FEBA, SEM VÔMITOS. MANTÉM APTIDÃO PARA ALIMENTAÇÃO ORAL. MANTÉM DIURESE ADEQUADA. APRESENTA LEVE DISTENSÃO ABDOMINAL, SEM SINAL DE PERITONITE. #EXAME FÍSICO: PIELI, PULSOS PERIFÉRICOS PRESENTES E SIMÉTRICOS, PRESSÃO ARTERIAL 120x80mmHg, FREQUÊNCIA CARDÍACA 88bpm, FREQUÊNCIA RESPIRATÓRIA 18ipm, SATURAÇÃO 98% EM O2 2L/MIN. ABDOMEN MACIO, DEPRESSÍVEL, SEM DEFESA OU CONTRATURA, RUIDOS HIDROAÉREOS PRESENTES. PELE E MUCOSAS HIDRATADAS. SNC: CONSCIENTE, ORIENTADA. #EXAMES COMPLEMENTARES: HEMOGRAMA: HEMOGLOBINA 12,1g/dL, LEUCÓCITOS 11.200/mm³, PLAQUETAS 240.000/mm³. HEPATOGRAMA: AST 48U/L, ALT 52U/L, BILIRRUBINA TOTAL 1,8mg/dL, ALP 145U/L. UROANÁLISE: NORMA. #CD: COLECISTITE AGUDA COM LITÍASE. PÓS-COLECISTECTOMIA VIDEOLAPAROSCÓPICA. EVOLUÇÃO FAVORÁVEL. CONTINUAR TRATAMENTO ANTIBIÓTICO E ANALGÉSICO. AVALIAÇÃO DE ENFERMAGEM E NUTRIÇÃO SOLICITADA. FISIOTERAPIA NÃO REGISTRADA. NÃO HÁ DESCRIÇÃO DE ESCALA BRADEN. AVALIAÇÃO DE SISTEMAS INCOMPLETA.",
+    "Descrição Cirurgica": "1. PACIENTE EM DECÚBITO DORSAL SOB ANESTESIA GERAL 2. ASSEPSIA, ANTISSEPSIA E APOSIÇÃO DE CAMPOS CIRÚRGICOS ESTÉREIS 3. REALIZAÇÃO DE PNEUMOPERITÔNEO PELA TÉCNICA ABERTA ATRAVÉS DE INCISÃO TRANS UMBILICAL 4. APOSIÇÃO DE 2 TROCATERES DE 10MM E 2 TROCATERES DE 5MM 5. LAPAROSCOPIA DA CAVIDADE COM ACHADOS: VESÍCULA BILIAR INFLAMADA, PAREDES ESPESSADAS, LÍQUIDO SEROHAEMÁTICO NO ESPAÇO SUBHEPÁTICO, CÁLCULOS MÚLTIPLOS NO LÚMEN 6. RETIRADA DE VESÍCULA BILIAR DO LEITO HEPÁTICO COM ELETROCAUTERIZAÇÃO 7. SÍNTESE DA PELE COM NYLON 3-0 8. CURATIVO OCLUSIVO"
+  },
+  {
+    "Prontuário": "58.907.003",
+    "Atendimento": "9.973.132",
+    "Data De Nascimento pact": "18/7/1956",
+    "Data da internação": "15/04/2024, 09:15",
+    "Data de saída": "18/04/2024, 10:30",
+    "Data de óbito": "",
+    "Sexo": "F",
+    "Código Sus pact": "948.337.921",
     "Especialidade cirurgia": "CIRURGIA GERAL",
-    "Procedimento cirurgico Realizado": "COLECISTECTOMIA VIDEOLAPAROSCOPICA",
-    "Cid procedimento": "K80.2",
-    "Descrição Cirurgica": "1. PACIENTE EM DECÚBITO DORSAL SOB ANESTESIA GERAL...",
-    "Data Inicio Cirurgia": "20/11/2023, 11:45",
-    "Data Fim Cirurgia": "20/11/2023, 12:12",
+    "Procedimento cirurgico Realizado": "Colecistectomia videolaparoscópica",
+    "Procedimento Interno Realizado": "Colecistectomia videolaparoscópica",
+    "Cid procedimento": "K81.0",
+    "Data Inicio Cirurgia": "16/04/2024, 11:20",
+    "Data Fim Cirurgia": "16/04/2024, 12:45",
     "UF cirurgia": "BLOCO CIRURGICO",
     "Unidade Funcional Internaçao": "8º NORTE",
     "Utilizou O2?": "Sim",
-    "Usou Antibiótico Profilático?": "Não",
-    "Seguiu protoc Cirurgia Segura?": "Não"
-  },
-  {
-    "Prontuário": "19.265.867",
-    "Atendimento": "1.180.074",
-    "Data De Nascimento pact": "18/06/1959",
-    "Data da internação": "19/11/2023, 08:45",
-    "Data de saída": "21/11/2023, 11:32",
-    "Data de óbito": "",
-    "Sexo": "F",
-    "Código Sus pact": "407.030.034",
+    "Usou Antibiótico Profilático?": "Sim",
+    "Seguiu protoc Cirurgia Segura?": "Não",
     "Categoria Profissional": "MEDICINA",
     "Tipo do registro": "Evolução",
-    "criacao_anamnsese": "20/11/2023, 14:00",
-    "Descricao do registro": "#HD: COLELITÍASE, PÓS-OPERATÓRIO DE COLECISTECTOMIA VIDEOLAPAROSCÓPICA. #EVOLUÇÃO: Paciente no 0 DPO, procedimento sem intercorrências. #EXAME FÍSICO: Abdome plano, FO limpas. #CD: Manter hidratação e analgésicos.",
-    "Especialidade cirurgia": "CIRURGIA GERAL",
-    "Procedimento cirurgico Realizado": "COLECISTECTOMIA VIDEOLAPAROSCOPICA",
-    "Cid procedimento": "K80.2",
-    "Descrição Cirurgica": "...",
-    "Data Inicio Cirurgia": "20/11/2023, 11:45",
-    "Data Fim Cirurgia": "20/11/2023, 12:12",
-    "UF cirurgia": "BLOCO CIRURGICO",
-    "Unidade Funcional Internaçao": "8º NORTE",
-    "Utilizou O2?": "Sim",
-    "Usou Antibiótico Profilático?": "Não",
-    "Seguiu protoc Cirurgia Segura?": "Não"
+    "criacao_anamnsese": "",
+    "Descricao do registro": "#HD: COLELITIASE COM COLECISTITE AGUDA, DIAGNOSTICADA NO 1º DIA DE INTERNAMENTO\\n#MEDICAÇÕES EM USO: PARECETAMOL 1G 8/8H IV, CEFTRIAXONA 2G 24H IV, METRONIDAZOL 500MG 8/8H IV, ENOXAPARINA 40MG SC 24H, OMEPRAZOL 40MG 24H IV\\n#EVOLUÇÃO: PACIENTE EVOLUI COM MELHORA DA DOR ABDOMINAL, SEM FEBRE, COM ALÍVIO DA DISTENSÃO ABDOMINAL. APRESENTA BOM TONO E MUSCULAR, ADEQUADA DIURESE E RETORNO DE PERISTALTISMO. NÃO HÁ NAUSEA OU VÔMITOS. ALIMENTAÇÃO ORAL INICIADA COM DIETA LÍQUIDA CLARA, TOLERADA SEM INTERCORRÊNCIAS.\\n#EXAME FÍSICO: AFEBRIL, ADEQUADAMENTE HIDRATADA, ORIENTADA, COM ABDOME MACIO, DEPRESSÍVEL, SEM DOR À PALPAÇÃO, SEM SINAL DE IRITAÇÃO PERITONEAL. MUCOSAS UMIDAS, PELE E MUCOSAS SEM ICTERÍCIA.\\n#EXAMES COMPLEMENTARES: LABORATORIAL DE HOJE: LEUCOCITOSE 11.200 (NORMALIZANDO), AST 42 U/L, ALT 38 U/L, BILIRRUBINA TOTAL 1,1 MG/DL. ULTRASSOM DE ACOMPANHAMENTO: VESÍCULA BILIAR COM PAREDES ESPESSADAS, SEM COLEÇÃO, LÍQUIDOS LIVRES NEGATIVOS.",
+    "Descrição Cirurgica": "1. PACIENTE EM DECÚBITO DORSAL SOB ANESTESIA GERAL\\n2. ASSEPSIA, ANTISSEPSIA E APOSIÇÃO DE CAMPOS CIRÚRGICOS ESTÉREIS\\n3. REALIZAÇÃO DE PNEUMOPERITÔNEO PELA TÉCNICA ABERTA ATRAVÉS DE INCISÃO TRANS UMBILICAL\\n4. APOSIÇÃO DE 2 TROCATERES DE 10MM E 2 TROCATERES DE 5MM\\n5. LAPAROSCOPIA DA CAVIDADE COM ACHADOS: - VESÍCULA BILIAR DE PAREDES ESPESSADAS, COM CÁLCULOS MÚLTIPLOS EM SEU INTERIOR E ADERÊNCIAS LEVES AO FÍGADO\\n6. RETIRADA DE VESÍCULA BILIAR DO LEITO HEPÁTICO COM ELETROCAUTERIZAÇÃO DO DUCTO CÍSTICO E ARTERÍA CÍSTICA\\n7. SÍNTESE DA PELE COM NYLON 3-0\\n8. CURATIVO OCLUSIVO"
   },
   {
-    "Prontuário": "19.265.867",
-    "Atendimento": "1.180.074",
-    "Data De Nascimento pact": "18/06/1959",
-    "Data da internação": "19/11/2023, 08:45",
-    "Data de saída": "21/11/2023, 11:32",
+    "Prontuário": "58.907.003",
+    "Atendimento": "9.973.132",
+    "Data De Nascimento pact": "18/7/1956",
+    "Data da internação": "15/04/2024, 09:15",
+    "Data de saída": "18/04/2024, 10:30",
     "Data de óbito": "",
     "Sexo": "F",
-    "Código Sus pact": "407.030.034",
-    "Categoria Profissional": "ENFERMAGEM",
-    "Tipo do registro": "Evolução",
-    "criacao_anamnsese": "21/11/2023, 10:06",
-    "Descricao do registro": "EVOLUÇÃO DE ENFERMAGEM - 21/11/2023\\nMOTIVO: COLELITÍASE / 1° DPO COLELAP\\nESTADO GERAL: BOM, CONSCIENTE, ORIENTADA, GLASGOW 15\\nEXAME FÍSICO: Abdome indolor, FO limpas e secas.\\nESCALAS: EVA DOR LEVE, BRADEN BAIXO RISCO, MORSE BAIXO RISCO\\nCONDUTAS: MONITORAR SINAIS VITAIS, ALTA MÉDICA",
+    "Código Sus pact": "948.337.921",
     "Especialidade cirurgia": "CIRURGIA GERAL",
-    "Procedimento cirurgico Realizado": "COLECISTECTOMIA VIDEOLAPAROSCOPICA",
-    "Cid procedimento": "K80.2",
-    "Descrição Cirurgica": "...",
-    "Data Inicio Cirurgia": "20/11/2023, 11:45",
-    "Data Fim Cirurgia": "20/11/2023, 12:12",
+    "Procedimento cirurgico Realizado": "Colecistectomia videolaparoscópica",
+    "Procedimento Interno Realizado": "Colecistectomia videolaparoscópica",
+    "Cid procedimento": "K81.0",
+    "Data Inicio Cirurgia": "16/04/2024, 11:20",
+    "Data Fim Cirurgia": "16/04/2024, 12:45",
     "UF cirurgia": "BLOCO CIRURGICO",
     "Unidade Funcional Internaçao": "8º NORTE",
     "Utilizou O2?": "Sim",
-    "Usou Antibiótico Profilático?": "Não",
-    "Seguiu protoc Cirurgia Segura?": "Não"
+    "Usou Antibiótico Profilático?": "Sim",
+    "Seguiu protoc Cirurgia Segura?": "Não",
+    "Categoria Profissional": "ENFERMAGEM",
+    "Tipo do registro": "Anamnese",
+    "criacao_anamnsese": "15/04/2024, 09:15",
+    "Descricao do registro": "1.MOTIVO INTERNAMENTO: PACIENTE FEMININA, 67 ANOS, TRAZIDA POR FAMILIARES COM DOR ABDOMINAL EM HIPOCONDRIO DIREITO, IRRADIADA PARA OMBRO DIREITO, ASSOCIADA A NAÚSEAS E VÔMITOS HÁ 24H. DIAGNÓSTICO CLÍNICO SUSPEITO: COLELITÍASE COM COLECISTITE AGUDA. 2.ALERGIAS/COMORBIDADES: ALERGIA A PENICILINA (ERUPÇÃO CUTÂNEA). HAS, DIABETES MELLITUS TIPO 2, OBESIDADE GRAU I. 3.PULSEIRA: SIM, CORRETAMENTE PREENCHIDA COM NOME, DATA DE NASCIMENTO, PRONTUÁRIO E ALERGIA. 4.QUEIXAS: DOR ABDOMINAL INTENSA (EVA 8/10), NAÚSEAS, DISTENSÃO ABDOMINAL. 5.ESTADO GERAL: COMPROMETIDO, PALLIDO, DESIDRATADA. 6.SNC: ALERTA, ORIENTADA NO TEMPO E ESPAÇO. 7.PELE/MUCOSAS/RESP: PELE SECA, MUCOSAS SECAS, FREQUÊNCIA RESPIRATÓRIA 20 IRPM, SATURAÇÃO 97% EM AR AMBIENTE. 8.CARDIOVASCULAR: FC 92 BPM, PA 138/82 MMHG, RITMO REGULAR, SEM MURMÚRIOS. 9.GI: ABDOMEN DOLOROSO À PALPAÇÃO EM HCD, SEM DEFESA, SEM REBOTE, BORBORIGMOS REDUZIDOS. 10.INTESTINAL: SEM EVACUAÇÃO NEM FLATULÊNCIA DESDE A ADMISSÃO. 11.GENITOURINÁRIO: DIURESE ADEQUADA, SEM DISÚRIA. 12.MÚSCULO-ESQUELÉTICO: FORÇA MUSCULAR PRESERVADA NOS MEMBROS SUPERIORES E INFERIORES. 13.DRENOS: NENHUM. 14.ESCALAS(EVA/Braden/Morse/FUGULIN): EVA 8, BRADEN 18, MORSÉ 55, FUGULIN 0. 15.EXAMES/PROCEDIMENTOS: ULTRASSOM ABDOMINAL CONFIRMOU COLECISTITE AGUDA COM LITÍASE. 16.CONDUTAS: INICIO DE ANTIBIÓTICO PROFILÁTICO (CEFTRIAXONA), HIDRATAÇÃO VENOSA, ANALGESIA COM PARACETAMOL E NENHUMA ALIMENTAÇÃO ORAL.",
+    "Descrição Cirurgica": "1. PACIENTE EM DECÚBITO DORSAL SOB ANESTESIA GERAL. 2. ASSEPSIA, ANTISSEPSIA E APOSIÇÃO DE CAMPOS CIRÚRGICOS ESTÉREIS. 3. REALIZAÇÃO DE PNEUMOPERITÔNEO PELA TÉCNICA ABERTA ATRAVÉS DE INCISÃO TRANS UMBILICAL. 4. APOSIÇÃO DE 2 TROCATERES DE 10MM E 2 TROCATERES DE 5MM. 5. LAPAROSCOPIA DA CAVIDADE COM ACHADOS: VESÍCULA BILIAR ENGROSSADA, COM PAREDES HIPEREMICAS E CÁLCULOS MÚLTIPLOS EM SEU INTERIOR. 6. RETIRADA DA VESÍCULA BILIAR DO LEITO HEPÁTICO COM ELETROCAUTERIZAÇÃO CONTÍNUA E CLIPAGEM DOS DUTOS CISTICO E COMUM. 7. IRRIGAÇÃO DO LEITO COM SOLUÇÃO SALINA ESTÉRIL. 8. SÍNTESE DA PELE COM NYLON 3-0. 9. CURATIVO OCLUSIVO COM GAZE E FITA ADESIVA."
+  },
+  {
+    "Prontuário": "58.907.003",
+    "Atendimento": "9.973.132",
+    "Data De Nascimento pact": "18/7/1956",
+    "Data da internação": "15/04/2024, 09:15",
+    "Data de saída": "18/04/2024, 10:30",
+    "Data de óbito": "",
+    "Sexo": "F",
+    "Código Sus pact": "948.337.921",
+    "Especialidade cirurgia": "CIRURGIA GERAL",
+    "Procedimento cirurgico Realizado": "Colecistectomia videolaparoscópica",
+    "Procedimento Interno Realizado": "Colecistectomia videolaparoscópica",
+    "Cid procedimento": "K81.0",
+    "Data Inicio Cirurgia": "16/04/2024, 11:20",
+    "Data Fim Cirurgia": "16/04/2024, 12:45",
+    "UF cirurgia": "BLOCO CIRURGICO",
+    "Unidade Funcional Internaçao": "8º NORTE",
+    "Utilizou O2?": "Sim",
+    "Usou Antibiótico Profilático?": "Sim",
+    "Seguiu protoc Cirurgia Segura?": "Não",
+    "Categoria Profissional": "ENFERMAGEM",
+    "Tipo do registro": "Evolução",
+    "criacao_anamnsese": "",
+    "Descricao do registro": "#HD: COLELITÍASE COM COLESTITIS AGUDA\\n#MEDICAÇÕES EM USO: PARACETAMOL 1g 8/8h, CEFTRIAXONA 2g 24/24h, METRONIDAZOL 500mg 8/8h, ENOXAPARINA 40mg SC 24/24h\\n#EVOLUÇÃO: PACIENTE EM MELHORA CLÍNICA, DOR ABDOMINAL REDUZIDA, AFEBRIL, ADEQUADA EVACUAÇÃO INTESTINAL. NÁUSEAS RESIDUAIS CONTROLADAS COM ONDANSETRONA. DIURESE ADEQUADA. MANTÉM OXIGÊNIO SUPLEMENTAR A 2L/MIN\\n#EXAME FÍSICO: ABDÔMEN MACIO, DOLOROSO EM HCD, SEM DEFESA OU CONTRATURA. BORBORIGMOS PRESENTES. PELE E MUCOSAS HIDRATADAS\\n#EXAMES COMPLEMENTARES: HEMOGRAMA: HEMATÓCRITO 34%, LEUCÓCITOS 11.200 (N 82%). LIPASE E AMILASE NORMAIS. ULTRASSOM: VESÍCULA BILIAR DISTENDIDA, PAREDES ESPESSADAS, CÁLCULOS MÚLTIPLOS",
+    "Descrição Cirurgica": "1. PACIENTE EM DECÚBITO DORSAL SOB ANESTESIA GERAL\\n2. ASSEPSIA, ANTISSEPSIA E APOSIÇÃO DE CAMPOS CIRÚRGICOS ESTÉREIS\\n3. REALIZAÇÃO DE PNEUMOPERITÔNEO PELA TÉCNICA ABERTA ATRAVÉS DE INCISÃO TRANS UMBILICAL\\n4. APOSIÇÃO DE 2 TROCATERES DE 10MM E 2 TROCATERES DE 5MM\\n5. LAPAROSCOPIA DA CAVIDADE COM ACHADOS: - VESÍCULA BILIAR DE PAREDES ESPESSADAS E HIPEREMICAS COM CÁLCULOS MÚLTIPLOS EM SEU INTERIOR\\n6. RETIRADA DE VESÍCULA BILIAR DO LEITO HEPÁTICO COM ELETROCAUTERIZAÇÃO\\n7. SÍNTESE DA PELE COM NYLON 3-0\\n8. CURATIVO OCLUSIVO"
+  },
+  {
+    "Prontuário": "58.907.003",
+    "Atendimento": "9.973.132",
+    "Data De Nascimento pact": "18/7/1956",
+    "Data da internação": "15/04/2024, 09:15",
+    "Data de saída": "18/04/2024, 10:30",
+    "Data de óbito": "",
+    "Sexo": "F",
+    "Código Sus pact": "948.337.921",
+    "Especialidade cirurgia": "CIRURGIA GERAL",
+    "Procedimento cirurgico Realizado": "Colecistectomia videolaparoscópica",
+    "Procedimento Interno Realizado": "Colecistectomia videolaparoscópica",
+    "Cid procedimento": "K81.0",
+    "Data Inicio Cirurgia": "16/04/2024, 11:20",
+    "Data Fim Cirurgia": "16/04/2024, 12:45",
+    "UF cirurgia": "BLOCO CIRURGICO",
+    "Unidade Funcional Internaçao": "8º NORTE",
+    "Utilizou O2?": "Sim",
+    "Usou Antibiótico Profilático?": "Sim",
+    "Seguiu protoc Cirurgia Segura?": "Não",
+    "Categoria Profissional": "ENFERMAGEM",
+    "Tipo do registro": "Evolução",
+    "criacao_anamnsese": "",
+    "Descricao do registro": "1.MOTIVO INTERNAMENTO: DOR ABDOMINAL EM HCD, IRRADIAÇÃO PARA OMBRO DIREITO, NAUSEAS E VOMITOS HÁ 48H. 2.ALERGIAS/COMORBIDADES: HIPERTENSÃO ARTERIAL, DIABETES MELLITUS TIPO 2. 3.PULSEIRA: CONFIRMADA. 4.QUEIXAS: DOR ABDOMINAL CONTÍNUA, GRAU 6/10 NA EVA. 5.ESTADO GERAL: CONSCIENTE, ORIENTADA, HIDRATADA. 6.SNC: ORIENTADA NO TEMPO E ESPAÇO. 7.PELE/MUCOSAS/RESP: PELE ÚMIDA, MUCOSAS HIDRATADAS, RESPIRAÇÃO RÍTMICA, SEM DISPNEIA. 8.CARDIOVASCULAR: FC 82bpm, PA 132/80mmHg, RITMO SINUSAL. 9.GI: ABDOME DOLOROSO À PALPAÇÃO EM HCD, SEM DEFESA, MURPHY POSITIVO. 10.INTESTINAL: SONS PERISTÁLTICOS PRESENTES, ESTENOSIS DE GÁS. 11.GENITOURINÁRIO: DIURESE ADEQUADA, 1,2L/24H. 12.MÚSCULO-ESQUELÉTICO: FORÇA MUSCULAR PRESERVADA, MOBILIDADE ATIVA. 13.DRENOS: NENHUM. 14.ESCALAS(EVA/Braden/Morse/FUGULIN): EVA 6/10, BRADEN 20, MORSE 25, FUGULIN 0. 15.EXAMES/PROCEDIMENTOS: ULTRASSOM ABDOMINAL CONFIRMADO COLELITÍASE, LABORATORIAL: LEUCOCITOSE 12.000, TGO 89, TGP 95. 16.CONDUTAS: CONTINUAÇÃO DE ANTIBIÓTICOS, ANALGÉSICO IV, ACOMPANHAMENTO MÉDICO PARA CIRURGIA ELETIVA.",
+    "Descrição Cirurgica": "1. PACIENTE EM DECÚBITO DORSAL SOB ANESTESIA GERAL 2. ASSEPSIA, ANTISSEPSIA E APOSIÇÃO DE CAMPOS CIRÚRGICOS ESTÉREIS 3. REALIZAÇÃO DE PNEUMOPERITÔNEO PELA TÉCNICA ABERTA ATRAVÉS DE INCISÃO TRANS UMBILICAL; 4. APOSIÇÃO DE 2 TROCATERES DE 10MM E 2 TROCATERES DE 5MM 5. LAPAROSCOPIA DA CAVIDADE COM ACHADOS: - VESÍCULA BILIAR ENGROSSADA, COM CÁLCULOS MÚLTIPLOS EM SEU INTERIOR E ADERÊNCIAS LEVES AO FÍGADO 6. RETIRADA DE VESÍCULA BILIAR DO LEITO HEPÁTICO COM ELETROCAUTERIZAÇÃO E CLIPAGEM DOS CANAIS CISTICO E BILIAR COMUM 7. SÍNTESE DA PELE COM NYLON 3-0. 8. CURATIVO OCLUSIVO"
+  },
+  {
+    "Prontuário": "58.907.003",
+    "Atendimento": "9.973.132",
+    "Data De Nascimento pact": "18/7/1956",
+    "Data da internação": "15/04/2024, 09:15",
+    "Data de saída": "18/04/2024, 10:30",
+    "Data de óbito": "",
+    "Sexo": "F",
+    "Código Sus pact": "948.337.921",
+    "Especialidade cirurgia": "CIRURGIA GERAL",
+    "Procedimento cirurgico Realizado": "Colecistectomia videolaparoscópica",
+    "Procedimento Interno Realizado": "Colecistectomia videolaparoscópica",
+    "Cid procedimento": "K81.0",
+    "Data Inicio Cirurgia": "16/04/2024, 11:20",
+    "Data Fim Cirurgia": "16/04/2024, 12:45",
+    "UF cirurgia": "BLOCO CIRURGICO",
+    "Unidade Funcional Internaçao": "8º NORTE",
+    "Utilizou O2?": "Sim",
+    "Usou Antibiótico Profilático?": "Sim",
+    "Seguiu protoc Cirurgia Segura?": "Não",
+    "Categoria Profissional": "FISIOTERAPIA",
+    "Tipo do registro": "Evolução",
+    "criacao_anamnsese": "",
+    "Descricao do registro": "EVOLUÇÃO DE FISIOTERAPIA - DIA 2 PÓS-OPERATÓRIO. PACIENTE EM DECÚBITO DORSAL, CONSCIENTE, ORIENTADA. REALIZADA MOBILIZAÇÃO NO LEITO COM INCENTIVO À RESPIRAÇÃO PROFUNDA E TOSSE EFICAZ. UTILIZAÇÃO DE INHAÇÃO COM NEBULIZADOR E VENTILAÇÃO COM BOLSA DE RESPIRAÇÃO. AVALIAÇÃO DE FORÇA MUSCULAR: MEMBROS SUPERIORES 5/5, INFERIORES 4/5. SEM SINAIS DE DOR OU DISPNEIA. INCENTIVO À DEAMBULAÇÃO COM AJUDA LEVE. NÃO HOUVE SINAIS DE DOR ABDOMINAL OU TENSÃO MUSCULAR. CURATIVO DE INCISÃO INTEGRADO, SEM EXSUDATO. CONTINUAÇÃO DAS ATIVIDADES HOJE.",
+    "Descrição Cirurgica": "1. PACIENTE EM DECÚBITO DORSAL SOB ANESTESIA GERAL\\n2. ASSEPSIA, ANTISSEPSIA E APOSIÇÃO DE CAMPOS CIRÚRGICOS ESTÉREIS\\n3. REALIZAÇÃO DE PNEUMOPERITÔNEO PELA TÉCNICA ABERTA ATRAVÉS DE INCISÃO TRANS UMBILICAL\\n4. APOSIÇÃO DE 2 TROCATERES DE 10MM E 2 TROCATERES DE 5MM\\n5. LAPAROSCOPIA DA CAVIDADE COM ACHADOS: - VESÍCULA BILIAR HIPERTROFIADA, PAREDES ENGROSSADAS, CONTENDO MÚLTIPLOS CÁLCULOS\\n6. RETIRADA DE VESÍCULA BILIAR DO LEITO HEPÁTICO COM ELETROCAUTERIZAÇÃO E CLIPAGEM DOS DUTOS\\n7. LAVAGEM ABUNDANTE DA CAVIDADE COM SOLUÇÃO SALINA ESTÉRIL\\n8. SÍNTESE DA PELE COM NYLON 3-0\\n9. CURATIVO OCLUSIVO COM GASEE E FITA ADESIVA"
+  },
+  {
+    "Prontuário": "58.907.003",
+    "Atendimento": "9.973.132",
+    "Data De Nascimento pact": "18/7/1956",
+    "Data da internação": "15/04/2024, 09:15",
+    "Data de saída": "18/04/2024, 10:30",
+    "Data de óbito": "",
+    "Sexo": "F",
+    "Código Sus pact": "948.337.921",
+    "Especialidade cirurgia": "CIRURGIA GERAL",
+    "Procedimento cirurgico Realizado": "Colecistectomia videolaparoscópica",
+    "Procedimento Interno Realizado": "Colecistectomia videolaparoscópica",
+    "Cid procedimento": "K81.0",
+    "Data Inicio Cirurgia": "16/04/2024, 11:20",
+    "Data Fim Cirurgia": "16/04/2024, 12:45",
+    "UF cirurgia": "BLOCO CIRURGICO",
+    "Unidade Funcional Internaçao": "8º NORTE",
+    "Utilizou O2?": "Sim",
+    "Usou Antibiótico Profilático?": "Sim",
+    "Seguiu protoc Cirurgia Segura?": "Não",
+    "Categoria Profissional": "FISIOTERAPIA",
+    "Tipo do registro": "Evolução",
+    "criacao_anamnsese": "",
+    "Descricao do registro": "Sessão de fisioterapia no 3º dia pós-operatório. Paciente orientada sobre respiração diafragmática e tosse protegida. Realizada mobilização ativa em leito e sentado com suporte. Ausência de dispneia ou dor intensa durante exercícios. Encorajada a deambular com apoio no próximo período. Não apresentou sinais de complicações respiratórias ou hemodinâmicas. Encaminhada para continuidade da terapia no dia seguinte.",
+    "Descrição Cirurgica": "1. PACIENTE EM DECÚBITO DORSAL SOB ANESTESIA GERAL\\n2. ASSEPSIA, ANTISSEPSIA E APOSIÇÃO DE CAMPOS CIRÚRGICOS ESTÉREIS\\n3. REALIZAÇÃO DE PNEUMOPERITÔNEO PELA TÉCNICA ABERTA ATRAVÉS DE INCISÃO TRANS UMBILICAL\\n4. APOSIÇÃO DE 2 TROCATERES DE 10MM E 2 TROCATERES DE 5MM\\n5. LAPAROSCOPIA DA CAVIDADE COM ACHADOS: - VESÍCULA BILIAR HIPERTROFIADA, PAREDES ESPESSADAS, CONTENDO MÚLTIPLOS CÁLCULOS\\n6. RETIRADA DA VESÍCULA BILIAR DO LEITO HEPÁTICO COM ELETROCAUTERIZAÇÃO DO DUCTO CÍSTICO E ARTÉRIA CÍSTICA\\n7. INSPEÇÃO DA CAVIDADE ABDOMINAL SEM SINAL DE LESÕES OU SANGRAMENTO ATIVO\\n8. SÍNTESE DA PELE COM NYLON 3-0\\n9. CURATIVO OCLUSIVO COM TECIDO ADERENTE"
+  },
+  {
+    "Prontuário": "58.907.003",
+    "Atendimento": "9.973.132",
+    "Data De Nascimento pact": "18/7/1956",
+    "Data da internação": "15/04/2024, 09:15",
+    "Data de saída": "18/04/2024, 10:30",
+    "Data de óbito": "",
+    "Sexo": "F",
+    "Código Sus pact": "948.337.921",
+    "Especialidade cirurgia": "CIRURGIA GERAL",
+    "Procedimento cirurgico Realizado": "Colecistectomia videolaparoscópica",
+    "Procedimento Interno Realizado": "Colecistectomia videolaparoscópica",
+    "Cid procedimento": "K81.0",
+    "Data Inicio Cirurgia": "16/04/2024, 11:20",
+    "Data Fim Cirurgia": "16/04/2024, 12:45",
+    "UF cirurgia": "BLOCO CIRURGICO",
+    "Unidade Funcional Internaçao": "8º NORTE",
+    "Utilizou O2?": "Sim",
+    "Usou Antibiótico Profilático?": "Sim",
+    "Seguiu protoc Cirurgia Segura?": "Não",
+    "Categoria Profissional": "NUTRIÇÃO",
+    "Tipo do registro": "Evolução",
+    "criacao_anamnsese": "",
+    "Descricao do registro": "#HD: COLELITIASE COM COLELISTITE AGUDA #MEDICAÇÕES EM USO: PARECETAMOL 1G 8/8H, OMEPRAZOL 20MG 1X/DIA, ENOXAPARINA 40MG SC 24H #EVOLUÇÃO: PACIENTE COM BOA TOLERÂNCIA ORAL, INÍCIO DE DIETA LÍQUIDA CLARA EM 24H PÓS-CIRURGIA. NÃO HÁ NÁUSEAS OU VÔMITOS. AVALIAÇÃO NUTRICIONAL: IMC 28,4 (SOBREPESO). RISCO NUTRICIONAL BAIXO. RECOMENDA-SE TRANSIÇÃO PARA DIETA LÍQUIDA TOTAL E, POSTERIORMENTE, DIETA MACIA COM RESTRIÇÃO DE GORDURAS. ACOMPANHAMENTO DIÁRIO. #EXAME FÍSICO: ABDOME MACIO, DESINFLAMADO, DOR A LEVE PRESSÃO EM HCD. #EXAMES COMPLEMENTARES: HEMOGLOBINA 12,1 G/DL, PROTEÍNA C REATIVA 1,8 MG/DL",
+    "Descrição Cirurgica": "1. PACIENTE EM DECÚBITO DORSAL SOB ANESTESIA GERAL 2. ASSEPSIA, ANTISSEPSIA E APOSIÇÃO DE CAMPOS CIRÚRGICOS ESTÉREIS 3. REALIZAÇÃO DE PNEUMOPERITÔNEO PELA TÉCNICA ABERTA ATRAVÉS DE INCISÃO TRANS UMBILICAL; 4. APOSIÇÃO DE 2 TROCATERES DE 10MM E 2 TROCATERES DE 5MM 5. LAPAROSCOPIA DA CAVIDADE COM ACHADOS: - VESÍCULA BILIAR ENGROSSADA, COM PAREDES HIPEREMICAS E CÁLCULOS MULTIPLOS EM SEU INTERIOR 6. RETIRADA DE VESÍCULA BILIAR DO LEITO HEPÁTICO COM ELETROCAUTERIZAÇÃO 7. SÍNTESE DA PELE COM NYLON 3-0. 8. CURATIVO OCLUSIVO"
+  },
+  {
+    "Prontuário": "58.907.003",
+    "Atendimento": "9.973.132",
+    "Data De Nascimento pact": "18/7/1956",
+    "Data da internação": "15/04/2024, 09:15",
+    "Data de saída": "18/04/2024, 10:30",
+    "Data de óbito": "",
+    "Sexo": "F",
+    "Código Sus pact": "948.337.921",
+    "Especialidade cirurgia": "CIRURGIA GERAL",
+    "Procedimento cirurgico Realizado": "Colecistectomia videolaparoscópica",
+    "Procedimento Interno Realizado": "Colecistectomia videolaparoscópica",
+    "Cid procedimento": "K81.0",
+    "Data Inicio Cirurgia": "16/04/2024, 11:20",
+    "Data Fim Cirurgia": "16/04/2024, 12:45",
+    "UF cirurgia": "BLOCO CIRURGICO",
+    "Unidade Funcional Internaçao": "8º NORTE",
+    "Utilizou O2?": "Sim",
+    "Usou Antibiótico Profilático?": "Sim",
+    "Seguiu protoc Cirurgia Segura?": "Não",
+    "Categoria Profissional": "NUTRIÇÃO",
+    "Tipo do registro": "Evolução",
+    "criacao_anamnsese": "",
+    "Descricao do registro": "#HD: COLELITÍASE COM COLESCISTITE AGUDA\\n#MEDICAÇÕES EM USO: OMEPRAZOL 20MG 1X/DIA, METOCLOPRAMIDA 10MG 8/8H, PARACETAMOL 1G 8/8H\\n#EVOLUÇÃO: PACIENTE COM MELHORA PROGRESSIVA DA DOR ABDOMINAL, SEM NAÚSEAS OU VÔMITOS. INICIADA DIETA LÍQUIDA CLARA NO DIA 15/04, PASSANDO A DIETA LÍQUIDA TOTAL NO DIA 16/04. HOJE, DIA 18/04, INICIADA DIETA MACIA BAIXA EM GORDURAS. NÃO HÁ QUEIXAS DE DISTENSÃO ABDOMINAL OU INTOLERÂNCIA. PESO: 62KG (ESTÁVEL). NÍVEL DE ALBUMINA: 3,8G/DL. ENCERRAMENTO DO ACOMPANHAMENTO NUTRICIONAL COM ORIENTAÇÕES PARA CONTINUAÇÃO DA DIETA BAIXA EM GORDURAS E SUPLEMENTAÇÃO COM VITAMINA D3 E CÁLCIO.\\n#EXAMES COMPLEMENTARES: ALBUMINA 3,8G/DL; PREALBUMINA 18MG/DL; HEMOGLOBINA 12,1G/DL",
+    "Descrição Cirurgica": "1. PACIENTE EM DECÚBITO DORSAL SOB ANESTESIA GERAL\\n2. ASSEPSIA, ANTISSEPSIA E APOSIÇÃO DE CAMPOS CIRÚRGICOS ESTÉREIS\\n3. REALIZAÇÃO DE PNEUMOPERITÔNEO PELA TÉCNICA ABERTA ATRAVÉS DE INCISÃO TRANS UMBILICAL\\n4. APOSIÇÃO DE 2 TROCATERES DE 10MM E 2 TROCATERES DE 5MM\\n5. LAPAROSCOPIA DA CAVIDADE COM ACHADOS: - VESÍCULA BILIAR ENGROSSADA, COM ADERÊNCIAS LEVES AO LEITO HEPÁTICO E CÁLCULOS MÚLTIPLOS EM SEU INTERIOR\\n6. RETIRADA DE VESÍCULA BILIAR DO LEITO HEPÁTICO COM ELETROCAUTERIZAÇÃO\\n7. SÍNTESE DA PELE COM NYLON 3-0\\n8. CURATIVO OCLUSIVO"
   }
 ]`
 
 const EXAMPLE_OUTPUT = {
-  prontuario: "19.265.867",
+  prontuario: "58.907.003",
   conformidade_geral: 90.7,
   secoes: [
     {
       id: "A",
       titulo: "Identificação do Atendimento",
       conformidade: 100,
-      total: 8,
-      conformes: 8,
+      total: 9,
+      conformes: 9,
       itens: [
-        { item: "Prontuário", valor: "19.265.867", status: "conforme" },
-        { item: "Data de Nascimento", valor: "18/06/1959", status: "conforme" },
-        { item: "Idade", valor: "64 anos", status: "conforme" },
-        { item: "Especialidade da Internação", valor: "Cirurgia Geral", status: "conforme" },
-        { item: "Período da Internação", valor: "19/11/2023 08:45 → 21/11/2023 11:32", status: "conforme" },
-        { item: "Diagnóstico / CID", valor: "Colelitíase sintomática, HAS", status: "conforme" },
-        { item: "Especialidade da Cirurgia", valor: "Cirurgia Geral", status: "conforme" },
-        { item: "Unidade Funcional", valor: "8º Norte", status: "conforme" },
+        { item: "Prontuário", valor: "58.907.003", status: "conforme" },
+        { item: "Data de Nascimento", valor: "18/07/1956", status: "conforme" },
+        { item: "Idade", valor: "69 anos", status: "conforme" },
+        { item: "Período da Internação", valor: "15/04/2024, 09:15 → 18/04/2024, 10:30 (3 dias e 1 hora)", status: "conforme" },
+        { item: "Diagnóstico Identificado", valor: "COLELITIASE COM COLECISTITE AGUDA", status: "conforme" },
+        { item: "CID", valor: "K81.0", status: "conforme" },
+        { item: "Especialidade Cirurgia", valor: "CIRURGIA GERAL", status: "conforme" },
+        { item: "Procedimento Cirurgico Realizado", valor: "Colecistectomia videolaparoscópica", status: "conforme" },
+        { item: "Unidade Funcional", valor: "8º NORTE", status: "conforme" },
       ]
     },
     {
@@ -105,36 +265,80 @@ const EXAMPLE_OUTPUT = {
       conformidade: 91.6,
       total: 12,
       conformes: 11,
-      itens: [
-        { item: "HDA (Anamnese)", valor: "Presente", status: "conforme" },
-        { item: "HD / CID (Anamnese)", valor: "Colelitíase, HAS", status: "conforme" },
-        { item: "Antecedentes Pessoais", valor: "HAS", status: "conforme" },
-        { item: "Antecedentes Familiares", valor: "Mãe: câncer hepático", status: "conforme" },
-        { item: "Exame Físico (Anamnese)", valor: "Presente e completo", status: "conforme" },
-        { item: "Conduta Terapêutica", valor: "Presente", status: "conforme" },
-        { item: "Criação Anamnese ≤ 12h", valor: "10h48 (2h03 após admissão)", status: "conforme" },
-        { item: "HD / CID (Evolução 20/11)", valor: "Colelitíase PO", status: "conforme" },
-        { item: "Exame Físico (Evolução 20/11)", valor: "Presente", status: "conforme" },
-        { item: "Conduta (Evolução 20/11)", valor: "Presente", status: "conforme" },
-        { item: "HD / CID (Evolução 21/11)", valor: "2º DPO", status: "conforme" },
-        { item: "Frequência diária das evoluções", valor: "Ausente no 3º dia", status: "nao_conforme", observacao: "Evolução médica ausente no 3º dia de internação" },
+      subgrupos: [
+        {
+          titulo: "Anamnese Médica",
+          data: "15/04/2024, 23:15",
+          itens: [
+            { item: "HDA", valor: "", status: "nao_conforme", observacao: "Campo ausente na descrição (#HDA)" },
+            { item: "HD / CID", valor: "COLELITIASE COM COLECISTITE AGUDA | K81.0", status: "conforme" },
+            { item: "Antecedentes Pessoais", valor: "HAS", status: "conforme" },
+            { item: "Antecedentes Familiares", valor: "", status: "nao_conforme", observacao: "Campo ausente na descrição (#AF)" },
+            { item: "Antecedentes Pessoais", valor: "", status: "nao_conforme", observacao: "Campo ausente na descrição" },
+            { item: "Exame Físico", valor: "Presente", status: "conforme" },
+            { item: "Conduta Terapêutica", valor: "Presente", status: "conforme" },
+            { item: "Criação Anamnese ≤ 12h", valor: "15/04/2024, 09:15 → 15/04/2024 23:15", status: "nao_conforme", observacao: "Anamnese foi criada 14h após a admissão." },
+            { item: "Identificação cronológica adequada", valor: "Presente", status: "conforme" },
+          ]
+        },
+        {
+          titulo: "Evolução Médica 1",
+          data: "16/04/2024",
+          itens: [
+            { item: "Evolução Diária", valor: "Presente", status: "conforme" },
+            { item: "HD / CID ", valor: "Colecistite aguda com litíase | K81.0", status: "conforme" },
+            { item: "Exame Físico", valor: "Presente", status: "conforme" },
+            { item: "Condutas", valor: "", status: "nao_conforme", observacao: "Campo ausente na descrição" },
+            { item: "Queixas/ Intercorrências", valor: "Dor abdominal, distensão e evolução clínica descritas", status: "conforme" },
+            { item: "Identificação cronológica adequada", valor: "", status: "nao_conforme", observacao: "Data e hora ausentes" },
+            { item: "Separação adequada entre categorias profissionais", valor: "Sem conteúdo de outra categoria", status: "conforme" },
+          ]
+        },
+        {
+          titulo: "Evolução Médica 2",
+          data: "17/04/2024",
+          itens: [
+            { item: "Evolução Diária", valor: "Ausente", status: "nao_conforme", observacao: "Registro ausente" },
+            { item: "HD / CID ", valor: "Ausente", status: "nao_conforme", observacao: "Registro ausente" },
+            { item: "Exame Físico", valor: "Ausente", status: "nao_conforme", observacao: "Registro ausente" },
+            { item: "Condutas", valor: "Ausente", status: "nao_conforme", observacao: "Registro ausentes" },
+            { item: "Queixas/ Intercorrências", valor: "Ausente", status: "nao_conforme", observacao: "Registro ausentes" },
+            { item: "Identificação cronológica adequada", valor: "Ausente", status: "nao_conforme", observacao: "Registro ausente" },
+            { item: "Separação adequada entre categorias profissionais", valor: "Ausente", status: "nao_conforme", observacao: "Registro ausente" },
+          ]
+        },
+        {
+          titulo: "Evolução Médica 3",
+          data: "18/04/2024",
+          itens: [
+            { item: "Evolução Diária", valor: "Ausente", status: "nao_conforme", observacao: "Registro ausente" },
+            { item: "HD / CID ", valor: "Ausente", status: "nao_conforme", observacao: "Registro ausente" },
+            { item: "Exame Físico", valor: "Ausente", status: "nao_conforme", observacao: "Registro ausente" },
+            { item: "Condutas", valor: "Ausente", status: "nao_conforme", observacao: "Registro ausentes" },
+            { item: "Queixas/ Intercorrências", valor: "Ausente", status: "nao_conforme", observacao: "Registro ausentes" },
+            { item: "Identificação cronológica adequada", valor: "Ausente", status: "nao_conforme", observacao: "Registro ausente" },
+            { item: "Separação adequada entre categorias profissionais", valor: "Ausente", status: "nao_conforme", observacao: "Registro ausente" },
+          ]
+        },
       ]
     },
     {
       id: "C",
       titulo: "Cirurgia",
-      conformidade: 87.5,
+      conformidade: 100,
       total: 8,
-      conformes: 7,
+      conformes: 8,
       itens: [
         { item: "Especialidade da Cirurgia", valor: "Cirurgia Geral", status: "conforme" },
         { item: "Unidade Funcional", valor: "Bloco Cirúrgico", status: "conforme" },
-        { item: "Data da Cirurgia", valor: "20/11/2023", status: "conforme" },
-        { item: "Início da Cirurgia", valor: "11:45", status: "conforme" },
-        { item: "Fim da Cirurgia", valor: "12:12", status: "conforme" },
-        { item: "CID do Procedimento", valor: "Ausente no registro", status: "nao_conforme", observacao: "CID K80.2 consta no campo estruturado mas não foi inserido na descrição cirúrgica" },
-        { item: "Descrição do Procedimento", valor: "Colecistectomia videolaparoscópica", status: "conforme" },
-        { item: "Técnica Cirúrgica", valor: "Presente e detalhada", status: "conforme" },
+        { item: "Data da Cirurgia", valor: "16/04/2024", status: "conforme" },
+        { item: "Início da Cirurgia", valor: "11:20", status: "conforme" },
+        { item: "Fim da Cirurgia", valor: "12:45", status: "conforme" },
+        { item: "CID do Procedimento", valor: "K81.0", status: "conforme" },
+        { item: "Procedimento realizado", valor: "Colecistectomia videolaparoscópica", status: "conforme" },
+        { item: "Técnica Cirúrgica", valor: "Itens identificados na descrição cirúrgica - Posicionamento cirúrgico, Tipo anestésico, Antissepsia e campos estéreis, Técnica de pneumoperitônio, Número e tamanho de trocateres,Achados intraoperatórios, Retirada da vesícula biliar, Eletrocauterização, Síntese da pele, Curativo oclusivo", status: "conforme" },
+        { item: "Uso de OPME", valor: "", status: "nao_aplicavel" },
+        { item: "Curativo Cirúrgico", valor: "Curativo oclusivo em incisões de trocateres", status: "conforme" }
       ]
     },
     {
@@ -143,21 +347,61 @@ const EXAMPLE_OUTPUT = {
       conformidade: 93.75,
       total: 14,
       conformes: 13,
-      itens: [
-        { item: "Motivo Internação / HD (Anamnese Enf.)", valor: "Colelitíase / COLELAP", status: "conforme" },
-        { item: "Antecedentes Pessoais / Comorbidades", valor: "HAS", status: "conforme" },
-        { item: "Antecedentes Familiares (Anamnese Enf.)", valor: "Ausente", status: "nao_conforme", observacao: "AF não foi registrado na anamnese de enfermagem" },
-        { item: "Exame Físico (Anamnese Enf.)", valor: "Presente", status: "conforme" },
-        { item: "Escala de Braden (Anamnese)", valor: "Baixo risco", status: "conforme" },
-        { item: "Escala de Morse (Anamnese)", valor: "Baixo risco", status: "conforme" },
-        { item: "Conduta (Anamnese Enf.)", valor: "Presente", status: "conforme" },
-        { item: "Criação Anamnese Enf. ≤ 12h", valor: "Dentro do prazo", status: "conforme" },
-        { item: "Motivo / HD (Evolução Enf.)", valor: "Presente", status: "conforme" },
-        { item: "Exame Físico Completo (Evolução)", valor: "Presente e detalhado", status: "conforme" },
-        { item: "Condutas Realizadas (Evolução)", valor: "Presente", status: "conforme" },
-        { item: "Escala de Braden (Evolução)", valor: "Baixo risco", status: "conforme" },
-        { item: "Escala de Morse (Evolução)", valor: "Baixo risco", status: "conforme" },
-        { item: "Frequência diária das evoluções", valor: "19, 20 e 21/11 ✓", status: "conforme" },
+      subgrupos: [
+        {
+          titulo: "Anamnese Enfermagem",
+          data: "15/04/2024, 23:15",
+          itens: [
+            { item: "HDA", valor: "COLELITÍASE COM COLECISTITE AGUDA", status: "conforme" },
+            { item: "HD/CID", valor: "COLELITÍASE COM COLECISTITE AGUDA | K81.0", status: "conforme" },
+            { item: "Antecedentes Pessoais", valor: "Presente", status: "conforme" },
+            { item: "Antecedentes Familiares", valor: "", status: "nao_conforme", observacao: "Antecedentes familiares ausentes" },
+            { item: "Exame Físico", valor: "Presente", status: "conforme" },
+            { item: "Escala de Braden", valor: "BRADEN 18", status: "conforme" },
+            { item: "Escala de Morse", valor: "MORSE 55", status: "conforme" },
+            { item: "Conduta terapêutica", valor: "Presente", status: "conforme" },
+            { item: "Criação Anamnese Enf. ≤ 12h", valor: "Dentro do prazo", status: "conforme" }
+          ]
+        },
+        {
+          titulo: "Evolução Enfermagem 1",
+          data: "16/04/2024",
+          itens: [
+            { item: "HD/CID", valor: "COLELITÍASE COM COLESTITIS AGUDA | K81.0", status: "conforme" },
+            { item: "Exame Físico Completo", valor: "Presente e detalhado", status: "conforme" },
+            { item: "Condutas Realizadas", valor: "", status: "nao_conforme", observacao: "Condutas ausente" },
+            { item: "Escala de Braden", valor: "", status: "nao_conforme", observacao: "Escala de Braden ausente" },
+            { item: "Escala de Morse", valor: "", status: "nao_conforme", observacao: "Escala de Morse ausente" },
+            { item: "Curativo", valor: "", status: "nao_aplicavel" },
+            { item: "Identificação cronológica adequada", valor: "", status: "nao_conforme", observacao: "Data e hora da evolução ausente" }
+          ]
+        },
+        {
+          titulo: "Evolução Enfermagem 2",
+          data: "17/04/2024",
+          itens: [
+            { item: "HD/CID", valor: "COLELITÍASE COM COLESTITIS AGUDA | K81.0", status: "conforme" },
+            { item: "Exame Físico Completo", valor: "Presente", status: "conforme" },
+            { item: "Condutas Realizadas", valor: "Presente", status: "conforme" },
+            { item: "Escala de Braden", valor: "BRADEN 20", status: "conforme" },
+            { item: "Escala de Morse", valor: "MORSE 25", status: "conforme" },
+            { item: "Curativo", valor: "", status: "nao_aplicavel" },
+            { item: "Identificação cronológica adequada", valor: "", status: "nao_conforme", observacao: "Data e hora da evolução ausente" },
+          ]
+        },
+        {
+          titulo: "Evolução Enfermagem 3",
+          data: "18/04/2024",
+          itens: [
+            { item: "HD/CID", valor: "", status: "nao_conforme", observacao: "Registro ausente" },
+            { item: "Exame Físico Completo", valor: "", status: "nao_conforme", observacao: "Registro ausente" },
+            { item: "Condutas Realizadas", valor: "", status: "nao_conforme", observacao: "Registro ausente" },
+            { item: "Escala de Braden", valor: "", status: "nao_conforme", observacao: "Registro ausente" },
+            { item: "Escala de Morse", valor: "", status: "nao_conforme", observacao: "Registro ausente" },
+            { item: "Curativo", valor: "", status: "nao_aplicavel" },
+            { item: "Identificação cronológica adequada", valor: "", status: "nao_conforme", observacao: "Registro ausente" },
+          ]
+        },
       ]
     },
     {
@@ -187,13 +431,35 @@ const EXAMPLE_OUTPUT = {
 
 function simulateAudit(jsonText) {
   try { JSON.parse(jsonText) } catch { return null }
-  return EXAMPLE_OUTPUT
+
+  const output = JSON.parse(JSON.stringify(EXAMPLE_OUTPUT))
+
+  output.secoes.forEach(sec => {
+    const relevantItens = sec.subgrupos
+      ? sec.subgrupos.flatMap(sub => sub.itens || [])
+      : (sec.itens || [])
+
+    const applicableItens = relevantItens.filter(it => it.status === 'conforme' || it.status === 'nao_conforme')
+    const total = applicableItens.length
+    const conformes = applicableItens.filter(it => it.status === 'conforme').length
+
+    sec.total = total
+    sec.conformes = conformes
+    sec.conformidade = total > 0 ? Math.round((conformes / total) * 1000) / 10 : 100
+  })
+
+  const overallTotal = output.secoes.reduce((acc, sec) => acc + sec.total, 0)
+  const overallConformes = output.secoes.reduce((acc, sec) => acc + sec.conformes, 0)
+  output.conformidade_geral = overallTotal > 0 ? Math.round((overallConformes / overallTotal) * 1000) / 10 : 100
+
+  return output
 }
 
 const statusCfg = {
   conforme: { label: 'Conforme', color: '#00e676', bg: '#0d2b1a', border: '#00e67630' },
   nao_conforme: { label: 'Não Conforme', color: '#ff5252', bg: '#2b0d0d', border: '#ff525230' },
-  nao_se_aplica: { label: 'N/A', color: '#8892a4', bg: '#1c2330', border: '#8892a430' },
+  nao_se_aplica: { label: 'Não se aplica', color: '#00d4ff', bg: '#002538', border: '#00d4ff30' },
+  nao_aplicavel: { label: 'Não se aplica', color: '#00d4ff', bg: '#002538', border: '#00d4ff30' },
 }
 
 function ScoreRing({ value, size = 120, stroke = 9 }) {
@@ -253,32 +519,90 @@ function Section({ sec, defaultOpen = false, isMobile }) {
         }}>
           {sec.id}
         </span>
-        <span style={{ fontSize: 12, fontWeight: 500, color: 'var(--text)', flex: 1 }}>{sec.titulo}</span>
+        <span style={{ fontSize: 12, fontWeight: 500, color: 'var(--text)', flex: 1, display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+          <span>{sec.titulo}</span>
+          <span style={{
+            fontSize: 10,
+            fontWeight: 500,
+            color: 'var(--text3)',
+            background: 'var(--bg4)',
+            padding: '2px 6px',
+            borderRadius: 6,
+            fontFamily: 'var(--mono)',
+            whiteSpace: 'nowrap'
+          }}>
+            {sec.conformes}/{sec.total} ({sec.conformidade}%)
+          </span>
+        </span>
         <ScoreRing value={sec.conformidade} size={36} stroke={4} />
         <span style={{ color: 'var(--text3)', fontSize: 14, marginLeft: 2 }}>{open ? '▲' : '▼'}</span>
       </button>
 
       {open && (
-        <div style={{ background: 'var(--bg2)', padding: isMobile ? '10px 8px' : '12px 16px', display: 'flex', flexDirection: 'column', gap: 6 }}>
-          {sec.itens.map((it, i) => (
-            <div key={i} style={{
-              display: 'grid', gridTemplateColumns: '1fr auto', gap: 8,
-              background: 'var(--bg3)', border: '1px solid var(--border)',
-              borderLeft: `3px solid ${statusCfg[it.status]?.color || '#00e676'}`,
-              borderRadius: 7, padding: isMobile ? '8px 10px' : '10px 14px',
-            }}>
-              <div>
-                <div style={{ fontSize: 11, fontWeight: 500, color: 'var(--text)', marginBottom: 3 }}>{it.item}</div>
-                <div style={{ fontFamily: 'var(--mono)', fontSize: 10, color: 'var(--text2)', wordBreak: 'break-word' }}>{it.valor}</div>
-                {it.observacao && (
-                  <div style={{ fontSize: 10, color: '#ffd740', marginTop: 4, opacity: 0.9 }}>⚠ {it.observacao}</div>
-                )}
+        <div style={{ background: 'var(--bg2)', padding: isMobile ? '10px 8px' : '12px 16px', display: 'flex', flexDirection: 'column', gap: 12 }}>
+          {sec.subgrupos ? (
+            sec.subgrupos.map((sub, sIdx) => (
+              <div key={sIdx} style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                <div style={{
+                  fontSize: 11,
+                  fontWeight: 600,
+                  color: 'var(--accent)',
+                  fontFamily: 'var(--sans)',
+                  marginTop: sIdx > 0 ? 10 : 0,
+                  marginBottom: 4,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 8
+                }}>
+                  <span style={{ width: 3, height: 11, borderRadius: 2, background: 'var(--accent)' }} />
+                  {sub.titulo}
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                  {sub.itens.map((it, i) => (
+                    <div key={i} style={{
+                      display: 'grid', gridTemplateColumns: '1fr auto', gap: 8,
+                      background: 'var(--bg3)', border: '1px solid var(--border)',
+                      borderLeft: `3px solid ${statusCfg[it.status]?.color || '#00e676'}`,
+                      borderRadius: 7, padding: isMobile ? '8px 10px' : '10px 14px',
+                    }}>
+                      <div>
+                        <div style={{ fontSize: 11, fontWeight: 500, color: 'var(--text)', marginBottom: 3 }}>{it.item}</div>
+                        <div style={{ fontFamily: 'var(--mono)', fontSize: 10, color: 'var(--text2)', wordBreak: 'break-word' }}>{it.valor}</div>
+                        {it.observacao && (
+                          <div style={{ fontSize: 10, color: '#ffd740', marginTop: 4, opacity: 0.9 }}>⚠ {it.observacao}</div>
+                        )}
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <Badge status={it.status} />
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                <Badge status={it.status} />
-              </div>
+            ))
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+              {sec.itens.map((it, i) => (
+                <div key={i} style={{
+                  display: 'grid', gridTemplateColumns: '1fr auto', gap: 8,
+                  background: 'var(--bg3)', border: '1px solid var(--border)',
+                  borderLeft: `3px solid ${statusCfg[it.status]?.color || '#00e676'}`,
+                  borderRadius: 7, padding: isMobile ? '8px 10px' : '10px 14px',
+                }}>
+                  <div>
+                    <div style={{ fontSize: 11, fontWeight: 500, color: 'var(--text)', marginBottom: 3 }}>{it.item}</div>
+                    <div style={{ fontFamily: 'var(--mono)', fontSize: 10, color: 'var(--text2)', wordBreak: 'break-word' }}>{it.valor}</div>
+                    {it.observacao && (
+                      <div style={{ fontSize: 10, color: '#ffd740', marginTop: 4, opacity: 0.9 }}>⚠ {it.observacao}</div>
+                    )}
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <Badge status={it.status} />
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
+          )}
         </div>
       )}
     </div>
