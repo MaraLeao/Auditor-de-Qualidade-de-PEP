@@ -2,9 +2,9 @@ import React from 'react';
 
 export default function Sidebar({ activeView, setActiveView, isMobile }) {
   const menuItems = [
-    { id: 'audit', label: 'Auditoria de PEP', icon: '📋', desc: 'Análise ativa de registros' },
-    { id: 'dashboard', label: 'Dashboard Geral', icon: '📊', desc: 'Métricas e relatórios gerais' },
-    { id: 'explanation', label: 'Como Funciona', icon: '⚕', desc: 'Regras CFM e LGPD' }
+    { id: 'audit', label: 'Auditoria de PEP', mobileLabel: 'Auditoria', icon: '📋', desc: 'Análise ativa de registros' },
+    { id: 'dashboard', label: 'Dashboard Geral', mobileLabel: 'Dashboard', icon: '📊', desc: 'Métricas e relatórios gerais' },
+    { id: 'explanation', label: 'Como Funciona', mobileLabel: 'Como Funciona', icon: '⚕', desc: 'Regras CFM e LGPD' }
   ];
 
   if (isMobile) {
@@ -47,7 +47,7 @@ export default function Sidebar({ activeView, setActiveView, isMobile }) {
               }}
             >
               <span style={{ fontSize: 18 }}>{item.icon}</span>
-              <span>{item.label.split(' ')[0]}</span>
+              <span style={{ textAlign: 'center', whiteSpace: 'nowrap' }}>{item.mobileLabel}</span>
             </button>
           );
         })}

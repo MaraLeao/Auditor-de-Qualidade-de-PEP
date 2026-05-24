@@ -302,26 +302,18 @@ export const EXAMPLE_OUTPUT = {
             {
               item: "HDA",
               valor: "Presente",
-              status: "nao_conforme",
-              observacao: "Campo ausente na descrição (#HDA)"
-            },
-            {
-              item: "HD/CID",
-              valor: "Presente",
-              status: "nao_conforme",
-              observacao: "Campo ausente na descrição (#HDA)"
+              status: "conforme"
             },
             {
               item: "AP/APP",
               valor: "Presente",
-              status: "nao_conforme",
-              observacao: "Campo ausente na descrição"
+              status: "conforme"
             },
             {
               item: "AF",
-              valor: "Presente",
+              valor: "",
               status: "nao_conforme",
-              observacao: "Campo ausente na descrição (#AF)"
+              observacao: "Registro ausente"
             },
             {
               item: "Exame físico",
@@ -351,6 +343,16 @@ export const EXAMPLE_OUTPUT = {
               status: "conforme"
             },
             {
+              item: "HD/CID",
+              valor: "Presente",
+              status: "conforme"
+            },
+            {
+              item: "Horário dos registros",
+              valor: "",
+              status: "nao_conforme",
+              observacao: "Registro ausente"
+            }, {
               item: "Exame físico",
               valor: "Presente",
               status: "conforme"
@@ -363,7 +365,7 @@ export const EXAMPLE_OUTPUT = {
             },
             {
               item: "Queixas/intercorrências",
-              valor: "Dor abdominal, distensão e evolução clínica descritas",
+              valor: "Presente",
               status: "conforme"
             }
           ]
@@ -374,13 +376,24 @@ export const EXAMPLE_OUTPUT = {
           itens: [
             {
               item: "Evolução diária",
-              valor: "Ausente",
+              valor: "",
               status: "nao_conforme",
               observacao: "Registro ausente"
             },
             {
+              item: "HD/CID",
+              valor: "",
+              status: "nao_conforme",
+              observacao: "Registro ausente"
+            },
+            {
+              item: "Horário dos registros",
+              valor: "",
+              status: "nao_conforme",
+              observacao: "Registro ausente"
+            }, {
               item: "Exame físico",
-              valor: "Ausente",
+              valor: "",
               status: "nao_conforme",
               observacao: "Registro ausente"
             },
@@ -392,7 +405,7 @@ export const EXAMPLE_OUTPUT = {
             },
             {
               item: "Queixas/intercorrências",
-              valor: "Ausente",
+              valor: "",
               status: "nao_conforme",
               observacao: "Registro ausentes"
             }
@@ -404,13 +417,24 @@ export const EXAMPLE_OUTPUT = {
           itens: [
             {
               item: "Evolução diária",
-              valor: "Ausente",
+              valor: "",
               status: "nao_conforme",
               observacao: "Registro ausente"
             },
             {
+              item: "HD/CID",
+              valor: "",
+              status: "nao_conforme",
+              observacao: "Registro ausente"
+            },
+            {
+              item: "Horário dos registros",
+              valor: "",
+              status: "nao_conforme",
+              observacao: "Registro ausente"
+            }, {
               item: "Exame físico",
-              valor: "Ausente",
+              valor: "",
               status: "nao_conforme",
               observacao: "Registro ausente"
             },
@@ -422,7 +446,7 @@ export const EXAMPLE_OUTPUT = {
             },
             {
               item: "Queixas/intercorrências",
-              valor: "Ausente",
+              valor: "",
               status: "nao_conforme",
               observacao: "Registro ausentes"
             }
@@ -548,11 +572,6 @@ export const EXAMPLE_OUTPUT = {
               status: "conforme"
             },
             {
-              item: "HD/CID",
-              valor: "COLELITÍASE COM COLESTITIS AGUDA | K81.0",
-              status: "conforme"
-            },
-            {
               item: "Exame físico",
               valor: "Presente e detalhado",
               status: "conforme"
@@ -592,11 +611,6 @@ export const EXAMPLE_OUTPUT = {
               status: "conforme"
             },
             {
-              item: "HD/CID",
-              valor: "COLELITÍASE COM COLESTITIS AGUDA | K81.0",
-              status: "conforme"
-            },
-            {
               item: "Exame físico",
               valor: "Presente",
               status: "conforme"
@@ -630,13 +644,7 @@ export const EXAMPLE_OUTPUT = {
           itens: [
             {
               item: "Evolução diária",
-              valor: "Ausente",
-              status: "nao_conforme",
-              observacao: "Registro ausente"
-            },
-            {
-              item: "HD/CID",
-              valor: "Presente",
+              valor: "",
               status: "nao_conforme",
               observacao: "Registro ausente"
             },
@@ -1189,11 +1197,6 @@ export const EXAMPLE_OUTPUT_2 = {
               status: "conforme"
             },
             {
-              item: "HD/CID",
-              valor: "Presente",
-              status: "conforme"
-            },
-            {
               item: "AP/APP",
               valor: "Presente",
               status: "conforme"
@@ -1229,7 +1232,17 @@ export const EXAMPLE_OUTPUT_2 = {
               valor: "Presente",
               status: "conforme"
             },
+
             {
+              item: "HD/CID",
+              valor: "Presente",
+              status: "conforme"
+            },
+            {
+              item: "Horário dos registros",
+              valor: "Presente",
+              status: "conforme"
+            }, {
               item: "Exame físico",
               valor: "Presente",
               status: "conforme"
@@ -1255,7 +1268,17 @@ export const EXAMPLE_OUTPUT_2 = {
               valor: "Presente",
               status: "conforme"
             },
+
             {
+              item: "HD/CID",
+              valor: "Presente",
+              status: "conforme"
+            },
+            {
+              item: "Horário dos registros",
+              valor: "Presente",
+              status: "conforme"
+            }, {
               item: "Exame físico",
               valor: "Presente",
               status: "conforme"
@@ -1391,11 +1414,6 @@ export const EXAMPLE_OUTPUT_2 = {
               status: "conforme"
             },
             {
-              item: "HD/CID",
-              valor: "Presente",
-              status: "conforme"
-            },
-            {
               item: "Exame físico",
               valor: "Presente",
               status: "conforme"
@@ -1428,11 +1446,6 @@ export const EXAMPLE_OUTPUT_2 = {
           itens: [
             {
               item: "Evolução diária",
-              valor: "Presente",
-              status: "conforme"
-            },
-            {
-              item: "HD/CID",
               valor: "Presente",
               status: "conforme"
             },

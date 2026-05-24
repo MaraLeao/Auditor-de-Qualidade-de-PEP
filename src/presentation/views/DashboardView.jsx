@@ -1,11 +1,10 @@
 import React from 'react';
-import { EXAMPLES } from '../../data/examples.js';
 import { simulateAudit } from '../../domain/usecases/SimulateAuditUseCase.js';
 
-export default function DashboardView({ onSelectExample, isMobile }) {
+export default function DashboardView({ onSelectExample, isMobile, examples }) {
   // Pre-calculate the audited outputs for all examples to get real percentages
-  const auditedExamples = EXAMPLES.map(ex => {
-    const auditedOutput = simulateAudit(ex.input);
+  const auditedExamples = examples.map(ex => {
+    const auditedOutput = simulateAudit(ex.input, examples);
     return {
       ...ex,
       auditedOutput: auditedOutput || ex.output
@@ -159,9 +158,16 @@ export default function DashboardView({ onSelectExample, isMobile }) {
                 const color = sec.value >= 90 ? '#00e676' : sec.value >= 75 ? '#ffd740' : '#ff5252';
                 return (
                   <div key={sec.id} style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 12 }}>
+                    <div style={{ 
+                      display: 'flex', 
+                      flexDirection: isMobile ? 'column' : 'row', 
+                      justifyContent: 'space-between', 
+                      alignItems: isMobile ? 'flex-start' : 'center', 
+                      gap: isMobile ? 4 : 8,
+                      fontSize: isMobile ? 11 : 12 
+                    }}>
                       <span style={{ color: 'var(--text2)' }}>Seção {sec.id} — {sec.name}</span>
-                      <span style={{ fontWeight: 600, color }}>{sec.value}%</span>
+                      <span style={{ fontWeight: 600, color, alignSelf: isMobile ? 'flex-end' : 'auto' }}>{sec.value}%</span>
                     </div>
                     {/* Progress Bar Container */}
                     <div style={{ width: '100%', height: 8, background: 'var(--bg4)', borderRadius: 4, overflow: 'hidden' }}>
@@ -202,9 +208,10 @@ export default function DashboardView({ onSelectExample, isMobile }) {
                     borderRadius: 8,
                     padding: '10px 14px',
                     display: 'flex',
-                    alignItems: 'center',
+                    flexDirection: isMobile ? 'column' : 'row',
+                    alignItems: isMobile ? 'stretch' : 'center',
                     justifyContent: 'space-between',
-                    gap: 12
+                    gap: isMobile ? 8 : 12
                   }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10, overflow: 'hidden' }}>
                       <span style={{
@@ -219,18 +226,26 @@ export default function DashboardView({ onSelectExample, isMobile }) {
                       }}>
                         Seção {issue.secao}
                       </span>
-                      <span style={{ fontSize: 13, fontWeight: 500, color: 'var(--text)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      <span style={{ 
+                        fontSize: isMobile ? 12 : 13, 
+                        fontWeight: 500, 
+                        color: 'var(--text)', 
+                        overflow: 'hidden', 
+                        textOverflow: 'ellipsis', 
+                        whiteSpace: 'nowrap' 
+                      }}>
                         {issue.name}
                       </span>
                     </div>
                     <span style={{
-                      fontSize: 11,
+                      fontSize: 10,
                       color: 'var(--text2)',
                       fontFamily: 'var(--mono)',
                       background: 'var(--bg4)',
                       padding: '4px 8px',
                       borderRadius: 6,
                       whiteSpace: 'nowrap',
+                      alignSelf: isMobile ? 'flex-end' : 'auto',
                       flexShrink: 0
                     }}>
                       {issue.count} ocorrência{issue.count > 1 ? 's' : ''}
@@ -268,9 +283,16 @@ export default function DashboardView({ onSelectExample, isMobile }) {
                     gap: 12
                   }}
                 >
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                    <div>
-                      <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--text)' }}>{ex.name}</div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 8 }}>
+                    <div style={{ overflow: 'hidden' }}>
+                      <div style={{ 
+                        fontSize: isMobile ? 12 : 13, 
+                        fontWeight: 600, 
+                        color: 'var(--text)',
+                        textOverflow: 'ellipsis',
+                        overflow: 'hidden',
+                        whiteSpace: isMobile ? 'normal' : 'nowrap'
+                      }}>{ex.name}</div>
                       <div style={{ fontSize: 10, color: 'var(--text3)', fontFamily: 'var(--mono)', marginTop: 4 }}>
                         Atendimento: {ex.auditedOutput.prontuario}
                       </div>

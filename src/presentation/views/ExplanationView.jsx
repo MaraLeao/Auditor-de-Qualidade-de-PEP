@@ -55,11 +55,11 @@ export default function ExplanationView({ isMobile }) {
 
   return (
     <div style={{ padding: isMobile ? '12px 10px 80px' : '24px 16px', maxWidth: 1000, margin: '0 auto' }}>
-      
+
       {/* Title Header */}
       <div style={{ marginBottom: 32 }}>
-        <h1 style={{ fontSize: isMobile ? 22 : 28, fontWeight: 700, letterSpacing: '-0.03em', display: 'flex', alignItems: 'center', gap: 12 }}>
-          <span>⚕</span> Guia de Auditoria e Conformidade
+        <h1 style={{ fontSize: isMobile ? 22 : 28, fontWeight: 700, letterSpacing: '-0.03em' }}>
+          <span style={{ marginRight: 12 }}>⚕</span>Guia de Auditoria e Conformidade
         </h1>
         <p style={{ color: 'var(--text2)', fontSize: isMobile ? 13 : 15, marginTop: 8, maxWidth: 700, lineHeight: 1.6 }}>
           Entenda as regras de negócios clínicas e administrativas que ditam as conformidades nos relatórios e auditorias de prontuários da instituição.
@@ -119,7 +119,7 @@ export default function ExplanationView({ isMobile }) {
 
       {/* Main Section Header */}
       <h2 style={{ fontSize: 16, fontWeight: 600, color: 'var(--text)', marginBottom: 16, letterSpacing: '-0.02em' }}>Mapeamento das Seções de Auditoria</h2>
-      
+
       {/* Legend Block */}
       <div style={{
         background: 'var(--bg2)',
@@ -147,7 +147,7 @@ export default function ExplanationView({ isMobile }) {
 
       {/* Accordions Wrapper */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 16, marginBottom: 40 }}>
-        
+
         {/* Seção A */}
         <div style={{ border: '1px solid var(--border)', borderRadius: 12, background: 'var(--bg2)', overflow: 'hidden' }}>
           <button onClick={() => toggle('A')} style={{
@@ -158,14 +158,14 @@ export default function ExplanationView({ isMobile }) {
               <span style={{ fontFamily: 'var(--mono)', fontSize: 13, background: 'var(--bg4)', color: 'var(--accent)', padding: '4px 8px', borderRadius: 6, fontWeight: 700 }}>Seção A</span>
               <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--text)' }}>Identificação do Atendimento</span>
             </div>
-            <span style={{ color: 'var(--text3)', fontSize: 12 }}>{openSection.A ? '▲ Recolher' : '▼ Expandir'}</span>
+            <span style={{ color: 'var(--text3)', fontSize: 12, whiteSpace: 'nowrap' }}>{openSection.A ? '▲ Recolher' : '▼ Expandir'}</span>
           </button>
-          
+
           {openSection.A && (
             <div style={{ padding: '0 20px 20px', borderTop: '1px solid var(--border)', background: 'rgba(255,255,255,0.005)' }}>
               <h4 style={{ fontSize: 12, color: 'var(--accent)', marginTop: 16, marginBottom: 6, fontFamily: 'var(--mono)' }}>OBJETIVO</h4>
               <p style={{ fontSize: 12, color: 'var(--text2)', margin: 0, lineHeight: 1.5 }}>Validar se os dados administrativos e assistenciais básicos do atendimento estão completos e coerentes.</p>
-              
+
               <h4 style={{ fontSize: 12, color: 'var(--accent)', marginTop: 16, marginBottom: 8, fontFamily: 'var(--mono)' }}>CAMPOS AVALIADOS</h4>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
                 {['Prontuário', 'Data de nascimento', 'Idade', 'Período da internação', 'Diagnóstico/CID', 'Especialidade cirúrgica', 'Unidade funcional da internação', 'Unidade funcional cirúrgica'].map(f => (
@@ -202,9 +202,9 @@ export default function ExplanationView({ isMobile }) {
               <span style={{ fontFamily: 'var(--mono)', fontSize: 13, background: 'var(--bg4)', color: 'var(--accent)', padding: '4px 8px', borderRadius: 6, fontWeight: 700 }}>Seção B</span>
               <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--text)' }}>Anamnese e Evoluções Médicas</span>
             </div>
-            <span style={{ color: 'var(--text3)', fontSize: 12 }}>{openSection.B ? '▲ Recolher' : '▼ Expandir'}</span>
+            <span style={{ color: 'var(--text3)', fontSize: 12, whiteSpace: 'nowrap' }}>{openSection.B ? '▲ Recolher' : '▼ Expandir'}</span>
           </button>
-          
+
           {openSection.B && (
             <div style={{ padding: '0 20px 20px', borderTop: '1px solid var(--border)', background: 'rgba(255,255,255,0.005)' }}>
               <h4 style={{ fontSize: 12, color: 'var(--accent)', marginTop: 16, marginBottom: 6, fontFamily: 'var(--mono)' }}>OBJETIVO</h4>
@@ -214,7 +214,7 @@ export default function ExplanationView({ isMobile }) {
               <div style={{ marginTop: 20, background: 'var(--bg3)', padding: 14, borderRadius: 8, border: '1px solid var(--border)' }}>
                 <h5 style={{ fontSize: 13, fontWeight: 600, color: 'var(--text)', margin: '0 0 10px 0' }}>2.1 Anamnese Médica</h5>
                 <p style={{ fontSize: 11, color: 'var(--text2)', margin: '0 0 12px 0' }}>Avaliação da admissão inicial do paciente. <strong>Regra institucional:</strong> deve ser elaborada em até 12 horas após a data de internação.</p>
-                
+
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                   {[
                     { c: 'HDA', val: 'Descrição clara da doença atual, com sintomas, tempo de evolução e contexto clínico.', err: 'HDA ausente, superficial ou sem descrição da queixa principal.' },
@@ -240,13 +240,15 @@ export default function ExplanationView({ isMobile }) {
               <div style={{ marginTop: 20, background: 'var(--bg3)', padding: 14, borderRadius: 8, border: '1px solid var(--border)' }}>
                 <h5 style={{ fontSize: 13, fontWeight: 600, color: 'var(--text)', margin: '0 0 10px 0' }}>2.2 Evoluções Médicas</h5>
                 <p style={{ fontSize: 11, color: 'var(--text2)', margin: '0 0 12px 0' }}>Avaliação da continuidade assistencial médica diária do paciente.</p>
-                
+
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                   {[
                     { c: 'Evolução Diária', val: 'Existência de evolução para todos os dias regulamentares da internação.', err: 'Ausência de registro de evolução em qualquer dia necessário.' },
+                    { c: 'HD/CID', val: 'Anotação da hipótese diagnóstica ou CID no corpo da evolução diária.', err: 'Ausência de diagnóstico ou HD na evolução.' },
                     { c: 'Exame Físico', val: 'Contém avaliação clínica objetiva/exame físico do dia na evolução.', err: 'Evolução puramente narrativa, sem registro do exame clínico.' },
                     { c: 'Condutas', val: 'Plano terapêutico explícito e condutas tomadas no dia.', err: 'Ausência de registro de conduta.' },
-                    { c: 'Queixas/Intercorrências', val: 'Sintomas relatados e evolução clínica descritos de forma objetiva.', err: 'Ausência de evolução clínica ou relato de queixas.' }
+                    { c: 'Queixas/Intercorrências', val: 'Sintomas relatados e evolução clínica descritos de forma objetiva.', err: 'Ausência de evolução clínica ou relato de queixas.' },
+                    { c: 'Horário dos registros', val: 'Carimbo de data e hora em que a evolução foi documentada pelo profissional.', err: 'Falta do horário exato do registro na evolução.' }
                   ].map(item => (
                     <div key={item.c} style={{ borderBottom: '1px solid var(--border)', paddingBottom: 8, fontSize: 11 }}>
                       <strong style={{ color: 'var(--text)', display: 'block', marginBottom: 4 }}>{item.c}</strong>
@@ -272,9 +274,9 @@ export default function ExplanationView({ isMobile }) {
               <span style={{ fontFamily: 'var(--mono)', fontSize: 13, background: 'var(--bg4)', color: 'var(--accent)', padding: '4px 8px', borderRadius: 6, fontWeight: 700 }}>Seção C</span>
               <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--text)' }}>Cirurgia</span>
             </div>
-            <span style={{ color: 'var(--text3)', fontSize: 12 }}>{openSection.C ? '▲ Recolher' : '▼ Expandir'}</span>
+            <span style={{ color: 'var(--text3)', fontSize: 12, whiteSpace: 'nowrap' }}>{openSection.C ? '▲ Recolher' : '▼ Expandir'}</span>
           </button>
-          
+
           {openSection.C && (
             <div style={{ padding: '0 20px 20px', borderTop: '1px solid var(--border)', background: 'rgba(255,255,255,0.005)' }}>
               <h4 style={{ fontSize: 12, color: 'var(--accent)', marginTop: 16, marginBottom: 6, fontFamily: 'var(--mono)' }}>OBJETIVO</h4>
@@ -325,9 +327,9 @@ export default function ExplanationView({ isMobile }) {
               <span style={{ fontFamily: 'var(--mono)', fontSize: 13, background: 'var(--bg4)', color: 'var(--accent)', padding: '4px 8px', borderRadius: 6, fontWeight: 700 }}>Seção D</span>
               <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--text)' }}>Anamnese e Evoluções de Enfermagem</span>
             </div>
-            <span style={{ color: 'var(--text3)', fontSize: 12 }}>{openSection.D ? '▲ Recolher' : '▼ Expandir'}</span>
+            <span style={{ color: 'var(--text3)', fontSize: 12, whiteSpace: 'nowrap' }}>{openSection.D ? '▲ Recolher' : '▼ Expandir'}</span>
           </button>
-          
+
           {openSection.D && (
             <div style={{ padding: '0 20px 20px', borderTop: '1px solid var(--border)', background: 'rgba(255,255,255,0.005)' }}>
               <h4 style={{ fontSize: 12, color: 'var(--accent)', marginTop: 16, marginBottom: 6, fontFamily: 'var(--mono)' }}>OBJETIVO</h4>
@@ -339,9 +341,46 @@ export default function ExplanationView({ isMobile }) {
                 <p style={{ fontSize: 11, color: 'var(--text2)', margin: '0 0 12px 0' }}>Admissão realizada pela equipe de Enfermagem no momento da internação do paciente.</p>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 10, fontSize: 11 }}>
                   {[
-                    { c: 'Escalas Assistenciais', val: 'Registro completo da Escala de Braden (risco de LPP) e Escala de Morse (risco de queda).', err: 'Ausência ou preenchimento incorreto de qualquer uma das escalas.' },
-                    { c: 'Exame Físico de Enfermagem', val: 'Avaliação detalhada por sistemas corporais, sinais vitais, dispositivos em uso e características de eliminações.', err: 'Exame físico incompleto ou sem descrição sistêmica.' },
-                    { c: 'Antecedentes Familiares (AF)', val: 'Registro adequado dos antecedentes de saúde da família.', err: 'Ausência do preenchimento de AF.' }
+                    {
+                      c: '1. Motivo da internação / HDA / HD / CID',
+                      val: 'Descrição clara da admissão, sinais e sintomas, e coerência clínica.',
+                      err: 'Motivo da internação ausente, texto muito superficial ou sem contexto clínico.'
+                    },
+                    {
+                      c: '2. AP/APP ou comorbidades',
+                      val: 'Registro de doenças prévias, alergias, cirurgias, hábitos ou comorbidades.',
+                      err: 'Ausência de antecedentes, alergias ou comorbidades.'
+                    },
+                    {
+                      c: '3. AF — Antecedentes Familiares',
+                      val: 'Histórico familiar relevante (HAS, diabetes, câncer, cardiopatias, doenças hereditárias).',
+                      err: 'Ausência completa de antecedentes familiares (AF).'
+                    },
+                    {
+                      c: '4. Exame físico',
+                      val: 'Exame organizado, avaliando múltiplos sistemas com informações objetivas (Estado geral, SNC, Resp, CV, GI, GU, Pele, Músculo-esquelético, Dispositivos).',
+                      err: 'Exame incompleto, ausência de avaliação sistêmica ou descrição muito superficial.'
+                    },
+                    {
+                      c: '5. Escala de Braden',
+                      val: 'Escala preenchida para avaliar risco de lesão por pressão.',
+                      err: 'Escala ausente ou não preenchida.'
+                    },
+                    {
+                      c: '6. Escala de Morse',
+                      val: 'Escala preenchida para avaliar risco de queda.',
+                      err: 'Escala ausente ou não preenchida.'
+                    },
+                    {
+                      c: '7. Condutas de Enfermagem',
+                      val: 'Plano com monitorização, medicações, cuidados, preparo cirúrgico ou sinais vitais.',
+                      err: 'Ausência de plano assistencial.'
+                    },
+                    {
+                      c: '8. Tempo da anamnese',
+                      val: 'Realizada dentro da regra institucional (até 12h após a internação).',
+                      err: 'Realizada após o prazo de 12h da internação ou sem carimbo de horário.'
+                    }
                   ].map(item => (
                     <div key={item.c} style={{ borderBottom: '1px solid var(--border)', paddingBottom: 8 }}>
                       <strong style={{ color: 'var(--text)', display: 'block', marginBottom: 4 }}>{item.c}</strong>
@@ -359,27 +398,68 @@ export default function ExplanationView({ isMobile }) {
                 <h5 style={{ fontSize: 13, fontWeight: 600, color: 'var(--text)', margin: '0 0 10px 0' }}>4.2 Evoluções de Enfermagem</h5>
                 <p style={{ fontSize: 11, color: 'var(--text2)', margin: '0 0 12px 0' }}>Registros diários do acompanhamento de enfermagem e evolução do plano assistencial.</p>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 10, fontSize: 11 }}>
-                  <div style={{ borderBottom: '1px solid var(--border)', paddingBottom: 8 }}>
-                    <strong style={{ color: 'var(--text)' }}>Evolução Diária</strong>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 2, paddingLeft: 8, marginTop: 4 }}>
-                      <span style={{ color: '#00e676' }}>✅ Conforme: Presença diária de registro de evolução.</span>
-                      <span style={{ color: '#ff5252' }}>❌ Não Conforme: Ausência de evolução em algum dia da internação.</span>
+                  {[
+                    {
+                      c: '1. Evolução diária',
+                      val: 'Presença diária de evolução (obrigatório a partir do 2º dia se houve anamnese no 1º, ou desde o 1º dia se não houve anamnese).',
+                      err: 'Ausência de evolução diária obrigatória.'
+                    },
+                    {
+                      c: '2. Motivo da internação / HD / CID',
+                      val: 'Contextualização do diagnóstico, situação clínica ou motivo da assistência.',
+                      err: 'Evolução sem contexto clínico ou ausência de HD/CID.'
+                    },
+                    {
+                      c: '3. Exame físico completo',
+                      val: 'Avaliação organizada e objetiva de múltiplos sistemas (Estado geral, SNC, Resp, CV, GI, GU, Pele, Músculo-esquelético, Dispositivos).',
+                      err: 'Exame superficial, incompleto ou focado apenas em sinais vitais.'
+                    },
+                    {
+                      c: '4. Condutas realizadas',
+                      val: 'Registro executivo das ações da enfermagem (monitorização, medicações, mudança de decúbito, mobilização, etc).',
+                      err: 'Ausência de condutas ou descrição demasiadamente vaga.'
+                    },
+                    {
+                      c: '5. Escala de Braden',
+                      val: 'Escala preenchida para avaliar risco de lesão por pressão.',
+                      err: 'Escala ausente ou não preenchida.'
+                    },
+                    {
+                      c: '6. Escala de Morse',
+                      val: 'Escala preenchida para avaliar risco de queda.',
+                      err: 'Escala ausente ou não preenchida.'
+                    },
+                    {
+                      c: '7. Curativos (quando houver)',
+                      val: 'Descrição técnica contendo tamanho, exsudato, necrose e aspecto.',
+                      err: 'Registro genérico que omite tamanho, exsudato, necrose ou aspecto. )',
+                      na: 'Quando não existe curativo indicado no período.'
+                    },
+                    {
+                      c: '8. Horário/data do registro',
+                      val: 'Data e horário claramente identificáveis no documento.',
+                      err: 'Ausência de rastreabilidade temporal.'
+                    }
+                  ].map(item => (
+                    <div key={item.c} style={{ borderBottom: '1px solid var(--border)', paddingBottom: 8 }}>
+                      <strong style={{ color: 'var(--text)', display: 'block', marginBottom: 4 }}>{item.c}</strong>
+
+                      {item.c.includes('Curativos') && (
+                        <p style={{ color: 'var(--text2)', fontSize: 10, margin: '4px 0 8px 8px' }}>
+                          <strong>Classificação:</strong><br />
+                          • <em>Curativo Simples:</em> ferida pequena, pós-operatório simples, baixa complexidade.<br />
+                          • <em>Curativo Especial:</em> feridas complexas, úlceras, grandes exsudatos.<br />
+                          • <em>Curativo Grau II:</em> lesões abertas extensas, perda tecidual importante.
+                        </p>
+                      )}
+
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: 2, paddingLeft: 8 }}>
+                        <span style={{ color: '#00e676' }}>✅ Conforme: {item.val}</span>
+                        <span style={{ color: '#ff5252' }}>❌ Não Conforme: {item.err}</span>
+                        {item.na && <span style={{ color: 'var(--accent)' }}>🔵 Não se Aplica: {item.na}</span>}
+                      </div>
                     </div>
-                  </div>
-                  <div>
-                    <strong style={{ color: 'var(--text)' }}>Curativos (Quando houver)</strong>
-                    <p style={{ color: 'var(--text2)', fontSize: 10, margin: '4px 0 8px 8px' }}>
-                      <strong>Classificação:</strong><br />
-                      • <em>Curativo Simples:</em> pós-operatórios simples ou feridas pequenas/superficiais.<br />
-                      • <em>Curativo Especial:</em> feridas complexas, lesões profundas ou grande volume de exsudato.<br />
-                      • <em>Curativo Grau II:</em> lesões abertas muito extensas ou perda importante de tecido.
-                    </p>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 2, paddingLeft: 8 }}>
-                      <span style={{ color: '#00e676' }}>✅ Conforme: Descrição técnica completa contendo obrigatoriamente <strong>tamanho da lesão, exsudato (volume/aspecto), necrose e aspecto geral</strong> da ferida.</span>
-                      <span style={{ color: '#ff5252' }}>❌ Não Conforme: Ausência ou omissão de qualquer critério obrigatório (tamanho, exsudato, necrose ou aspecto).</span>
-                      <span style={{ color: 'var(--accent)' }}>🔵 Não se Aplica: Quando o paciente não possuir curativos indicados.</span>
-                    </div>
-                  </div>
+                  ))}
                 </div>
               </div>
             </div>
@@ -396,84 +476,105 @@ export default function ExplanationView({ isMobile }) {
               <span style={{ fontFamily: 'var(--mono)', fontSize: 13, background: 'var(--bg4)', color: 'var(--accent)', padding: '4px 8px', borderRadius: 6, fontWeight: 700 }}>Seção E</span>
               <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--text)' }}>Outras Categorias Profissionais</span>
             </div>
-            <span style={{ color: 'var(--text3)', fontSize: 12 }}>{openSection.E ? '▲ Recolher' : '▼ Expandir'}</span>
+            <span style={{ color: 'var(--text3)', fontSize: 12, whiteSpace: 'nowrap' }}>{openSection.E ? '▲ Recolher' : '▼ Expandir'}</span>
           </button>
-          
+
           {openSection.E && (
             <div style={{ padding: '0 20px 20px', borderTop: '1px solid var(--border)', background: 'rgba(255,255,255,0.005)' }}>
               <h4 style={{ fontSize: 12, color: 'var(--accent)', marginTop: 16, marginBottom: 6, fontFamily: 'var(--mono)' }}>OBJETIVO</h4>
               <p style={{ fontSize: 12, color: 'var(--text2)', margin: 0, lineHeight: 1.5 }}>Avaliar a existência e o rigor técnico dos registros assistenciais das equipes multiprofissionais de saúde acionadas na internação.</p>
 
-              <h4 style={{ fontSize: 12, color: 'var(--accent)', marginTop: 16, marginBottom: 8, fontFamily: 'var(--mono)' }}>CATEGORIAS PROFISSIONAIS ANALISADAS</h4>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-                {['Fisioterapia', 'TO (Terapia Ocupacional)', 'Nutrição', 'Psicologia', 'Fonoaudiologia', 'Serviço Social', 'Farmácia'].map(f => (
-                  <span key={f} style={{ fontSize: 10, background: 'var(--bg3)', border: '1px solid var(--border)', color: 'var(--text2)', padding: '4px 10px', borderRadius: 20 }}>{f}</span>
-                ))}
-              </div>
-
               <h4 style={{ fontSize: 12, color: 'var(--accent)', marginTop: 16, marginBottom: 8, fontFamily: 'var(--mono)' }}>CRITÉRIOS DE AVALIAÇÃO</h4>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 8, fontSize: 12 }}>
-                <div style={{ display: 'flex', gap: 8 }}>
-                  <span style={{ color: '#00e676', fontWeight: 600, whiteSpace: 'nowrap' }}>✅ Conforme:</span>
-                  <span style={{ color: 'var(--text2)' }}>Existe o registro da evolução no prontuário, a assistência está devidamente descrita e há registro de condutas terapêuticas.</span>
-                </div>
-                <div style={{ display: 'flex', gap: 8 }}>
-                  <span style={{ color: '#ff5252', fontWeight: 600, whiteSpace: 'nowrap' }}>❌ Não Conforme:</span>
-                  <span style={{ color: 'var(--text2)' }}>Registro incompleto, muito genérico ou com ausência total de descrição de evolução e condutas.</span>
-                </div>
-                <div style={{ display: 'flex', gap: 8 }}>
-                  <span style={{ color: 'var(--accent)', fontWeight: 600, whiteSpace: 'nowrap' }}>🔵 Não se Aplica:</span>
-                  <span style={{ color: 'var(--text3)' }}>Quando a categoria profissional específica não foi solicitada ou acionada para o atendimento do paciente.</span>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
+              <p style={{ fontSize: 12, color: 'var(--text2)', marginBottom: 16 }}>
+                <strong>Regra de Ouro:</strong> Apenas avalie a qualidade documental se houver registro. Se não houver registro da categoria, classifique como <span style={{ color: 'var(--accent)' }}>🔵 Não se aplica</span> (e nunca como Não conforme).
+              </p>
 
-        {/* Seção F */}
-        <div style={{ border: '1px solid var(--border)', borderRadius: 12, background: 'var(--bg2)', overflow: 'hidden' }}>
-          <button onClick={() => toggle('F')} style={{
-            width: '100%', background: 'transparent', border: 'none', padding: '16px 20px',
-            display: 'flex', alignItems: 'center', justifyContent: 'space-between', cursor: 'pointer', textAlign: 'left'
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-              <span style={{ fontFamily: 'var(--mono)', fontSize: 13, background: 'var(--bg4)', color: 'var(--accent)', padding: '4px 8px', borderRadius: 6, fontWeight: 700 }}>Seção F</span>
-              <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--text)' }}>Relatório Final</span>
-            </div>
-            <span style={{ color: 'var(--text3)', fontSize: 12 }}>{openSection.F ? '▲ Recolher' : '▼ Expandir'}</span>
-          </button>
-          
-          {openSection.F && (
-            <div style={{ padding: '0 20px 20px', borderTop: '1px solid var(--border)', background: 'rgba(255,255,255,0.005)' }}>
-              <h4 style={{ fontSize: 12, color: 'var(--accent)', marginTop: 16, marginBottom: 6, fontFamily: 'var(--mono)' }}>OBJETIVO</h4>
-              <p style={{ fontSize: 12, color: 'var(--text2)', margin: 0, lineHeight: 1.5 }}>Compilar os dados quantitativos totais e consolidar a nota global de conformidade regulatória do prontuário eletrônico do paciente.</p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10, fontSize: 11 }}>
+                {[
+                  {
+                    c: '1. Fisioterapia / Terapia Ocupacional',
+                    fields: [
+                      { label: 'Descrição da consulta', val: 'Avaliação funcional/respiratória adequada', err: 'Superficial' },
+                      { label: 'Condutas fisioterapêuticas', val: 'Técnicas descritas', err: 'Sem conduta' },
+                      { label: 'Mobilização', val: 'Sedestação/deambulação/cinesioterapia descritas', err: 'Não descritas' },
+                      { label: 'Fisioterapia respiratória', val: 'CPAP/VM/higiene brônquica descritos', err: 'Não descritos' },
+                      { label: 'Data/hora', val: 'Registro rastreável', err: 'Ausente' }
+                    ]
+                  },
+                  {
+                    c: '2. Nutrição',
+                    fields: [
+                      { label: 'Avaliação nutricional', val: 'Estado nutricional descrito', err: 'Ausente' },
+                      { label: 'Dieta', val: 'Tipo de dieta descrito', err: 'Ausente' },
+                      { label: 'Nutrição enteral/parenteral', val: 'Tipo/volume/uso descritos', err: 'Uso sem descrição' },
+                      { label: 'Tolerância gastrointestinal', val: 'Aceitação/tolerância descritas', err: 'Ausentes' },
+                      { label: 'Conduta nutricional', val: 'Plano dietoterápico descrito', err: 'Ausente' },
+                      { label: 'Data/hora', val: 'Registro rastreável', err: 'Ausente' }
+                    ]
+                  },
+                  {
+                    c: '3. Psicologia',
+                    fields: [
+                      { label: 'Estado emocional', val: 'Aspectos emocionais descritos', err: 'Superficial' },
+                      { label: 'Suporte psicológico', val: 'Intervenção descrita', err: 'Ausente' },
+                      { label: 'Relação familiar', val: 'Apoio/rede familiar descritos', err: 'Ausentes' },
+                      { label: 'Condutas', val: 'Plano terapêutico descrito', err: 'Ausente' },
+                      { label: 'Data/hora', val: 'Registro rastreável', err: 'Ausente' }
+                    ]
+                  },
+                  {
+                    c: '4. Fonoaudiologia',
+                    fields: [
+                      { label: 'Avaliação de deglutição', val: 'Disfagia/deglutição avaliadas', err: 'Ausentes' },
+                      { label: 'Comunicação/voz', val: 'Avaliação descrita', err: 'Ausente' },
+                      { label: 'Condutas terapêuticas', val: 'Intervenções descritas', err: 'Ausentes' },
+                      { label: 'Risco broncoaspiração', val: 'Avaliado/documentado', err: 'Ausente' },
+                      { label: 'Data/hora', val: 'Registro rastreável', err: 'Ausente' }
+                    ]
+                  },
+                  {
+                    c: '5. Serviço Social',
+                    fields: [
+                      { label: 'Situação social', val: 'Contexto social descrito', err: 'Ausente' },
+                      { label: 'Rede de apoio', val: 'Família/cuidador identificados', err: 'Ausente' },
+                      { label: 'Planejamento alta', val: 'Orientações descritas', err: 'Ausentes' },
+                      { label: 'Encaminhamentos', val: 'Serviços/rede acionados', err: 'Ausentes' },
+                      { label: 'Data/hora', val: 'Registro rastreável', err: 'Ausente' }
+                    ]
+                  },
+                  {
+                    c: '6. Farmácia',
+                    fields: [
+                      { label: 'Conciliação medicamentosa', val: 'Medicamentos revisados', err: 'Ausente' },
+                      { label: 'Validação prescrição', val: 'Avaliação farmacêutica registrada', err: 'Ausente' },
+                      { label: 'Interações/ajustes', val: 'Orientações registradas', err: 'Ausentes' },
+                      { label: 'Antimicrobianos', val: 'Monitorização descrita', err: 'Ausente' },
+                      { label: 'Data/hora', val: 'Registro rastreável', err: 'Ausente' }
+                    ]
+                  }
+                ].map(item => (
+                  <div key={item.c} style={{ marginTop: 20, background: 'var(--bg3)', padding: 14, borderRadius: 8, border: '1px solid var(--border)' }}>
+                    <h5 style={{ fontSize: 13, fontWeight: 600, color: 'var(--text)', margin: '0 0 10px 0' }}>{item.c}</h5>
 
-              <h4 style={{ fontSize: 12, color: 'var(--accent)', marginTop: 16, marginBottom: 8, fontFamily: 'var(--mono)' }}>COMPONENTES AVALIADOS</h4>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-                {['Quantidade de registros', 'Procedimentos SIGTAP', 'Conformidades', 'Não conformidades', 'Percentual final'].map(f => (
-                  <span key={f} style={{ fontSize: 10, background: 'var(--bg3)', border: '1px solid var(--border)', color: 'var(--text2)', padding: '4px 10px', borderRadius: 20 }}>{f}</span>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 10, fontSize: 11 }}>
+                      {item.fields.map((f, i) => (
+                        <div key={i} style={{ borderBottom: '1px solid var(--border)', paddingBottom: 8 }}>
+                          <strong style={{ color: 'var(--text)' }}>{f.label}</strong>
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: 2, paddingLeft: 8, marginTop: 4 }}>
+                            <span style={{ color: '#00e676' }}>✅ Conforme: {f.val}</span>
+                            <span style={{ color: '#ff5252' }}>❌ Não Conforme: {f.err}</span>
+                            {f.na && f.na !== '🔵' && <span style={{ color: 'var(--accent)' }}>🔵 Não se Aplica: {f.na}</span>}
+                            {f.na === '🔵' && <span style={{ color: 'var(--accent)' }}>🔵 Não se Aplica: Ausência de registro / Não indicado.</span>}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 ))}
               </div>
-
-              <h4 style={{ fontSize: 12, color: 'var(--accent)', marginTop: 16, marginBottom: 8, fontFamily: 'var(--mono)' }}>CÁLCULO DA CONFORMIDADE</h4>
-              <div style={{ background: 'var(--bg3)', padding: 14, borderRadius: 8, border: '1px solid var(--border)', fontSize: 12 }}>
-                <strong style={{ color: 'var(--text)', display: 'block', marginBottom: 6 }}>Fórmula de Conformidade Global</strong>
-                <div style={{
-                  fontFamily: 'var(--mono)', fontSize: 13, background: 'var(--bg4)',
-                  padding: '8px 12px', borderRadius: 6, display: 'inline-block',
-                  color: 'var(--accent)', marginBottom: 12, border: '1px solid var(--border2)'
-                }}>
-                  Conformidade (%) = [Conformes ÷ (Conformes + Não Conformes)] × 100
-                </div>
-                <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
-                  <span style={{ color: 'var(--yellow)', fontWeight: 600 }}>⚠️ Regra Crítica:</span>
-                  <span style={{ color: 'var(--text2)', lineHeight: 1.4 }}>Os itens marcados como <strong>🔵 Não se Aplica</strong> são sumariamente desconsiderados e <strong>não entram</strong> na base de cálculo da nota final do prontuário.</span>
-                </div>
-              </div>
             </div>
           )}
         </div>
-
       </div>
 
       {/* Grid: Common errors & exceptions */}
@@ -484,7 +585,7 @@ export default function ExplanationView({ isMobile }) {
         gap: 20,
         marginBottom: 20
       }}>
-        
+
         {/* Box 1: Non-conformities */}
         <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 12, padding: 20 }}>
           <h3 style={{ fontSize: 14, fontWeight: 600, color: '#ff5252', display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>

@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { EXAMPLES, EXAMPLE_INPUT } from '../../data/examples.js';
+import { EXAMPLE_INPUT } from '../../data/examples.js';
 import { simulateAudit } from '../../domain/usecases/SimulateAuditUseCase.js';
 import ScoreRing from '../components/ScoreRing.jsx';
 import Badge, { statusCfg } from '../components/Badge.jsx';
@@ -299,14 +299,14 @@ function UserMessage({ content, isMobile }) {
 }
 
 // Main View
-export default function AuditView({ initialExampleIndex, clearInitialExample, isMobile }) {
+export default function AuditView({ initialExampleIndex, clearInitialExample, isMobile, examples, onAddExample }) {
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const bottomRef = useRef(null);
   const textareaRef = useRef(null);
 
-  const isExample = EXAMPLES.some(ex => ex.input === input);
+  const isExample = examples.some(ex => ex.input === input);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -316,13 +316,13 @@ export default function AuditView({ initialExampleIndex, clearInitialExample, is
   useEffect(() => {
     if (initialExampleIndex !== null && initialExampleIndex !== undefined) {
       const idx = initialExampleIndex;
-      const exampleInput = EXAMPLES[idx]?.input || '';
+      const exampleInput = examples[idx]?.input || '';
       setInput(exampleInput);
       setMessages([]);
       setLoading(true);
       
       const timer = setTimeout(() => {
-        const result = simulateAudit(exampleInput);
+        const result = simulateAudit(exampleInput, examples);
         setMessages([
           { role: 'user', content: exampleInput },
           result
@@ -335,22 +335,22 @@ export default function AuditView({ initialExampleIndex, clearInitialExample, is
 
       return () => clearTimeout(timer);
     }
-  }, [initialExampleIndex, clearInitialExample]);
+  }, [initialExampleIndex, clearInitialExample, examples]);
 
   function loadExample(index = 0) {
-    setInput(EXAMPLES[index]?.input || EXAMPLE_INPUT);
+    setInput(examples[index]?.input || EXAMPLE_INPUT);
     textareaRef.current?.focus();
   }
 
   function selectAndRunExample(index) {
     if (loading) return;
-    const exampleInput = EXAMPLES[index]?.input || '';
+    const exampleInput = examples[index]?.input || '';
     setInput(exampleInput);
     setMessages([]);
     setLoading(true);
     
     const timer = setTimeout(() => {
-      const result = simulateAudit(exampleInput);
+      const result = simulateAudit(exampleInput, examples);
       setMessages([
         { role: 'user', content: exampleInput },
         result
@@ -368,7 +368,36 @@ export default function AuditView({ initialExampleIndex, clearInitialExample, is
     setInput('');
     setLoading(true);
     await new Promise(r => setTimeout(r, 2200));
-    const result = simulateAudit(text);
+
+    let parsed = null;
+    try {
+      parsed = JSON.parse(text);
+    } catch (e) {}
+
+    let currentExamplesList = examples;
+    if (parsed) {
+      const prontId = Array.isArray(parsed) ? parsed[0]?.["Prontuário"] : parsed?.["Prontuário"];
+      if (prontId) {
+        const exists = examples.some(ex => {
+          try {
+            const exParsed = JSON.parse(ex.input);
+            const exPront = Array.isArray(exParsed) ? exParsed[0]?.["Prontuário"] : exParsed?.["Prontuário"];
+            return exPront === prontId;
+          } catch(e) {
+            return false;
+          }
+        });
+        if (!exists) {
+          const procedimento = Array.isArray(parsed) 
+            ? (parsed[0]?.["Procedimento cirurgico Realizado"] || parsed[0]?.["Procedimento Interno Realizado"])
+            : (parsed?.["Procedimento cirurgico Realizado"] || parsed?.["Procedimento Interno Realizado"]);
+          
+          currentExamplesList = onAddExample(prontId, procedimento, text);
+        }
+      }
+    }
+
+    const result = simulateAudit(text, currentExamplesList);
     setMessages(prev => [...prev, result
       ? { role: 'assistant', type: 'result', content: result }
       : { role: 'assistant', type: 'error', content: 'JSON inválido. Verifique a estrutura e tente novamente.' }
@@ -396,7 +425,7 @@ export default function AuditView({ initialExampleIndex, clearInitialExample, is
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10, alignItems: 'center', marginTop: 32 }}>
               <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', justifyContent: 'center' }}>
-                {EXAMPLES.map((ex, idx) => (
+                {examples.map((ex, idx) => (
                   <button key={ex.id} onClick={() => loadExample(idx)} style={{
                     background: 'var(--bg3)', border: '1px solid var(--border)',
                     color: 'var(--text)', padding: '12px 20px', borderRadius: 8,
@@ -448,7 +477,7 @@ export default function AuditView({ initialExampleIndex, clearInitialExample, is
               Selecione outro prontuário de exemplo para auditar:
             </div>
             <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', justifyContent: 'center' }}>
-              {EXAMPLES.map((ex, idx) => (
+              {examples.map((ex, idx) => (
                 <button key={ex.id} onClick={() => selectAndRunExample(idx)} style={{
                   background: 'var(--bg3)', border: '1px solid var(--border)',
                   color: 'var(--text)', padding: '10px 16px', borderRadius: 8,

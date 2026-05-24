@@ -8,7 +8,7 @@ import { EXAMPLES, EXAMPLE_OUTPUT } from '../../data/examples.js';
  * @param {string} jsonText - Raw JSON of the medical chart records.
  * @returns {object|null} Evaluated audit report or null if JSON is invalid.
  */
-export function simulateAudit(jsonText) {
+export function simulateAudit(jsonText, customExamples = EXAMPLES) {
   let parsed = null;
   try {
     parsed = JSON.parse(jsonText);
@@ -18,7 +18,7 @@ export function simulateAudit(jsonText) {
 
   const prontId = Array.isArray(parsed) ? parsed[0]?.["Prontuário"] : parsed?.["Prontuário"];
 
-  const matchedEx = EXAMPLES.find(ex => {
+  const matchedEx = customExamples.find(ex => {
     let exParsed = JSON.parse(ex.input);
     let exPront = Array.isArray(exParsed) ? exParsed[0]?.["Prontuário"] : exParsed?.["Prontuário"];
     return exPront === prontId;
