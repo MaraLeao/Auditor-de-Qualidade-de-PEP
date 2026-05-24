@@ -3,7 +3,7 @@ import fs from 'fs';
 const content = fs.readFileSync('./src/App.jsx', 'utf8');
 
 // Extract the content between const EXAMPLE_INPUT = ` and the next `
-const match = content.match(/const EXAMPLE_INPUT = `([\s\S]*?)`/);
+const match = content.match(/const EXAMPLE_INPUT_2 = `([\s\S]*?)`/);
 if (!match) {
   console.error("Could not find EXAMPLE_INPUT in src/App.jsx");
   process.exit(1);
