@@ -1,0 +1,125 @@
+Auditoria do Prontuário 19.265.867
+--------------------------------------------------------------------------------
+
+Seção A – Identificação do Atendimento
+
+Prontuário: 19.265.867
+Data de nascimento: 18/6/1959
+Idade: 64 ANOS
+Especialidade da Internação: Não registrado
+Período da internação: 19/11/2023, 08:45
+Diagnóstico/CID da internação: Não registrado
+Especialidade da cirurgia: CIRURGIA GERAL
+Unidade Funcional: 8º NORTE
+
+Cálculo de Conformidade - Seção A
+
+• Itens obrigatórios: 8
+• Itens conformes: 6
+• Percentual de conformidade: 75.0%
+
+--------------------------------------------------------------------------------
+
+Seção B – Anamnese e Evoluções Médicas
+
+Anamnese Médica
+
+HDA (História da Doença Atual): conforme
+HD (Hipótese Diagnóstica) ou CID: conforme
+AP/APP (Antecedentes Pessoais e Patológicos): conforme
+AF (Antecedentes Familiares): conforme
+Exame Físico: conforme
+CD (Conduta Terapêutica): conforme
+Criação da Anamnese: conforme
+
+Percentual de conformidade da Anamnese Médica: 100.0%
+
+Evolução Médica
+
+HD ou CID: conforme
+Exame Físico: conforme
+Procedimentos: Não registrado
+Condutas e intercorrências: conforme
+Frequência diária e completude dos registros: conforme
+
+• Itens obrigatórios: 5
+• Itens conformes: 4
+
+Percentual de conformidade da Evolução Médica: 80.0%
+
+--------------------------------------------------------------------------------
+
+Seção C – Cirurgia
+
+Especialidade da cirurgia: CIRURGIA GERAL
+Unidade Funcional da cirurgia: 8º NORTE
+Data da cirurgia: 20/11/2023, 11:45
+Início da cirurgia: 20/11/2023, 11:45
+Fim da cirurgia: 20/11/2023, 12:12
+Diagnóstico ou CID do procedimento cirúrgico: Não registrado
+Descrição do procedimento cirúrgico realizado: COLECISTECTOMIA VIDEOLAPAROSCOPICA
+Descrição da técnica cirúrgica: conforme
+Uso de OPME: Não se aplica
+
+Percentual de conformidade da Cirurgia: 87.5%
+
+--------------------------------------------------------------------------------
+
+Seção D – Anamnese e Evoluções de Enfermagem
+
+Anamnese de Enfermagem
+
+Motivo da internação ou HD ou CID: conforme
+AP/APP ou comorbidades: conforme
+AF (Antecedentes Familiares): Não registrado
+Exame físico: Não registrado
+Escala de Braden: conforme
+Escala de Morse: conforme
+CD (Conduta de Enfermagem): conforme
+Criação da Anamnese: conforme
+
+Percentual de conformidade da Anamnese de Enfermagem: 75.0%
+
+Evolução de Enfermagem
+
+Motivo da internação ou HD/CID: conforme
+Exame físico completo: Não registrado
+Condutas realizadas: conforme
+Escala de Braden: conforme
+Escala de Morse: conforme
+Criação da Evolução: conforme
+
+Percentual de conformidade da Evolução de Enfermagem: 83.3%
+
+--------------------------------------------------------------------------------
+
+Seção E – Outras Categorias Profissionais
+
+SERVIÇO SOCIAL
+
+Descrição: conforme
+
+Percentual de conformidade SERVIÇO SOCIAL: 100.0%
+
+--------------------------------------------------------------------------------
+
+Resumo Geral da Auditoria
+
+Seção                               | Itens Avaliados | Conforme   | Não Conforme | Percentual
+---------------------------------------------------------------------------------------------
+Seção A – Identificação             | 8               | 6          | 2            | 75.0%
+Seção B – Anamnese Médica           | 7               | 7          | 0            | 100.0%
+Seção B – Evolução Médica           | 5               | 4          | 1            | 80.0%
+Seção C – Cirurgia                  | 8               | 7          | 1            | 87.5%
+Seção D – Anamnese de Enfermagem    | 8               | 6          | 2            | 75.0%
+Seção D – Evolução de Enfermagem    | 6               | 5          | 1            | 83.3%
+Seção E – SERVIÇO SOCIAL            | 1               | 1          | 0            | 100.0%
+
+Total de itens obrigatórios avaliados: 43
+Total de itens conformes: 36
+Total de itens não conformes: 7
+Percentual de conformidade global: 83.72%
+
+================================================================================
+
+
