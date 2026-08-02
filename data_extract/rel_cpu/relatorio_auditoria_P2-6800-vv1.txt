@@ -1,13 +1,13 @@
-Auditoria do Prontuário 19.265.867
+Auditoria do Prontuário 13.696.539
 --------------------------------------------------------------------------------
 
 Seção A – Identificação do Atendimento
 
-Prontuário: 19.265.867
-Data de nascimento: 18/6/1959
-Idade: 64 ANOS
-Especialidade da Internação: Não registrado
-Período da internação: 19/11/2023, 08:45
+Prontuário: 13.696.539
+Data de nascimento: 17/11/1960
+Idade: 63 ANOS
+Especialidade da Internação: CIRURGIA GERAL
+Período da internação: 19/11/2023, 08:49 - 21/11/2023, 15:29 (2 dias)
 Diagnóstico/CID da internação: Não registrado
 Especialidade da cirurgia: CIRURGIA GERAL
 Unidade Funcional: 8º NORTE
@@ -15,8 +15,8 @@ Unidade Funcional: 8º NORTE
 Cálculo de Conformidade - Seção A
 
 • Itens obrigatórios: 8
-• Itens conformes: 6
-• Percentual de conformidade: 75.0%
+• Itens conformes: 7
+• Percentual de conformidade: 87.5%
 
 --------------------------------------------------------------------------------
 
@@ -28,7 +28,7 @@ HDA (História da Doença Atual): conforme
 HD (Hipótese Diagnóstica) ou CID: conforme
 AP/APP (Antecedentes Pessoais e Patológicos): conforme
 AF (Antecedentes Familiares): conforme
-Exame Físico: conforme
+Exame Físico: conforme (exame físico, estado geral)
 CD (Conduta Terapêutica): conforme
 Criação da Anamnese: conforme
 
@@ -37,29 +37,27 @@ Percentual de conformidade da Anamnese Médica: 100.0%
 Evolução Médica
 
 HD ou CID: conforme
-Exame Físico: conforme
-Procedimentos: Não registrado
-Condutas e intercorrências: conforme
+Exame Físico: conforme (exame físico)
+Procedimentos, condutas, queixas e intercorrências: conforme
 Frequência diária e completude dos registros: conforme
 
-• Itens obrigatórios: 5
+• Itens obrigatórios: 4
 • Itens conformes: 4
 
-Percentual de conformidade da Evolução Médica: 80.0%
+Percentual de conformidade da Evolução Médica: 100.0%
 
 --------------------------------------------------------------------------------
 
 Seção C – Cirurgia
 
 Especialidade da cirurgia: CIRURGIA GERAL
-Unidade Funcional da cirurgia: 8º NORTE
-Data da cirurgia: 20/11/2023, 11:45
-Início da cirurgia: 20/11/2023, 11:45
-Fim da cirurgia: 20/11/2023, 12:12
+Unidade Funcional da cirurgia: BLOCO CIRURGICO
+Início da cirurgia: 20/11/2023, 15:05
+Fim da cirurgia: 20/11/2023, 16:50
 Diagnóstico ou CID do procedimento cirúrgico: Não registrado
-Descrição do procedimento cirúrgico realizado: COLECISTECTOMIA VIDEOLAPAROSCOPICA
+Descrição do procedimento cirúrgico realizado: HERNIOPLASTIA INCISIONAL
 Descrição da técnica cirúrgica: conforme
-Uso de OPME: Não se aplica
+Uso de OPME: conforme (tela, dreno)
 
 Percentual de conformidade da Cirurgia: 87.5%
 
@@ -72,24 +70,26 @@ Anamnese de Enfermagem
 Motivo da internação ou HD ou CID: conforme
 AP/APP ou comorbidades: conforme
 AF (Antecedentes Familiares): Não registrado
-Exame físico: Não registrado
+Exame físico: conforme (estado geral, sistema nervoso, sistema respiratório, sistema cardiovascular, sistema gastrointestinal, pele/mucosas)
 Escala de Braden: conforme
 Escala de Morse: conforme
 CD (Conduta de Enfermagem): conforme
 Criação da Anamnese: conforme
+Curativo: Não se aplica
 
-Percentual de conformidade da Anamnese de Enfermagem: 75.0%
+Percentual de conformidade da Anamnese de Enfermagem: 87.5%
 
 Evolução de Enfermagem
 
 Motivo da internação ou HD/CID: conforme
-Exame físico completo: Não registrado
+Exame físico completo: conforme (estado geral, sistema nervoso, sistema respiratório, sistema cardiovascular, sistema gastrointestinal, pele/mucosas)
 Condutas realizadas: conforme
 Escala de Braden: conforme
 Escala de Morse: conforme
 Criação da Evolução: conforme
+Curativo: Não se aplica
 
-Percentual de conformidade da Evolução de Enfermagem: 83.3%
+Percentual de conformidade da Evolução de Enfermagem: 100.0%
 
 --------------------------------------------------------------------------------
 
@@ -107,18 +107,28 @@ Resumo Geral da Auditoria
 
 Seção                               | Itens Avaliados | Conforme   | Não Conforme | Percentual
 ---------------------------------------------------------------------------------------------
-Seção A – Identificação             | 8               | 6          | 2            | 75.0%
-Seção B – Anamnese Médica           | 7               | 7          | 0            | 100.0%
-Seção B – Evolução Médica           | 5               | 4          | 1            | 80.0%
+Seção A – Identificação             | 8               | 7          | 1            | 87.5%
+Seção B – Medicina                  | 11              | 11         | 0            | 100.0%
 Seção C – Cirurgia                  | 8               | 7          | 1            | 87.5%
-Seção D – Anamnese de Enfermagem    | 8               | 6          | 2            | 75.0%
-Seção D – Evolução de Enfermagem    | 6               | 5          | 1            | 83.3%
+Seção D – Enfermagem                | 14              | 13         | 1            | 92.9%
 Seção E – SERVIÇO SOCIAL            | 1               | 1          | 0            | 100.0%
 
-Total de itens obrigatórios avaliados: 43
-Total de itens conformes: 36
-Total de itens não conformes: 7
-Percentual de conformidade global: 83.72%
+Total de itens obrigatórios avaliados: 42
+Total de itens conformes: 39
+Total de itens não conformes: 3
+Percentual de conformidade global: 92.86%
+
+--------------------------------------------------------------------------------
+
+Quantitativo de Registros por Categoria e Dia
+
+Documento                                | 19/11/2023  | 20/11/2023  | 21/11/2023  | Total
+------------------------------------------------------------------------------------------
+ENFERMAGEM - Anamnese                    | 1           | 0           | 0           | 1
+ENFERMAGEM - Evolução                    | 0           | 1           | 1           | 2
+MEDICINA - Anamnese                      | 1           | 0           | 0           | 1
+MEDICINA - Evolução                      | 0           | 1           | 0           | 1
+SERVIÇO SOCIAL - Anamnese                | 0           | 1           | 0           | 1
 
 ================================================================================
 
