@@ -9,12 +9,25 @@ npm install
 npm run dev
 ```
 
-## Deploy na Vercel
+## Arquitetura Backend (Docker)
 
-1. Suba o projeto no GitHub
-2. Acesse [vercel.com](https://vercel.com) → **Add New Project**
-3. Importe o repositório
-4. As configurações são detectadas automaticamente (Vite + React)
-5. Clique em **Deploy** ✅
+O projeto conta com um ecossistema backend em container para processamento assíncrono e auditoria:
+- **Redis:** Fila de processamento (`fila:prontuarios`).
+- **Worker (Python):** Consome a fila, executa a auditoria no `data_extract/main.py` e salva o resultado.
+- **Producer API (Node.js):** Expõe as rotas HTTP para receber dados na porta 3001 e enviar pra fila.
 
-Nenhuma variável de ambiente necessária — o projeto roda 100% no frontend.
+Para iniciar todo o sistema de auditoria localmente via Docker, execute:
+
+```bash
+sudo docker compose up -d --build
+```
+
+A API estará rodando em:
+- **Producer API:** `http://localhost:3001` (POST `/batches` e GET `/records/:number/status`)
+
+Para acompanhar os logs do processamento em tempo real:
+```bash
+sudo docker compose logs -f
+```
+
+*(Consulte a pasta `docs/` para ver a documentação técnica detalhada dos contratos e endpoints das APIs).*

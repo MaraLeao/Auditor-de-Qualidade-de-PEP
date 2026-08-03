@@ -1,45 +1,86 @@
 import { createClient } from "redis";
 import { randomUUID } from "crypto";
 
-const redis = createClient({ url: "redis://localhost:6379" });
+const redis = createClient({ url: process.env.REDIS_URL || "redis://localhost:6379" });
+redis.on("error", (err) => console.error("Redis Client Error", err));
 await redis.connect();
 
 const QUEUE_KEY = "fila:prontuarios";
+const RESULT_KEY_PREFIX = "resultado:";
 
-async function publicarLote(prontuarios, loteId) {
-    let publicados = 0;
-
-    for (const p of prontuarios) {
-        const job = {
-            job_id: randomUUID(),
-            lote_id: loteId,
-            numero_prontuario: p.numero,
-            conteudo: p.conteudo,
-            criado_em: new Date().toISOString(),
-            tentativas: 0,
-        };
-
-        if (!job.numero_prontuario || !job.conteudo?.trim()) {
-            console.error(`Prontuário inválido, pulando: ${JSON.stringify(job.numero_prontuario)}`);
-            continue;
-        }
-
-        await redis.lPush(QUEUE_KEY, JSON.stringify(job));
-        publicados++;
-    }
-
-    return publicados;
+function normalizeRecordNumber(numero) {
+  return numero.replace(/\./g, "").trim();
 }
 
-const loteId = randomUUID();
-const total = await publicarLote(
-    [
-        { numero: "12345", conteudo: "texto do prontuário 1 com dados clínicos..." },
-        { numero: "12346", conteudo: "texto do prontuário 2 com dados clínicos..." },
-        { numero: "12347", conteudo: "texto do prontuário 3 com dados clínicos..." },
-    ],
-    loteId
-);
+function parsePayload(rawText) {
+  const text = rawText.trim();
+  const validJson = `[${text}]`;
 
-console.log(`Lote ${loteId} publicado com ${total} prontuário(s).`);
-await redis.quit();
+  try {
+    return JSON.parse(validJson);
+  } catch (err) {
+    throw new Error(`Invalid payload, could not parse: ${err.message}`);
+  }
+}
+
+function groupByRecordNumber(records) {
+  const groups = new Map();
+
+  for (const record of records) {
+    const originalNumber = record["Prontuário"];
+    if (!originalNumber) {
+      console.error("Record missing patient record number, skipping:", record["Tipo do registro"]);
+      continue;
+    }
+
+    const number = normalizeRecordNumber(originalNumber);
+
+    if (!groups.has(number)) {
+      groups.set(number, {
+        number,
+        displayNumber: originalNumber,
+        encounter: record["Atendimento"],
+        records: [],
+      });
+    }
+
+    groups.get(number).records.push(record);
+  }
+
+  return Array.from(groups.values());
+}
+
+async function publishBatch(rawText) {
+  const batchId = randomUUID();
+  const rawRecords = parsePayload(rawText);
+  const patientRecords = groupByRecordNumber(rawRecords);
+
+  const publishedNumbers = [];
+
+  for (const p of patientRecords) {
+    const job = {
+      job_id: randomUUID(),
+      batch_id: batchId,
+      record_number: p.number,
+      record_number_display: p.displayNumber,
+      encounter: p.encounter,
+      total_entries: p.records.length,
+      records: p.records,
+      created_at: new Date().toISOString(),
+      attempts: 0,
+    };
+
+    await redis.lPush(QUEUE_KEY, JSON.stringify(job));
+    publishedNumbers.push(p.number);
+  }
+
+  return { batchId, publishedNumbers };
+}
+
+async function getResult(recordNumber) {
+  const key = `${RESULT_KEY_PREFIX}${recordNumber}`;
+  const value = await redis.get(key);
+  return value ? JSON.parse(value) : null;
+}
+
+export { publishBatch, getResult, redis };

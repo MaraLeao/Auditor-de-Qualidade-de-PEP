@@ -3,17 +3,25 @@ services:
     image: redis:7-alpine
     ports:
       - "6379:6379"
-    volumes:
-      - redis_data:/data
     command: redis-server --save 60 1
 
   worker:
-    build: ./worker
+    build:
+      context: .
+      dockerfile: worker/Dockerfile
     depends_on:
       - redis
     environment:
       - REDIS_HOST=redis
+      - PYTHONUNBUFFERED=1
     restart: unless-stopped
 
-volumes:
-  redis_data:
+  producer-api:
+    build: ./producer
+    ports:
+      - "3001:3001"
+    depends_on:
+      - redis
+    environment:
+      - REDIS_URL=redis://redis:6379
+    restart: unless-stopped

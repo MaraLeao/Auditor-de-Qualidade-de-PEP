@@ -1,5 +1,6 @@
 import json
 import os
+import subprocess
 import time
 import redis
 
@@ -12,34 +13,57 @@ r = redis.Redis(
 QUEUE_KEY = "fila:prontuarios"
 DLQ_KEY = "fila:prontuarios:falhas"
 RESULT_KEY_PREFIX = "resultado:"
-MAX_TENTATIVAS = 3
+MAX_ATTEMPTS = 3
+
+def process_patient_record(job: dict) -> dict:
+    """
+    Calls data_extract/main.py as a subprocess, passing the raw records
+    via stdin (JSON array) and reading the audited result from stdout.
+    """
+    records = job["records"]
+
+    proc = subprocess.run(
+    ["python", "-m", "data_extract.main"],
+    input=json.dumps(records),
+    capture_output=True,
+    text=True,
+    timeout=60,
+    cwd=os.path.dirname(__file__),  # garante que roda com /app como raiz
+)
+
+    if proc.returncode != 0:
+        raise RuntimeError(f"data_extract failed (code {proc.returncode}): {proc.stderr.strip()}")
+
+    try:
+        output = json.loads(proc.stdout)
+    except json.JSONDecodeError as e:
+        raise RuntimeError(f"data_extract returned invalid JSON: {e}\nstdout: {proc.stdout[:500]}")
+
+    if not output:
+        raise RuntimeError("data_extract returned an empty result")
+
+    # o contrato retorna uma lista; como mandamos os registros de 1 prontuário só,
+    # pegamos o primeiro (e único) item
+    return output[0]
 
 
-def processar_prontuario(job: dict) -> dict:
-    numero = job["numero_prontuario"]
-    conteudo = job["conteudo"]
-
-    if len(conteudo) < 5:
-        raise ValueError("conteúdo insuficiente para extração")
-
-    resultado = {
-        "numero_prontuario": numero,
-        "status": "ok",
-        "campos_extraidos": {},
-        "erros_validacao": [],
-    }
-    return resultado
-
-
-def salvar_resultado(job: dict, resultado: dict):
-    key = f"{RESULT_KEY_PREFIX}{job['numero_prontuario']}"
-    r.set(key, json.dumps(resultado))
+def save_result(job: dict, result: dict):
+    key = f"{RESULT_KEY_PREFIX}{job['record_number']}"
+    r.set(key, json.dumps(result))
 
 
 def main():
-    print("Worker iniciado, aguardando jobs...")
+    print("Worker started, waiting for jobs...")
     while True:
-        item = r.brpop(QUEUE_KEY, timeout=5)
+        try:
+            item = r.brpop(QUEUE_KEY, timeout=5)
+        except redis.exceptions.TimeoutError:
+            continue
+        except redis.exceptions.ConnectionError as e:
+            print(f"[REDIS CONNECTION ERROR] {e} — retrying in 2s")
+            time.sleep(2)
+            continue
+
         if item is None:
             continue
 
@@ -47,19 +71,19 @@ def main():
         job = json.loads(raw)
 
         try:
-            resultado = processar_prontuario(job)
-            salvar_resultado(job, resultado)
-            print(f"[OK] prontuário {job['numero_prontuario']}")
+            result = process_patient_record(job)
+            save_result(job, result)
+            print(f"[OK] patient record {job['record_number']}")
 
         except Exception as e:
-            job["tentativas"] += 1
-            print(f"[ERRO] prontuário {job['numero_prontuario']}: {e} (tentativa {job['tentativas']})")
+            job["attempts"] = job.get("attempts", 0) + 1
+            print(f"[ERROR] patient record {job.get('record_number')}: {e} (attempt {job['attempts']})")
 
-            if job["tentativas"] < MAX_TENTATIVAS:
+            if job["attempts"] < MAX_ATTEMPTS:
                 time.sleep(1)
                 r.lpush(QUEUE_KEY, json.dumps(job))
             else:
-                job["erro_final"] = str(e)
+                job["final_error"] = str(e)
                 r.lpush(DLQ_KEY, json.dumps(job))
 
 
