@@ -17,6 +17,8 @@ services:
       - LMSTUDIO_URL=http://192.168.0.18:1234/api/v1/chat
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    volumes:
+      - ./data_extract:/app/data_extract
     restart: unless-stopped
 
   producer-api:

@@ -16,7 +16,7 @@ REGRAS_CAMPOS = {
     "descricao_procedimento": "Descrição do procedimento realizado ou intervenção cirúrgica.",
     "descricao_tecnica": "Descrição da técnica cirúrgica, achados ou passo a passo da cirurgia.",
     "uso_opme": "Uso de Órteses, Próteses ou Materiais Especiais (ex: tela, placa, parafuso, cateter, malha, etc).",
-    "ap_app": "Antecedentes Pessoais (Patológicos). Procure por doenças pré-existentes, cirurgias anteriores ou histórico médico do paciente.",
+    "ap_app": "Antecedentes Pessoais (Patológicos). Procure por doenças pré-existentes, cirurgias anteriores, histórico médico, comorbidades (ex: HAS, DM, DLP), ou alergias do paciente. Termos comuns: COMORBIDADES, ALERGIAS, APP, Antecedentes Pessoais.",
     "af": "Antecedentes Familiares. Procure por histórico de doenças na família.",
     "exame_fisico": "Exame Físico. Procure por avaliações clínicas corporais (ausculta, palpação, inspeção, sinais vitais, estado geral).",
     "cd": "Conduta ou Terapêutica. Procure pelas ações tomadas (prescrição, exames solicitados, plano terapêutico).",

@@ -1,4 +1,6 @@
 import sys
+import time
+from datetime import datetime
 from data_extract.keywords.exame_fisico import TERMOS_EXAME_FISICO
 from data_extract.keywords.opme import TERMOS_OPME
 from data_extract.utils.helpers import (
@@ -9,7 +11,7 @@ from data_extract.utils.helpers import (
     is_valid,
     is_na
 )
-from data_extract.core.llm_client import validate_missing_fields_with_ai
+from data_extract.core.llm_client import validate_missing_fields_with_ai, MODEL_NAME
 from data_extract.core.parser import extract_record_info
 
 def merge_section(current, new_data):
@@ -97,23 +99,25 @@ def audit_medical_records(records):
         }
         
         # Consolida de acordo com o tipo de registro e categoria
-        # Pega a descricao cirurgica uma unica vez (ela se repete em todos os registros)
         descricao_cirurgica_unica = next(
             (r["descricao_cirurgica"] for r in patient_records if r.get("descricao_cirurgica")),
             None
         )
-        # Texto combinado para seção C: cirurgia + todos os registros clínicos
-        # Assim a IA pode encontrar tanto achados cirúrgicos quanto o diagnóstico clínico
-        textos_clinicos_secao_c = "\n---\n".join([
-            r["descricao"] for r in patient_records if r.get("descricao")
-        ])
-        texto_secao_c = "\n".join(filter(None, [descricao_cirurgica_unica, textos_clinicos_secao_c]))
+
+        prontuario_inicio = time.time()
+        meta_lines = []
+        tempo_ia_total = 0.0
+        meta_lines.append(f"\nProntuario {prontuario}")
+        meta_lines.append(f"Modelo IA: {MODEL_NAME}")
 
         for info in patient_records:
             cat = info["categoria_profissional"].upper() if info["categoria_profissional"] else ""
             tipo = info["tipo_registro"].lower() if info["tipo_registro"] else ""
             
             if descricao_cirurgica_unica and audit_data["secao_c"].get("tem_cirurgia"):
+                secao_c_inicio = time.time()
+                meta_lines.append(f"Seção C - inicio {datetime.now().strftime('%d/%m/%y, %H:%M:%S')}")
+
                 if len(descricao_cirurgica_unica) > 50:
                     audit_data["secao_c"]["descricao_tecnica"] = "conforme"
                 termos_encontrados = [termo for termo in TERMOS_OPME if termo in descricao_cirurgica_unica.lower()]
@@ -122,15 +126,22 @@ def audit_medical_records(records):
 
                 faltantes_cirurgia = [k for k, v in audit_data["secao_c"].items() if v == "Não registrado"]
                 if faltantes_cirurgia:
+                    meta_lines.append(f"Seção C - IA ({', '.join(faltantes_cirurgia)}) inicio {datetime.now().strftime('%H:%M:%S')}")
+                    ia_inicio = time.time()
                     ai_result_cirurgia = validate_missing_fields_with_ai(
-                        texto_secao_c, faltantes_cirurgia, "Cirurgia / Descrição Cirúrgica"
+                        descricao_cirurgica_unica, faltantes_cirurgia, "Cirurgia / Descrição Cirúrgica"
                     )
+                    ia_duracao = time.time() - ia_inicio
+                    tempo_ia_total += ia_duracao
+                    meta_lines.append(f"Seção C - IA ({', '.join(faltantes_cirurgia)}) fim {datetime.now().strftime('%H:%M:%S')} ({ia_duracao:.1f}s)")
                     for campo in faltantes_cirurgia:
                         valor_ia = ai_result_cirurgia.get(campo)
                         if valor_ia and isinstance(valor_ia, str):
                             audit_data["secao_c"][campo] = f"conforme (IA: {valor_ia})"
                         elif valor_ia:
                             audit_data["secao_c"][campo] = "conforme (validado por IA)"
+
+                meta_lines.append(f"Seção C - fim {datetime.now().strftime('%d/%m/%y, %H:%M:%S')} ({time.time() - secao_c_inicio:.1f}s)")
                 sys.stderr.write(f"  [Auditor] Seção Cirurgia finalizada para o prontuário {prontuario}.\n")
                 # Marca como None para nao repetir nos outros registros
                 descricao_cirurgica_unica = None
@@ -191,10 +202,19 @@ def audit_medical_records(records):
             
             # Apply AI fallback if applicable
             if local_val and target_section is not None:
+                secao_label = f"{cat} - {tipo}"
+                secao_inicio = time.time()
+                meta_lines.append(f"Seção {secao_label} - inicio {datetime.now().strftime('%d/%m/%y, %H:%M:%S')}")
+
                 faltantes = [k for k, v in local_val.items() if v == "Não registrado" or (isinstance(v, str) and v.startswith("Não registrado"))]
                 if faltantes:
                     texto_base = info["descricao"]
+                    meta_lines.append(f"Seção {secao_label} - IA ({', '.join(faltantes)}) inicio {datetime.now().strftime('%H:%M:%S')}")
+                    ia_inicio = time.time()
                     ai_result = validate_missing_fields_with_ai(texto_base, faltantes, f"{cat} - {tipo}")
+                    ia_duracao = time.time() - ia_inicio
+                    tempo_ia_total += ia_duracao
+                    meta_lines.append(f"Seção {secao_label} - IA ({', '.join(faltantes)}) fim {datetime.now().strftime('%H:%M:%S')} ({ia_duracao:.1f}s)")
                     for campo in faltantes:
                         valor_ia = ai_result.get(campo)
                         if valor_ia and isinstance(valor_ia, str):
@@ -203,19 +223,38 @@ def audit_medical_records(records):
                             local_val[campo] = "conforme (validado por IA)"
                 
                 merge_section(target_section, local_val)
+                meta_lines.append(f"Seção {secao_label} - fim {datetime.now().strftime('%d/%m/%y, %H:%M:%S')} ({time.time() - secao_inicio:.1f}s)")
                 sys.stderr.write(f"  [Auditor] Seção {cat} - {tipo} finalizada para o prontuário {prontuario}.\n")
         
         # Fallback de IA para a seção A: diagnostico_internacao
         if audit_data["secao_a"].get("diagnostico_internacao") == "Não registrado":
             todos_textos = "\n---\n".join([r["descricao"] for r in patient_records if r.get("descricao")])
             if todos_textos:
+                meta_lines.append(f"Seção A - IA (diagnostico_internacao) inicio {datetime.now().strftime('%H:%M:%S')}")
+                ia_inicio = time.time()
                 ai_result_a = validate_missing_fields_with_ai(todos_textos, ["diagnostico_internacao"], "Identificação do Paciente")
+                ia_duracao = time.time() - ia_inicio
+                tempo_ia_total += ia_duracao
+                meta_lines.append(f"Seção A - IA (diagnostico_internacao) fim {datetime.now().strftime('%H:%M:%S')} ({ia_duracao:.1f}s)")
                 valor_ia = ai_result_a.get("diagnostico_internacao")
                 if valor_ia and isinstance(valor_ia, str):
                     audit_data["secao_a"]["diagnostico_internacao"] = f"conforme (IA: {valor_ia})"
                 elif valor_ia:
                     audit_data["secao_a"]["diagnostico_internacao"] = "conforme (validado por IA)"
                 sys.stderr.write(f"  [Auditor] Seção A - diagnóstico_internacao finalizado para o prontuário {prontuario}.\n")
+
+        tempo_total = time.time() - prontuario_inicio
+        meta_lines.append(f"Tempo total prontuario {prontuario} = {tempo_total:.1f}s")
+        meta_lines.append(f"Tempo total IA = {tempo_ia_total:.1f}s")
+
+        # Grava metadata no arquivo
+        try:
+            import os
+            meta_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "metadataProntuarios.txt")
+            with open(meta_path, "a", encoding="utf-8") as meta_file:
+                meta_file.write("\n".join(meta_lines) + "\n")
+        except Exception:
+            pass
 
         # Calculate conformities
         audit_data = calculate_conformity(audit_data)
