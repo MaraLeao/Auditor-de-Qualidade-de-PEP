@@ -9,6 +9,7 @@ from data_extract.utils.helpers import (
     is_valid,
     is_na
 )
+from data_extract.core.llm_client import validate_missing_fields_with_ai
 from data_extract.core.parser import extract_record_info
 
 def merge_section(current, new_data):
@@ -96,20 +97,51 @@ def audit_medical_records(records):
         }
         
         # Consolida de acordo com o tipo de registro e categoria
+        # Pega a descricao cirurgica uma unica vez (ela se repete em todos os registros)
+        descricao_cirurgica_unica = next(
+            (r["descricao_cirurgica"] for r in patient_records if r.get("descricao_cirurgica")),
+            None
+        )
+        # Texto combinado para seção C: cirurgia + todos os registros clínicos
+        # Assim a IA pode encontrar tanto achados cirúrgicos quanto o diagnóstico clínico
+        textos_clinicos_secao_c = "\n---\n".join([
+            r["descricao"] for r in patient_records if r.get("descricao")
+        ])
+        texto_secao_c = "\n".join(filter(None, [descricao_cirurgica_unica, textos_clinicos_secao_c]))
+
         for info in patient_records:
             cat = info["categoria_profissional"].upper() if info["categoria_profissional"] else ""
             tipo = info["tipo_registro"].lower() if info["tipo_registro"] else ""
             
-            if info["descricao_cirurgica"]:
-                if len(info["descricao_cirurgica"]) > 50:
+            if descricao_cirurgica_unica and audit_data["secao_c"].get("tem_cirurgia"):
+                if len(descricao_cirurgica_unica) > 50:
                     audit_data["secao_c"]["descricao_tecnica"] = "conforme"
-                termos_encontrados = [termo for termo in TERMOS_OPME if termo in info["descricao_cirurgica"].lower()]
+                termos_encontrados = [termo for termo in TERMOS_OPME if termo in descricao_cirurgica_unica.lower()]
                 if termos_encontrados:
                     audit_data["secao_c"]["uso_opme"] = f"conforme ({', '.join(termos_encontrados)})"
+
+                faltantes_cirurgia = [k for k, v in audit_data["secao_c"].items() if v == "Não registrado"]
+                if faltantes_cirurgia:
+                    ai_result_cirurgia = validate_missing_fields_with_ai(
+                        texto_secao_c, faltantes_cirurgia, "Cirurgia / Descrição Cirúrgica"
+                    )
+                    for campo in faltantes_cirurgia:
+                        valor_ia = ai_result_cirurgia.get(campo)
+                        if valor_ia and isinstance(valor_ia, str):
+                            audit_data["secao_c"][campo] = f"conforme (IA: {valor_ia})"
+                        elif valor_ia:
+                            audit_data["secao_c"][campo] = "conforme (validado por IA)"
+                sys.stderr.write(f"  [Auditor] Seção Cirurgia finalizada para o prontuário {prontuario}.\n")
+                # Marca como None para nao repetir nos outros registros
+                descricao_cirurgica_unica = None
                 
+            local_val = {}
+            target_section = None
+            
             if cat == "MEDICINA":
                 if "anamnese" in tipo:
-                    merge_section(audit_data["secao_b_anamnese"], {
+                    target_section = audit_data["secao_b_anamnese"]
+                    local_val = {
                         "hda": "conforme" if "hda" in info["descricao"].lower() or "história da doença" in info["descricao"].lower() else "Não registrado",
                         "hd_cid": "conforme" if "hipótese" in info["descricao"].lower() or "cid" in info["descricao"].lower() or "#hd" in info["descricao"].lower() or "hd:" in info["descricao"].lower() else "Não registrado",
                         "ap_app": "conforme" if "antecedentes pessoais" in info["descricao"].lower() or "app" in info["descricao"].lower() or "#ap" in info["descricao"].lower() or "ap:" in info["descricao"].lower() else "Não registrado",
@@ -117,17 +149,19 @@ def audit_medical_records(records):
                         "exame_fisico": check_keywords(info["descricao"], TERMOS_EXAME_FISICO),
                         "cd": "conforme" if "conduta" in info["descricao"].lower() or "terapêutica" in info["descricao"].lower() or "#cd" in info["descricao"].lower() or "cd:" in info["descricao"].lower() else "Não registrado",
                         "criacao_anamnese": "conforme"
-                    })
+                    }
                 elif "evolução" in tipo:
-                    merge_section(audit_data["secao_b_evolucao"], {
+                    target_section = audit_data["secao_b_evolucao"]
+                    local_val = {
                         "hd_cid": "conforme" if "hipótese" in info["descricao"].lower() or "cid" in info["descricao"].lower() or "#hd" in info["descricao"].lower() or "hd:" in info["descricao"].lower() else "Não registrado",
                         "exame_fisico": check_keywords(info["descricao"], TERMOS_EXAME_FISICO),
                         "procedimentos_condutas_queixas": "conforme" if "procedimento" in info["descricao"].lower() or "conduta" in info["descricao"].lower() or "queixa" in info["descricao"].lower() or "intercorrência" in info["descricao"].lower() or "#cd" in info["descricao"].lower() or "cd:" in info["descricao"].lower() else "Não registrado",
                         "frequencia_diaria": "conforme"
-                    })
+                    }
             elif cat == "ENFERMAGEM":
                 if "anamnese" in tipo:
-                    merge_section(audit_data["secao_d_anamnese"], {
+                    target_section = audit_data["secao_d_anamnese"]
+                    local_val = {
                         "motivo_internacao": "conforme" if "motivo" in info["descricao"].lower() or "internação" in info["descricao"].lower() else "Não registrado",
                         "ap_app": "conforme" if "antecedentes" in info["descricao"].lower() or "comorbidade" in info["descricao"].lower() else "Não registrado",
                         "af": "conforme" if "antecedentes familiares" in info["descricao"].lower() else "Não registrado",
@@ -137,9 +171,10 @@ def audit_medical_records(records):
                         "cd": "conforme" if "conduta" in info["descricao"].lower() or "#cd" in info["descricao"].lower() or "cd:" in info["descricao"].lower() else "Não registrado",
                         "criacao_anamnese": "conforme",
                         "curativo": check_curativo(info["descricao"])
-                    })
+                    }
                 elif "evolução" in tipo:
-                    merge_section(audit_data["secao_d_evolucao"], {
+                    target_section = audit_data["secao_d_evolucao"]
+                    local_val = {
                         "motivo_internacao": "conforme" if "motivo" in info["descricao"].lower() else "Não registrado",
                         "exame_fisico": check_keywords(info["descricao"], TERMOS_EXAME_FISICO),
                         "condutas": "conforme" if "conduta" in info["descricao"].lower() or "#cd" in info["descricao"].lower() or "cd:" in info["descricao"].lower() else "Não registrado",
@@ -147,13 +182,41 @@ def audit_medical_records(records):
                         "escala_morse": "conforme" if "morse" in info["descricao"].lower() else "Não registrado",
                         "criacao_evolucao": "conforme",
                         "curativo": check_curativo(info["descricao"])
-                    })
+                    }
             elif cat and cat not in ["MEDICINA", "ENFERMAGEM"]:
                 audit_data["secao_e"]["tem_outras_categorias"] = True
                 audit_data["secao_e"]["categoria"] = cat
                 if info["descricao"]:
                     audit_data["secao_e"]["descricao"] = "conforme"
+            
+            # Apply AI fallback if applicable
+            if local_val and target_section is not None:
+                faltantes = [k for k, v in local_val.items() if v == "Não registrado" or (isinstance(v, str) and v.startswith("Não registrado"))]
+                if faltantes:
+                    texto_base = info["descricao"]
+                    ai_result = validate_missing_fields_with_ai(texto_base, faltantes, f"{cat} - {tipo}")
+                    for campo in faltantes:
+                        valor_ia = ai_result.get(campo)
+                        if valor_ia and isinstance(valor_ia, str):
+                            local_val[campo] = f"conforme (IA: {valor_ia})"
+                        elif valor_ia:
+                            local_val[campo] = "conforme (validado por IA)"
+                
+                merge_section(target_section, local_val)
+                sys.stderr.write(f"  [Auditor] Seção {cat} - {tipo} finalizada para o prontuário {prontuario}.\n")
         
+        # Fallback de IA para a seção A: diagnostico_internacao
+        if audit_data["secao_a"].get("diagnostico_internacao") == "Não registrado":
+            todos_textos = "\n---\n".join([r["descricao"] for r in patient_records if r.get("descricao")])
+            if todos_textos:
+                ai_result_a = validate_missing_fields_with_ai(todos_textos, ["diagnostico_internacao"], "Identificação do Paciente")
+                valor_ia = ai_result_a.get("diagnostico_internacao")
+                if valor_ia and isinstance(valor_ia, str):
+                    audit_data["secao_a"]["diagnostico_internacao"] = f"conforme (IA: {valor_ia})"
+                elif valor_ia:
+                    audit_data["secao_a"]["diagnostico_internacao"] = "conforme (validado por IA)"
+                sys.stderr.write(f"  [Auditor] Seção A - diagnóstico_internacao finalizado para o prontuário {prontuario}.\n")
+
         # Calculate conformities
         audit_data = calculate_conformity(audit_data)
         

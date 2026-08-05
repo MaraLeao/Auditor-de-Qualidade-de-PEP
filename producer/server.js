@@ -1,5 +1,5 @@
 import express from "express";
-import { publishBatch, getResult } from "./producer.js";
+import { publishBatch, getResult, getJobResult } from "./producer.js";
 
 const app = express();
 
@@ -22,8 +22,8 @@ app.post("/batches", async (req, res) => {
     res.status(202).json({
       message: "Batch received and queued",
       batch_id: result.batchId,
-      total_records: result.publishedNumbers.length,
-      record_numbers: result.publishedNumbers,
+      total_records: result.publishedJobs.length,
+      jobs: result.publishedJobs,
     });
   } catch (err) {
     console.error("Error publishing batch:", err);
@@ -44,6 +44,23 @@ app.get("/records/:number/status", async (req, res) => {
     res.json({ status: "done", result });
   } catch (err) {
     console.error("Error fetching result:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// GET /jobs/:id/status — consulta status/resultado de um job específico
+app.get("/jobs/:id/status", async (req, res) => {
+  try {
+    const jobId = req.params.id.trim();
+    const result = await getJobResult(jobId);
+
+    if (!result) {
+      return res.status(202).json({ status: "processing", job_id: jobId });
+    }
+
+    res.json({ status: "done", result });
+  } catch (err) {
+    console.error("Error fetching job result:", err);
     res.status(500).json({ error: err.message });
   }
 });

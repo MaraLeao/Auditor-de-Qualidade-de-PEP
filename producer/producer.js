@@ -55,11 +55,12 @@ async function publishBatch(rawText) {
   const rawRecords = parsePayload(rawText);
   const patientRecords = groupByRecordNumber(rawRecords);
 
-  const publishedNumbers = [];
+  const publishedJobs = [];
 
   for (const p of patientRecords) {
+    const jobId = randomUUID();
     const job = {
-      job_id: randomUUID(),
+      job_id: jobId,
       batch_id: batchId,
       record_number: p.number,
       record_number_display: p.displayNumber,
@@ -71,10 +72,13 @@ async function publishBatch(rawText) {
     };
 
     await redis.lPush(QUEUE_KEY, JSON.stringify(job));
-    publishedNumbers.push(p.number);
+    publishedJobs.push({
+      record_number: p.number,
+      job_id: jobId
+    });
   }
 
-  return { batchId, publishedNumbers };
+  return { batchId, publishedJobs };
 }
 
 async function getResult(recordNumber) {
@@ -83,4 +87,10 @@ async function getResult(recordNumber) {
   return value ? JSON.parse(value) : null;
 }
 
-export { publishBatch, getResult, redis };
+async function getJobResult(jobId) {
+  const key = `${RESULT_KEY_PREFIX}${jobId}`;
+  const value = await redis.get(key);
+  return value ? JSON.parse(value) : null;
+}
+
+export { publishBatch, getResult, getJobResult, redis };

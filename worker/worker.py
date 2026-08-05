@@ -27,12 +27,15 @@ def process_patient_record(job: dict) -> dict:
     input=json.dumps(records),
     capture_output=True,
     text=True,
-    timeout=60,
     cwd=os.path.dirname(__file__),  # garante que roda com /app como raiz
 )
 
     if proc.returncode != 0:
         raise RuntimeError(f"data_extract failed (code {proc.returncode}): {proc.stderr.strip()}")
+        
+    if proc.stderr:
+        import sys
+        sys.stderr.write(proc.stderr)
 
     try:
         output = json.loads(proc.stdout)
@@ -48,8 +51,12 @@ def process_patient_record(job: dict) -> dict:
 
 
 def save_result(job: dict, result: dict):
-    key = f"{RESULT_KEY_PREFIX}{job['record_number']}"
-    r.set(key, json.dumps(result))
+    prontuario_key = f"{RESULT_KEY_PREFIX}{job['record_number']}"
+    job_key = f"{RESULT_KEY_PREFIX}{job['job_id']}"
+    
+    data = json.dumps(result)
+    r.set(prontuario_key, data)
+    r.set(job_key, data)
 
 
 def main():
@@ -77,7 +84,12 @@ def main():
 
         except Exception as e:
             job["attempts"] = job.get("attempts", 0) + 1
-            print(f"[ERROR] patient record {job.get('record_number')}: {e} (attempt {job['attempts']})")
+            error_msg = str(e)
+            if isinstance(e, subprocess.TimeoutExpired) or isinstance(e, subprocess.CalledProcessError):
+                if e.stderr:
+                    error_msg += f"\nStderr: {e.stderr}"
+                    
+            print(f"[ERROR] patient record {job.get('record_number')}: {error_msg} (attempt {job['attempts']})")
 
             if job["attempts"] < MAX_ATTEMPTS:
                 time.sleep(1)

@@ -23,7 +23,7 @@ sudo docker compose up -d --build
 ```
 
 A API estará rodando em:
-- **Producer API:** `http://localhost:3001` (POST `/batches` e GET `/records/:number/status`)
+- **Producer API:** `http://localhost:3001` (POST `/batches`, GET `/jobs/:id/status` e GET `/records/:number/status`)
 
 Para acompanhar os logs do processamento em tempo real:
 ```bash
