@@ -4,11 +4,16 @@ import subprocess
 import time
 import redis
 
+from database import AuditDatabase
+
 r = redis.Redis(
     host=os.getenv("REDIS_HOST", "localhost"),
     port=6379,
     decode_responses=True,
 )
+
+# Initialize SQLite database
+db = AuditDatabase()
 
 QUEUE_KEY = "fila:prontuarios"
 DLQ_KEY = "fila:prontuarios:falhas"
@@ -23,12 +28,12 @@ def process_patient_record(job: dict) -> dict:
     records = job["records"]
 
     proc = subprocess.run(
-    ["python", "-m", "data_extract.main"],
-    input=json.dumps(records),
-    capture_output=True,
-    text=True,
-    cwd=os.path.dirname(__file__),  # garante que roda com /app como raiz
-)
+        ["python", "-m", "data_extract.main"],
+        input=json.dumps(records),
+        capture_output=True,
+        text=True,
+        cwd=os.path.dirname(__file__),  # garante que roda com /app como raiz
+    )
 
     if proc.returncode != 0:
         raise RuntimeError(f"data_extract failed (code {proc.returncode}): {proc.stderr.strip()}")
@@ -51,12 +56,31 @@ def process_patient_record(job: dict) -> dict:
 
 
 def save_result(job: dict, result: dict):
+    """Save result to both Redis (for fast polling) and SQLite (for persistence)."""
+    # Redis: fast access for polling
     prontuario_key = f"{RESULT_KEY_PREFIX}{job['record_number']}"
     job_key = f"{RESULT_KEY_PREFIX}{job['job_id']}"
     
     data = json.dumps(result)
     r.set(prontuario_key, data)
     r.set(job_key, data)
+
+    # SQLite: durable persistence for dashboard and history
+    try:
+        db.ensure_batch(
+            batch_id=job.get("batch_id", "unknown"),
+            total_records=job.get("total_in_batch", 1)
+        )
+        db.save_result({
+            "batch_id": job.get("batch_id", "unknown"),
+            "job_id": job.get("job_id", "unknown"),
+            "record_number": job.get("record_number", "unknown"),
+            "record_number_display": job.get("record_number_display", job.get("record_number", "")),
+            "encounter": job.get("encounter", ""),
+            "result": result
+        })
+    except Exception as e:
+        print(f"[DB WARNING] Failed to save to SQLite (Redis saved OK): {e}")
 
 
 def main():

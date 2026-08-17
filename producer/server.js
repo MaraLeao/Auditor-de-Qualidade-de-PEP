@@ -1,19 +1,34 @@
 import express from "express";
+import cors from "cors";
 import { publishBatch, getResult, getJobResult } from "./producer.js";
+import { getAllAudits, getAuditById, getDashboardStats } from "./db.js";
+import { transformAuditResult } from "./transformer.js";
 
 const app = express();
 
+// CORS: allow frontend dev server
+app.use(cors({
+  origin: ["http://localhost:5173", "http://localhost:5174", "http://localhost:3000"],
+  methods: ["GET", "POST", "OPTIONS"],
+  allowedHeaders: ["Content-Type"],
+}));
+
 // aceita corpo como texto puro (é o formato esperado: {...},{...},{...})
-app.use(express.text({ limit: "20mb", type: "*/*" }));
+app.use(express.text({ limit: "20mb", type: "text/*" }));
+app.use(express.json({ limit: "20mb" }));
 
 const PORT = process.env.PORT || 3001;
+
+// ============================================================
+// EXISTING ENDPOINTS (Queue / Redis)
+// ============================================================
 
 // POST /batches — recebe o lote bruto e publica na fila
 app.post("/batches", async (req, res) => {
   try {
-    const rawText = req.body;
+    const rawText = typeof req.body === "string" ? req.body : JSON.stringify(req.body);
 
-    if (!rawText || typeof rawText !== "string" || !rawText.trim()) {
+    if (!rawText || !rawText.trim()) {
       return res.status(400).json({ error: "Empty or invalid request body" });
     }
 
@@ -41,7 +56,9 @@ app.get("/records/:number/status", async (req, res) => {
       return res.status(202).json({ status: "processing", record_number: recordNumber });
     }
 
-    res.json({ status: "done", result });
+    // Transform to frontend format
+    const transformed = transformAuditResult(result);
+    res.json({ status: "done", result: transformed, raw: result });
   } catch (err) {
     console.error("Error fetching result:", err);
     res.status(500).json({ error: err.message });
@@ -58,9 +75,94 @@ app.get("/jobs/:id/status", async (req, res) => {
       return res.status(202).json({ status: "processing", job_id: jobId });
     }
 
-    res.json({ status: "done", result });
+    // Transform to frontend format
+    const transformed = transformAuditResult(result);
+    res.json({ status: "done", result: transformed, raw: result });
   } catch (err) {
     console.error("Error fetching job result:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ============================================================
+// NEW ENDPOINTS (SQLite / Dashboard)
+// ============================================================
+
+// GET /api/audits — lista todas as auditorias do banco
+app.get("/api/audits", (_req, res) => {
+  try {
+    const audits = getAllAudits();
+    const transformed = audits.map((audit) => {
+      try {
+        const t = transformAuditResult(audit.audit_data);
+        return {
+          id: audit.id,
+          batch_id: audit.batch_id,
+          job_id: audit.job_id,
+          record_number: audit.record_number,
+          record_number_display: audit.record_number_display,
+          encounter: audit.encounter,
+          conformity_percent: audit.conformity_percent,
+          created_at: audit.created_at,
+          status: audit.status,
+          audit: t,
+        };
+      } catch (err) {
+        console.error(`Error transforming audit ${audit.id}:`, err.message);
+        return {
+          id: audit.id,
+          record_number: audit.record_number,
+          record_number_display: audit.record_number_display,
+          conformity_percent: audit.conformity_percent,
+          created_at: audit.created_at,
+          status: audit.status,
+          audit: null,
+          error: "Transform failed",
+        };
+      }
+    });
+
+    res.json({ audits: transformed, total: transformed.length });
+  } catch (err) {
+    console.error("Error fetching audits:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// GET /api/audits/:id — detalhes de uma auditoria específica
+app.get("/api/audits/:id", (req, res) => {
+  try {
+    const id = parseInt(req.params.id, 10);
+    const audit = getAuditById(id);
+
+    if (!audit) {
+      return res.status(404).json({ error: "Audit not found" });
+    }
+
+    const transformed = transformAuditResult(audit.audit_data);
+    res.json({
+      id: audit.id,
+      record_number: audit.record_number,
+      record_number_display: audit.record_number_display,
+      encounter: audit.encounter,
+      conformity_percent: audit.conformity_percent,
+      created_at: audit.created_at,
+      audit: transformed,
+      raw: audit.audit_data,
+    });
+  } catch (err) {
+    console.error("Error fetching audit:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// GET /api/dashboard/stats — estatísticas agregadas
+app.get("/api/dashboard/stats", (_req, res) => {
+  try {
+    const stats = getDashboardStats();
+    res.json(stats);
+  } catch (err) {
+    console.error("Error fetching dashboard stats:", err);
     res.status(500).json({ error: err.message });
   }
 });

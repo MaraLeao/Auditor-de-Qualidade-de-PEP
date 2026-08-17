@@ -15,8 +15,11 @@ services:
       - REDIS_HOST=redis
       - PYTHONUNBUFFERED=1
       - LMSTUDIO_URL=http://192.168.0.18:1234/api/v1/chat
+      - SQLITE_DB_PATH=/app/data/auditor.db
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    volumes:
+      - audit-data:/app/data
     restart: unless-stopped
 
   producer-api:
@@ -27,4 +30,10 @@ services:
       - redis
     environment:
       - REDIS_URL=redis://redis:6379
+      - SQLITE_DB_PATH=/app/data/auditor.db
+    volumes:
+      - audit-data:/app/data
     restart: unless-stopped
+
+volumes:
+  audit-data:

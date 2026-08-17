@@ -14,12 +14,18 @@ function normalizeRecordNumber(numero) {
 
 function parsePayload(rawText) {
   const text = rawText.trim();
-  const validJson = `[${text}]`;
-
+  
+  // Try parsing as-is first
   try {
-    return JSON.parse(validJson);
-  } catch (err) {
-    throw new Error(`Invalid payload, could not parse: ${err.message}`);
+    const parsed = JSON.parse(text);
+    return Array.isArray(parsed) ? parsed : [parsed];
+  } catch {
+    // If it fails, try wrapping in array brackets
+    try {
+      return JSON.parse(`[${text}]`);
+    } catch (err) {
+      throw new Error(`Invalid payload, could not parse: ${err.message}`);
+    }
   }
 }
 
@@ -27,11 +33,8 @@ function groupByRecordNumber(records) {
   const groups = new Map();
 
   for (const record of records) {
-    const originalNumber = record["Prontuário"];
-    if (!originalNumber) {
-      console.error("Record missing patient record number, skipping:", record["Tipo do registro"]);
-      continue;
-    }
+    const originalNumber = record["Prontuário"] || "Desconhecido";
+    const encounter = record["Atendimento"] || "Não informado";
 
     const number = normalizeRecordNumber(originalNumber);
 

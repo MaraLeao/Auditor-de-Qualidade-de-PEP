@@ -3,13 +3,10 @@ import Sidebar from './presentation/components/Sidebar.jsx';
 import AuditView from './presentation/views/AuditView.jsx';
 import DashboardView from './presentation/views/DashboardView.jsx';
 import ExplanationView from './presentation/views/ExplanationView.jsx';
-import { EXAMPLES, EXAMPLE_OUTPUT } from './data/examples.js';
 
 export default function App() {
   const [activeView, setActiveView] = useState('audit'); // 'audit', 'dashboard', 'explanation'
-  const [initialExampleIndex, setInitialExampleIndex] = useState(null);
   const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth < 600 : false);
-  const [examples, setExamples] = useState(EXAMPLES);
 
   useEffect(() => {
     setIsMobile(window.innerWidth < 600);
@@ -18,32 +15,8 @@ export default function App() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const handleAddExample = (prontId, procedimento, inputJson) => {
-    // Create a new example structure matching the template
-    const newEx = {
-      id: String(examples.length + 1),
-      name: `Prontuário ${prontId} (${procedimento || 'Sem Procedimento'})`,
-      input: inputJson,
-      output: JSON.parse(JSON.stringify(EXAMPLE_OUTPUT))
-    };
-    newEx.output.prontuario = prontId;
-    newEx.output.secoes.forEach(sec => {
-      if (sec.id === 'A') {
-        sec.itens.forEach(it => {
-          if (it.item === 'Prontuário') {
-            it.valor = prontId;
-          }
-        });
-      }
-    });
-
-    const updated = [...examples, newEx];
-    setExamples(updated);
-    return updated;
-  };
-
-  const handleSelectExampleFromDashboard = (index) => {
-    setInitialExampleIndex(index);
+  const handleSelectAuditFromDashboard = (audit) => {
+    // Navigate to audit view — could be extended to display the specific audit
     setActiveView('audit');
   };
 
@@ -104,18 +77,13 @@ export default function App() {
         <main style={{ flex: 1 }}>
           {activeView === 'audit' && (
             <AuditView
-              initialExampleIndex={initialExampleIndex}
-              clearInitialExample={() => setInitialExampleIndex(null)}
               isMobile={isMobile}
-              examples={examples}
-              onAddExample={handleAddExample}
             />
           )}
           {activeView === 'dashboard' && (
             <DashboardView
-              onSelectExample={handleSelectExampleFromDashboard}
+              onSelectAudit={handleSelectAuditFromDashboard}
               isMobile={isMobile}
-              examples={examples}
             />
           )}
           {activeView === 'explanation' && (

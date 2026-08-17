@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { EXAMPLE_INPUT } from '../../data/examples.js';
-import { simulateAudit } from '../../domain/usecases/SimulateAuditUseCase.js';
+import { submitAndPollBatch } from '../../data/apiClient.js';
 import ScoreRing from '../components/ScoreRing.jsx';
 import Badge, { statusCfg } from '../components/Badge.jsx';
 
@@ -195,7 +194,7 @@ function ResultCard({ r, isMobile }) {
                 </tr>
               </thead>
               <tbody>
-                {r.quantitativo.map((row, i) => {
+                {(r.quantitativo || []).map((row, i) => {
                   const c = row.conformidade >= 90 ? '#00e676' : row.conformidade >= 75 ? '#ffd740' : '#ff5252';
                   return (
                     <tr key={i} style={{ borderBottom: '1px solid var(--border)', background: i % 2 === 0 ? 'var(--bg3)' : 'transparent' }}>
@@ -217,9 +216,9 @@ function ResultCard({ r, isMobile }) {
 
         {tab === 'nao_conformidades' && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-            {r.nao_conformidades.length === 0
+            {(r.nao_conformidades || []).length === 0
               ? <div style={{ color: '#00e676', fontSize: 13, padding: '16px', textAlign: 'center' }}>✓ Nenhuma não conformidade encontrada</div>
-              : r.nao_conformidades.map((nc, i) => (
+              : (r.nao_conformidades || []).map((nc, i) => (
                 <div key={i} style={{ background: '#2b0d0d', border: '1px solid #ff525230', borderLeft: '3px solid #ff5252', borderRadius: 8, padding: '12px 16px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
                     <span style={{ fontFamily: 'var(--mono)', fontSize: 11, background: '#ff525220', color: '#ff5252', padding: '2px 8px', borderRadius: 5 }}>
@@ -299,115 +298,92 @@ function UserMessage({ content, isMobile }) {
 }
 
 // Main View
-export default function AuditView({ initialExampleIndex, clearInitialExample, isMobile, examples, onAddExample }) {
+export default function AuditView({ isMobile }) {
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [progress, setProgress] = useState({ completed: 0, total: 0 });
   const bottomRef = useRef(null);
   const textareaRef = useRef(null);
-
-  const isExample = examples.some(ex => ex.input === input);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, loading]);
 
-  // Handle auto-run on dashboard action
-  useEffect(() => {
-    if (initialExampleIndex !== null && initialExampleIndex !== undefined) {
-      const idx = initialExampleIndex;
-      const exampleInput = examples[idx]?.input || '';
-      setInput(exampleInput);
-      setMessages([]);
-      setLoading(true);
-      
-      const timer = setTimeout(() => {
-        const result = simulateAudit(exampleInput, examples);
-        setMessages([
-          { role: 'user', content: exampleInput },
-          result
-            ? { role: 'assistant', type: 'result', content: result }
-            : { role: 'assistant', type: 'error', content: 'JSON inválido. Verifique a estrutura e tente novamente.' }
-        ]);
-        setLoading(false);
-        clearInitialExample(); // reset so it doesn't run on every mount
-      }, 1200);
-
-      return () => clearTimeout(timer);
-    }
-  }, [initialExampleIndex, clearInitialExample, examples]);
-
-  function loadExample(index = 0) {
-    setInput(examples[index]?.input || EXAMPLE_INPUT);
-    textareaRef.current?.focus();
-  }
-
-  function selectAndRunExample(index) {
-    if (loading) return;
-    const exampleInput = examples[index]?.input || '';
-    setInput(exampleInput);
-    setMessages([]);
-    setLoading(true);
-    
-    const timer = setTimeout(() => {
-      const result = simulateAudit(exampleInput, examples);
-      setMessages([
-        { role: 'user', content: exampleInput },
-        result
-          ? { role: 'assistant', type: 'result', content: result }
-          : { role: 'assistant', type: 'error', content: 'JSON inválido. Verifique a estrutura e tente novamente.' }
-      ]);
-      setLoading(false);
-    }, 1200);
-  }
-
   async function handleSend() {
     const text = input.trim();
     if (!text || loading) return;
-    setMessages(prev => [...prev, { role: 'user', content: text }]);
-    setInput('');
-    setLoading(true);
-    await new Promise(r => setTimeout(r, 2200));
 
-    let parsed = null;
+    // Validate that input is valid JSON
     try {
-      parsed = JSON.parse(text);
-    } catch (e) {}
-
-    let currentExamplesList = examples;
-    if (parsed) {
-      const prontId = Array.isArray(parsed) ? parsed[0]?.["Prontuário"] : parsed?.["Prontuário"];
-      if (prontId) {
-        const exists = examples.some(ex => {
-          try {
-            const exParsed = JSON.parse(ex.input);
-            const exPront = Array.isArray(exParsed) ? exParsed[0]?.["Prontuário"] : exParsed?.["Prontuário"];
-            return exPront === prontId;
-          } catch(e) {
-            return false;
-          }
-        });
-        if (!exists) {
-          const procedimento = Array.isArray(parsed) 
-            ? (parsed[0]?.["Procedimento cirurgico Realizado"] || parsed[0]?.["Procedimento Interno Realizado"])
-            : (parsed?.["Procedimento cirurgico Realizado"] || parsed?.["Procedimento Interno Realizado"]);
-          
-          currentExamplesList = onAddExample(prontId, procedimento, text);
-        }
+      JSON.parse(text);
+    } catch {
+      // Try wrapping in array brackets (format from POST /batches)
+      try {
+        JSON.parse(`[${text}]`);
+      } catch {
+        setMessages(prev => [
+          ...prev,
+          { role: 'user', content: text },
+          { role: 'assistant', type: 'error', content: 'JSON inválido. Verifique a estrutura e tente novamente.' }
+        ]);
+        return;
       }
     }
 
-    const result = simulateAudit(text, currentExamplesList);
-    setMessages(prev => [...prev, result
-      ? { role: 'assistant', type: 'result', content: result }
-      : { role: 'assistant', type: 'error', content: 'JSON inválido. Verifique a estrutura e tente novamente.' }
-    ]);
-    setLoading(false);
+    setMessages(prev => [...prev, { role: 'user', content: text }]);
+    setInput('');
+    setLoading(true);
+    setProgress({ completed: 0, total: 0 });
+
+    try {
+      const results = await submitAndPollBatch(text, {
+        onJobStarted: (batchInfo) => {
+          setProgress({ completed: 0, total: batchInfo.total_records });
+        },
+        onProgress: (completed, total) => {
+          setProgress({ completed, total });
+        },
+      });
+
+      // Render each result individually
+      const resultMessages = [];
+      for (const result of results) {
+        if (result.error) {
+          resultMessages.push({
+            role: 'assistant',
+            type: 'error',
+            content: result.message || 'Erro ao processar prontuário'
+          });
+        } else {
+          resultMessages.push({
+            role: 'assistant',
+            type: 'result',
+            content: result
+          });
+        }
+      }
+
+      setMessages(prev => [...prev, ...resultMessages]);
+    } catch (err) {
+      setMessages(prev => [...prev, {
+        role: 'assistant',
+        type: 'error',
+        content: `Erro na comunicação com o servidor: ${err.message}`
+      }]);
+    } finally {
+      setLoading(false);
+      setProgress({ completed: 0, total: 0 });
+    }
   }
 
   function handleKey(e) {
     if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) handleSend();
   }
+
+  const progressText = progress.total > 0
+    ? `processando prontuário ${progress.completed + 1} de ${progress.total}...`
+    : 'enviando para auditoria...';
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: 'calc(100vh - 60px)', flex: 1, paddingBottom: isMobile ? '80px' : '0' }}>
@@ -421,23 +397,51 @@ export default function AuditView({ initialExampleIndex, clearInitialExample, is
               Auditoria Inteligente de Prontuários
             </h1>
             <p style={{ color: 'var(--text2)', fontSize: isMobile ? 13 : 14, maxWidth: 440, margin: '0 auto 28px', lineHeight: 1.6 }}>
-              Selecione um dos prontuários abaixo para iniciar uma auditoria.
+              Cole o JSON dos registros médicos no campo abaixo para iniciar uma auditoria real.
+              Você pode enviar múltiplos prontuários simultaneamente.
             </p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10, alignItems: 'center', marginTop: 32 }}>
-              <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', justifyContent: 'center' }}>
-                {examples.map((ex, idx) => (
-                  <button key={ex.id} onClick={() => loadExample(idx)} style={{
-                    background: 'var(--bg3)', border: '1px solid var(--border)',
-                    color: 'var(--text)', padding: '12px 20px', borderRadius: 8,
-                    fontFamily: 'var(--sans)', fontSize: 13, fontWeight: 500, cursor: 'pointer', transition: 'all 0.15s',
-                    display: 'flex', alignItems: 'center', gap: 8
-                  }}
-                    onMouseOver={e => { e.currentTarget.style.borderColor = 'var(--accent)'; e.currentTarget.style.color = 'var(--accent)' }}
-                    onMouseOut={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.color = 'var(--text)' }}>
-                    <span>📁</span>
-                    {ex.name}
-                  </button>
-                ))}
+            <div style={{
+              display: 'flex',
+              gap: 16,
+              justifyContent: 'center',
+              flexWrap: 'wrap',
+              marginTop: 24
+            }}>
+              <div style={{
+                background: 'var(--bg3)',
+                border: '1px solid var(--border)',
+                borderRadius: 10,
+                padding: '16px 20px',
+                textAlign: 'center',
+                minWidth: 140
+              }}>
+                <div style={{ fontSize: 24, marginBottom: 8 }}>📤</div>
+                <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--text)', marginBottom: 4 }}>Enviar</div>
+                <div style={{ fontSize: 10, color: 'var(--text2)' }}>Cole o JSON dos registros</div>
+              </div>
+              <div style={{
+                background: 'var(--bg3)',
+                border: '1px solid var(--border)',
+                borderRadius: 10,
+                padding: '16px 20px',
+                textAlign: 'center',
+                minWidth: 140
+              }}>
+                <div style={{ fontSize: 24, marginBottom: 8 }}>🤖</div>
+                <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--text)', marginBottom: 4 }}>Processar</div>
+                <div style={{ fontSize: 10, color: 'var(--text2)' }}>Motor de IA audita os dados</div>
+              </div>
+              <div style={{
+                background: 'var(--bg3)',
+                border: '1px solid var(--border)',
+                borderRadius: 10,
+                padding: '16px 20px',
+                textAlign: 'center',
+                minWidth: 140
+              }}>
+                <div style={{ fontSize: 24, marginBottom: 8 }}>📊</div>
+                <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--text)', marginBottom: 4 }}>Resultado</div>
+                <div style={{ fontSize: 10, color: 'var(--text2)' }}>Relatório individualizado</div>
               </div>
             </div>
           </div>
@@ -463,55 +467,37 @@ export default function AuditView({ initialExampleIndex, clearInitialExample, is
           return null;
         })}
 
-        {messages.length > 0 && !loading && (
-          <div style={{
-            marginTop: 20,
-            marginBottom: 24,
-            padding: '16px 20px',
-            background: 'var(--bg2)',
-            border: '1px solid var(--border)',
-            borderRadius: 12,
-            textAlign: 'center'
-          }}>
-            <div style={{ fontSize: 12, color: 'var(--text2)', fontWeight: 500, marginBottom: 12, fontFamily: 'var(--sans)' }}>
-              Selecione outro prontuário de exemplo para auditar:
-            </div>
-            <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', justifyContent: 'center' }}>
-              {examples.map((ex, idx) => (
-                <button key={ex.id} onClick={() => selectAndRunExample(idx)} style={{
-                  background: 'var(--bg3)', border: '1px solid var(--border)',
-                  color: 'var(--text)', padding: '10px 16px', borderRadius: 8,
-                  fontFamily: 'var(--sans)', fontSize: 12, fontWeight: 500, cursor: 'pointer', transition: 'all 0.15s',
-                  display: 'flex', alignItems: 'center', gap: 8
-                }}
-                  onMouseOver={e => { e.currentTarget.style.borderColor = 'var(--accent)'; e.currentTarget.style.color = 'var(--accent)' }}
-                  onMouseOut={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.color = 'var(--text)' }}>
-                  <span>📁</span>
-                  {ex.name}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
-
         {loading && (
           <div style={{ marginBottom: 20 }}>
             <div style={{
               background: 'var(--bg2)', border: '1px solid var(--border)',
               borderRadius: '2px 12px 12px 12px', padding: '16px 20px',
-              display: 'flex', alignItems: 'center', gap: 12
+              display: 'flex', flexDirection: 'column', gap: 12
             }}>
-              <div style={{ display: 'flex', gap: 4 }}>
-                {[0, 1, 2].map(i => (
-                  <div key={i} style={{
-                    width: 6, height: 6, borderRadius: '50%', background: 'var(--accent)',
-                    animation: 'pulse 1.2s ease-in-out infinite', animationDelay: `${i * 0.2}s`
-                  }} />
-                ))}
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                <div style={{ display: 'flex', gap: 4 }}>
+                  {[0, 1, 2].map(i => (
+                    <div key={i} style={{
+                      width: 6, height: 6, borderRadius: '50%', background: 'var(--accent)',
+                      animation: 'pulse 1.2s ease-in-out infinite', animationDelay: `${i * 0.2}s`
+                    }} />
+                  ))}
+                </div>
+                <span style={{ fontSize: 13, color: 'var(--text2)', fontFamily: 'var(--mono)' }}>
+                  {progressText}
+                </span>
               </div>
-              <span style={{ fontSize: 13, color: 'var(--text2)', fontFamily: 'var(--mono)' }}>
-                analisando prontuário — verificando seções A→F...
-              </span>
+              {progress.total > 1 && (
+                <div style={{ width: '100%', height: 4, background: 'var(--bg4)', borderRadius: 2, overflow: 'hidden' }}>
+                  <div style={{
+                    width: `${progress.total > 0 ? (progress.completed / progress.total) * 100 : 0}%`,
+                    height: '100%',
+                    background: 'var(--accent)',
+                    borderRadius: 2,
+                    transition: 'width 0.5s ease'
+                  }} />
+                </div>
+              )}
             </div>
           </div>
         )}
@@ -526,13 +512,11 @@ export default function AuditView({ initialExampleIndex, clearInitialExample, is
             onBlurCapture={e => e.currentTarget.style.borderColor = 'var(--border2)'}>
             <textarea ref={textareaRef} value={input} onChange={e => setInput(e.target.value)}
               onKeyDown={handleKey}
-              readOnly={isExample}
-              placeholder={isMobile ? 'Cole o JSON do atendimento...' : 'Cole o array JSON com os registros do atendimento...'}
+              placeholder={isMobile ? 'Cole o JSON dos registros médicos...' : 'Cole o array JSON com os registros do atendimento...'}
               rows={isMobile ? 3 : 4}
               style={{
                 width: '100%', background: 'transparent', border: 'none', outline: 'none',
-                color: isExample ? 'var(--text2)' : 'var(--text)',
-                cursor: isExample ? 'not-allowed' : 'text',
+                color: 'var(--text)',
                 fontFamily: 'var(--mono)', fontSize: 12,
                 padding: '14px 16px', resize: 'none', lineHeight: 1.6
               }} />
@@ -548,23 +532,6 @@ export default function AuditView({ initialExampleIndex, clearInitialExample, is
                     fontSize: 10, fontFamily: 'var(--mono)', cursor: 'pointer'
                   }}>limpar</button>
                 )}
-                {isExample && (
-                  <span style={{
-                    color: 'var(--yellow)',
-                    fontSize: 10,
-                    fontFamily: 'var(--mono)',
-                    alignSelf: 'center',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: 2,
-                    padding: '2px 6px',
-                    background: 'var(--yellow2)',
-                    border: '1px solid #ffd74020',
-                    borderRadius: 4
-                  }}>
-                    🔒 {isMobile ? 'Exemplo' : 'Exemplo (Leitura)'}
-                  </span>
-                )}
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? 6 : 10 }}>
                 {!isMobile && <span style={{ fontSize: 10, color: 'var(--text3)', fontFamily: 'var(--mono)' }}>Ctrl+Enter</span>}
@@ -575,7 +542,7 @@ export default function AuditView({ initialExampleIndex, clearInitialExample, is
                   cursor: input.trim() && !loading ? 'pointer' : 'default',
                   transition: 'all 0.15s', fontFamily: 'var(--sans)'
                 }}>
-                  {loading ? 'analisando...' : 'Auditar →'}
+                  {loading ? 'processando...' : 'Auditar →'}
                 </button>
               </div>
             </div>

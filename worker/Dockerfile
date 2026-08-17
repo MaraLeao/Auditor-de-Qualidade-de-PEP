@@ -8,6 +8,7 @@ COPY worker/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY worker/worker.py .
+COPY worker/database.py .
 COPY data_extract/ ./data_extract/
 
 CMD ["python", "worker.py"]
