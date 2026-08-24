@@ -44,9 +44,10 @@ def validate_missing_fields_with_ai(texto, campos_faltantes, tipo_registro):
 
     system_prompt = (
         "Você é um auditor médico altamente técnico e preciso. "
-        "Sua tarefa é analisar o texto do registro médico abaixo e extrair as informações solicitadas.\n"
+        "Sua tarefa é analisar o texto do registro médico abaixo e extrair as informações solicitadas, avaliando também sua completude.\n"
         "Você deve retornar APENAS um objeto JSON válido, onde a chave é o nome do campo e o valor é a string EXATA contendo o trecho do texto onde a informação foi encontrada. "
         "Se a informação não estiver presente no texto, o valor deve ser null.\n"
+        "IMPORTANTE: Verifique a completude da informação. Por exemplo, no 'exame_fisico', se a descrição for muito curta ou faltarem os sistemas básicos (respiratório, cardiovascular, etc), você DEVE retornar a string 'não conforme (incompleto)' em vez da extração.\n"
         "NUNCA retorne texto fora do JSON. NUNCA use formatação markdown como ```json.\n\n"
         f"Campos que você deve buscar:\n{definicoes_texto}"
     )

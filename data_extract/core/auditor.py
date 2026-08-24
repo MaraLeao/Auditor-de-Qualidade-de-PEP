@@ -137,7 +137,10 @@ def audit_medical_records(records):
                     for campo in faltantes_cirurgia:
                         valor_ia = ai_result_cirurgia.get(campo)
                         if valor_ia and isinstance(valor_ia, str):
-                            audit_data["secao_c"][campo] = f"conforme (IA: {valor_ia})"
+                            if "não conforme" in valor_ia.lower() or "incompleto" in valor_ia.lower():
+                                audit_data["secao_c"][campo] = f"não conforme (IA: {valor_ia})"
+                            else:
+                                audit_data["secao_c"][campo] = f"conforme (IA: {valor_ia})"
                         elif valor_ia:
                             audit_data["secao_c"][campo] = "conforme (validado por IA)"
 
@@ -218,7 +221,10 @@ def audit_medical_records(records):
                     for campo in faltantes:
                         valor_ia = ai_result.get(campo)
                         if valor_ia and isinstance(valor_ia, str):
-                            local_val[campo] = f"conforme (IA: {valor_ia})"
+                            if "não conforme" in valor_ia.lower() or "incompleto" in valor_ia.lower():
+                                local_val[campo] = f"não conforme (IA: {valor_ia})"
+                            else:
+                                local_val[campo] = f"conforme (IA: {valor_ia})"
                         elif valor_ia:
                             local_val[campo] = "conforme (validado por IA)"
                 
@@ -238,7 +244,10 @@ def audit_medical_records(records):
                 meta_lines.append(f"Seção A - IA (diagnostico_internacao) fim {datetime.now().strftime('%H:%M:%S')} ({ia_duracao:.1f}s)")
                 valor_ia = ai_result_a.get("diagnostico_internacao")
                 if valor_ia and isinstance(valor_ia, str):
-                    audit_data["secao_a"]["diagnostico_internacao"] = f"conforme (IA: {valor_ia})"
+                    if "não conforme" in valor_ia.lower() or "incompleto" in valor_ia.lower():
+                        audit_data["secao_a"]["diagnostico_internacao"] = f"não conforme (IA: {valor_ia})"
+                    else:
+                        audit_data["secao_a"]["diagnostico_internacao"] = f"conforme (IA: {valor_ia})"
                 elif valor_ia:
                     audit_data["secao_a"]["diagnostico_internacao"] = "conforme (validado por IA)"
                 sys.stderr.write(f"  [Auditor] Seção A - diagnóstico_internacao finalizado para o prontuário {prontuario}.\n")
