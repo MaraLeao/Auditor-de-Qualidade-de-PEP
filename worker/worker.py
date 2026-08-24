@@ -21,6 +21,11 @@ def process_patient_record(job: dict) -> dict:
     via stdin (JSON array) and reading the audited result from stdout.
     """
     records = job["records"]
+    model_name = job.get("model_name")
+    
+    env = os.environ.copy()
+    if model_name:
+        env["LLM_MODEL"] = model_name
 
     proc = subprocess.run(
     ["python", "-m", "data_extract.main"],
@@ -28,6 +33,7 @@ def process_patient_record(job: dict) -> dict:
     capture_output=True,
     text=True,
     cwd=os.path.dirname(__file__),  # garante que roda com /app como raiz
+    env=env,
 )
 
     if proc.returncode != 0:

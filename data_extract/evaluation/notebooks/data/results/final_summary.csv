@@ -1,0 +1,4 @@
+model,n_samples,precision,recall,f1,mean,std,min,max,error_rate_pct
+qwen2.5-3b-instruct,30,0.0,0.0,0.0,35.118,0.0,35.118,35.118,0.0
+phi-4-mini-instruct,30,0.0,0.0,0.0,407.098,0.0,407.098,407.098,0.0
+llama-3.2-3b-instruct,30,0.0,0.0,0.0,93.127,0.0,93.127,93.127,0.0

@@ -14,13 +14,26 @@ function normalizeRecordNumber(numero) {
 
 function parsePayload(rawText) {
   const text = rawText.trim();
-  const validJson = `[${text}]`;
+  let parsed;
 
   try {
-    return JSON.parse(validJson);
-  } catch (err) {
-    throw new Error(`Invalid payload, could not parse: ${err.message}`);
+    // Tenta primeiro parsear como está (caso já seja um array [...] válido)
+    parsed = JSON.parse(text);
+  } catch (e) {
+    // Se falhar, assume que é no formato {...},{...} e envolve em colchetes
+    try {
+      parsed = JSON.parse(`[${text}]`);
+    } catch (err) {
+      throw new Error(`Invalid payload, could not parse: ${err.message}`);
+    }
   }
+
+  // Garante que o retorno é sempre um array
+  if (!Array.isArray(parsed)) {
+    parsed = [parsed];
+  }
+
+  return parsed;
 }
 
 function groupByRecordNumber(records) {
@@ -50,7 +63,7 @@ function groupByRecordNumber(records) {
   return Array.from(groups.values());
 }
 
-async function publishBatch(rawText) {
+async function publishBatch(rawText, modelName) {
   const batchId = randomUUID();
   const rawRecords = parsePayload(rawText);
   const patientRecords = groupByRecordNumber(rawRecords);
@@ -70,6 +83,10 @@ async function publishBatch(rawText) {
       created_at: new Date().toISOString(),
       attempts: 0,
     };
+    
+    if (modelName) {
+      job.model_name = modelName;
+    }
 
     await redis.lPush(QUEUE_KEY, JSON.stringify(job));
     publishedJobs.push({

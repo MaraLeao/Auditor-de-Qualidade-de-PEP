@@ -4,6 +4,8 @@ services:
     ports:
       - "6379:6379"
     command: redis-server --save 60 1
+    restart: unless-stopped
+
 
   worker:
     build:
@@ -14,7 +16,7 @@ services:
     environment:
       - REDIS_HOST=redis
       - PYTHONUNBUFFERED=1
-      - LMSTUDIO_URL=http://192.168.0.18:1234/api/v1/chat
+      - LMSTUDIO_URL=http://host.docker.internal:1234/api/v1/chat
     extra_hosts:
       - "host.docker.internal:host-gateway"
     volumes:
