@@ -1,12 +1,13 @@
 import sys
 import time
 from datetime import datetime
-from data_extract.keywords.exame_fisico import TERMOS_EXAME_FISICO
+from data_extract.keywords.exame_fisico import TERMOS_EXAME_FISICO_MEDICINA, TERMOS_EXAME_FISICO_ENFERMAGEM
 from data_extract.keywords.opme import TERMOS_OPME
 from data_extract.utils.helpers import (
     calculate_age,
     format_periodo,
     check_keywords,
+    check_exame_fisico_completo,
     check_curativo,
     is_valid,
     is_na
@@ -160,7 +161,7 @@ def audit_medical_records(records):
                         "hd_cid": "conforme" if "hipótese" in info["descricao"].lower() or "cid" in info["descricao"].lower() or "#hd" in info["descricao"].lower() or "hd:" in info["descricao"].lower() else "Não registrado",
                         "ap_app": "conforme" if "antecedentes pessoais" in info["descricao"].lower() or "app" in info["descricao"].lower() or "#ap" in info["descricao"].lower() or "ap:" in info["descricao"].lower() else "Não registrado",
                         "af": "conforme" if "antecedentes familiares" in info["descricao"].lower() or "#af" in info["descricao"].lower() or "af:" in info["descricao"].lower() else "Não registrado",
-                        "exame_fisico": check_keywords(info["descricao"], TERMOS_EXAME_FISICO),
+                        "exame_fisico": check_exame_fisico_completo(info["descricao"], TERMOS_EXAME_FISICO_MEDICINA),
                         "cd": "conforme" if "conduta" in info["descricao"].lower() or "terapêutica" in info["descricao"].lower() or "#cd" in info["descricao"].lower() or "cd:" in info["descricao"].lower() else "Não registrado",
                         "criacao_anamnese": "conforme"
                     }
@@ -168,7 +169,7 @@ def audit_medical_records(records):
                     target_section = audit_data["secao_b_evolucao"]
                     local_val = {
                         "hd_cid": "conforme" if "hipótese" in info["descricao"].lower() or "cid" in info["descricao"].lower() or "#hd" in info["descricao"].lower() or "hd:" in info["descricao"].lower() else "Não registrado",
-                        "exame_fisico": check_keywords(info["descricao"], TERMOS_EXAME_FISICO),
+                        "exame_fisico": check_exame_fisico_completo(info["descricao"], TERMOS_EXAME_FISICO_MEDICINA),
                         "procedimentos_condutas_queixas": "conforme" if "procedimento" in info["descricao"].lower() or "conduta" in info["descricao"].lower() or "queixa" in info["descricao"].lower() or "intercorrência" in info["descricao"].lower() or "#cd" in info["descricao"].lower() or "cd:" in info["descricao"].lower() else "Não registrado",
                         "frequencia_diaria": "conforme"
                     }
@@ -179,7 +180,7 @@ def audit_medical_records(records):
                         "motivo_internacao": "conforme" if "motivo" in info["descricao"].lower() or "internação" in info["descricao"].lower() else "Não registrado",
                         "ap_app": "conforme" if "antecedentes" in info["descricao"].lower() or "comorbidade" in info["descricao"].lower() else "Não registrado",
                         "af": "conforme" if "antecedentes familiares" in info["descricao"].lower() else "Não registrado",
-                        "exame_fisico": check_keywords(info["descricao"], TERMOS_EXAME_FISICO),
+                        "exame_fisico": check_exame_fisico_completo(info["descricao"], TERMOS_EXAME_FISICO_ENFERMAGEM),
                         "escala_braden": "conforme" if "braden" in info["descricao"].lower() else "Não registrado",
                         "escala_morse": "conforme" if "morse" in info["descricao"].lower() else "Não registrado",
                         "cd": "conforme" if "conduta" in info["descricao"].lower() or "#cd" in info["descricao"].lower() or "cd:" in info["descricao"].lower() else "Não registrado",
@@ -190,7 +191,7 @@ def audit_medical_records(records):
                     target_section = audit_data["secao_d_evolucao"]
                     local_val = {
                         "motivo_internacao": "conforme" if "motivo" in info["descricao"].lower() else "Não registrado",
-                        "exame_fisico": check_keywords(info["descricao"], TERMOS_EXAME_FISICO),
+                        "exame_fisico": check_exame_fisico_completo(info["descricao"], TERMOS_EXAME_FISICO_ENFERMAGEM),
                         "condutas": "conforme" if "conduta" in info["descricao"].lower() or "#cd" in info["descricao"].lower() or "cd:" in info["descricao"].lower() else "Não registrado",
                         "escala_braden": "conforme" if "braden" in info["descricao"].lower() else "Não registrado",
                         "escala_morse": "conforme" if "morse" in info["descricao"].lower() else "Não registrado",
