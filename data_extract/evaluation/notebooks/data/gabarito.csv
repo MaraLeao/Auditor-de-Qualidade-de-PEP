@@ -1,4 +1,4 @@
-"Prontuário","Seção","Campo","Categoria Profissional","Tipo Registro","Resultado","Descrição da Falha","Conformidade Total"
+"record","section","field","professional category","record type","result","description missing","total conformity"
 "94.098.934","secao_c","diagnostico_cid","MEDICINA","Cirúrgico","ausente","CID do diagnóstico cirúrgico não preenchido no registro da cirurgia.","Parcialmente Conforme"
 "94.098.934","secao_d_anamnese","af","ENFERMAGEM","Anamnese","ausente","Antecedentes familiares não registrados na anamnese de enfermagem.","Parcialmente Conforme"
 "99.692.381","","","","","","","Conforme"
