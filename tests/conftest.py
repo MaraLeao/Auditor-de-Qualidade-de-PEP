@@ -6,9 +6,15 @@ comportamento está certo — só que ele não muda por acidente durante a refat
 import hashlib
 import json
 import os
+import tempfile
 from pathlib import Path
 
 import pytest
+
+# `worker.worker` abre o SQLite no momento do import. Aponta para um diretório descartável ANTES de qualquer
+# teste importá-lo — e sobrescreve (não setdefault): um SQLITE_DB_PATH de desenvolvimento não pode receber
+# escrita dos testes.
+os.environ["SQLITE_DB_PATH"] = os.path.join(tempfile.mkdtemp(prefix="pep-tests-"), "auditor.db")
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 

@@ -47,3 +47,10 @@ artifacts/
 
 # Ambientes virtuais dos serviços
 worker/venv/
+
+# Banco de resultados e usuários: guarda hash de senha e trechos dos prontuários auditados.
+# Ancorado na raiz: `data/` solto também casaria src/data/ e evaluation/notebooks/data/.
+/data/
+*.db
+*.db-shm
+*.db-wal

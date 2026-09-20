@@ -5,7 +5,10 @@ import time
 
 import redis
 
-from database import AuditDatabase
+try:
+    from database import AuditDatabase  # imagem Docker: worker.py e database.py ficam lado a lado em /app
+except ImportError:
+    from worker.database import AuditDatabase  # fora do Docker: importado como pacote (testes, mypy)
 
 r = redis.Redis(
     host=os.getenv("REDIS_HOST", "localhost"),
@@ -88,10 +91,6 @@ def save_result(job: dict, result: dict):
 
     # SQLite: durable persistence for dashboard and history
     try:
-        db.ensure_batch(
-            batch_id=job.get("batch_id", "unknown"),
-            total_records=job.get("total_in_batch", 1)
-        )
         db.save_result({
             "batch_id": job.get("batch_id", "unknown"),
             "job_id": job.get("job_id", "unknown"),

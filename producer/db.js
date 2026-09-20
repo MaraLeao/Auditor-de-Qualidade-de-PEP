@@ -23,14 +23,6 @@ function getDb() {
 
       // Initialize tables
       db.exec(`
-        CREATE TABLE IF NOT EXISTS batches (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          batch_id TEXT UNIQUE NOT NULL,
-          total_records INTEGER DEFAULT 0,
-          status TEXT DEFAULT 'processing',
-          created_at TEXT NOT NULL
-        );
-
         CREATE TABLE IF NOT EXISTS audit_results (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           batch_id TEXT NOT NULL,
@@ -180,30 +172,6 @@ export function getDashboardStats() {
 // ============================================================
 
 /**
- * Create a batch record if it doesn't exist.
- */
-export function ensureBatch(batchId, totalRecords = 0) {
-  const conn = getDb();
-  if (!conn) return;
-
-  try {
-    const existing = conn
-      .prepare("SELECT id FROM batches WHERE batch_id = ?")
-      .get(batchId);
-
-    if (!existing) {
-      conn
-        .prepare(
-          "INSERT INTO batches (batch_id, total_records, status, created_at) VALUES (?, ?, 'processing', ?)"
-        )
-        .run(batchId, totalRecords, new Date().toISOString());
-    }
-  } catch (err) {
-    console.error("[DB] Error ensuring batch:", err.message);
-  }
-}
-
-/**
  * Save an audit result to the database.
  */
 export function saveAuditResult({
@@ -257,43 +225,11 @@ export function saveAuditResult({
         );
     }
 
-    // Update batch status
-    updateBatchStatus(batchId);
-
     console.log(
       `[DB] Saved result for record ${recordNumber} (job ${jobId}), conformity: ${Math.round(conformityPercent * 10) / 10}%`
     );
   } catch (err) {
     console.error("[DB] Error saving audit result:", err.message);
-  }
-}
-
-/**
- * Check if all jobs in a batch are done and update status.
- */
-function updateBatchStatus(batchId) {
-  const conn = getDb();
-  if (!conn) return;
-
-  try {
-    const batch = conn
-      .prepare("SELECT total_records FROM batches WHERE batch_id = ?")
-      .get(batchId);
-    if (!batch) return;
-
-    const doneCount = conn
-      .prepare(
-        "SELECT COUNT(*) as cnt FROM audit_results WHERE batch_id = ? AND status = 'done'"
-      )
-      .get(batchId).cnt;
-
-    if (doneCount >= batch.total_records) {
-      conn
-        .prepare("UPDATE batches SET status = 'done' WHERE batch_id = ?")
-        .run(batchId);
-    }
-  } catch (err) {
-    console.error("[DB] Error updating batch status:", err.message);
   }
 }
 

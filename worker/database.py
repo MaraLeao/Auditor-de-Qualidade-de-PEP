@@ -1,11 +1,62 @@
-import sqlite3
 import json
 import os
+import sqlite3
 import sys
-from datetime import datetime
+from datetime import UTC, datetime
+
+
+def _agora_utc():
+    """UTC sem fuso no texto, igual ao antigo datetime.utcnow() (depreciado): o formato gravado não muda."""
+    return datetime.now(UTC).replace(tzinfo=None).isoformat()
 
 
 DB_PATH = os.environ.get("SQLITE_DB_PATH", "/app/data/auditor.db")
+
+
+COLUNAS_AUDIT_RESULTS = (
+    "id", "batch_id", "job_id", "record_number", "record_number_display",
+    "encounter", "audit_data", "conformity_percent", "status", "created_at",
+)
+
+# `batch_id` continua em cada resultado (agrupa uma execução com GROUP BY), mas sem tabela `batches`:
+# o progresso de um lote sai do polling por job_id, e ninguém lia o status gravado nela.
+ESQUEMA_AUDIT_RESULTS = """
+    CREATE TABLE {se_nao_existe} {nome} (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        batch_id TEXT NOT NULL,
+        job_id TEXT UNIQUE NOT NULL,
+        record_number TEXT NOT NULL,
+        record_number_display TEXT,
+        encounter TEXT,
+        audit_data TEXT NOT NULL,
+        conformity_percent REAL DEFAULT 0,
+        status TEXT DEFAULT 'done',
+        created_at TEXT NOT NULL
+    );
+"""
+
+# Usuários do sistema web. `senha_hash` é o hash argon2id completo (com sal e parâmetros), nunca a senha.
+# `criado_por` aponta para o administrador que criou a conta (NULL no primeiro administrador).
+ESQUEMA_USERS = """
+    CREATE TABLE IF NOT EXISTS users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        email TEXT NOT NULL UNIQUE COLLATE NOCASE,
+        nome TEXT NOT NULL,
+        senha_hash TEXT NOT NULL,
+        papel TEXT NOT NULL CHECK (papel IN ('auditor', 'admin')),
+        ativo INTEGER NOT NULL DEFAULT 1,
+        deve_trocar_senha INTEGER NOT NULL DEFAULT 1,
+        criado_por INTEGER REFERENCES users(id),
+        criado_em TEXT NOT NULL,
+        ultimo_login TEXT
+    );
+"""
+
+INDICES = """
+    CREATE INDEX IF NOT EXISTS idx_results_record ON audit_results(record_number);
+    CREATE INDEX IF NOT EXISTS idx_results_batch ON audit_results(batch_id);
+    CREATE INDEX IF NOT EXISTS idx_results_job ON audit_results(job_id);
+"""
 
 
 class AuditDatabase:
@@ -26,53 +77,40 @@ class AuditDatabase:
     def _init_db(self):
         conn = self._get_conn()
         try:
-            conn.executescript("""
-                CREATE TABLE IF NOT EXISTS batches (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    batch_id TEXT UNIQUE NOT NULL,
-                    total_records INTEGER DEFAULT 0,
-                    status TEXT DEFAULT 'processing',
-                    created_at TEXT NOT NULL
-                );
-
-                CREATE TABLE IF NOT EXISTS audit_results (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    batch_id TEXT NOT NULL,
-                    job_id TEXT UNIQUE NOT NULL,
-                    record_number TEXT NOT NULL,
-                    record_number_display TEXT,
-                    encounter TEXT,
-                    audit_data TEXT NOT NULL,
-                    conformity_percent REAL DEFAULT 0,
-                    status TEXT DEFAULT 'done',
-                    created_at TEXT NOT NULL,
-                    FOREIGN KEY (batch_id) REFERENCES batches(batch_id)
-                );
-
-                CREATE INDEX IF NOT EXISTS idx_results_record ON audit_results(record_number);
-                CREATE INDEX IF NOT EXISTS idx_results_batch ON audit_results(batch_id);
-                CREATE INDEX IF NOT EXISTS idx_results_job ON audit_results(job_id);
-            """)
+            conn.executescript(ESQUEMA_AUDIT_RESULTS.format(nome="audit_results", se_nao_existe="IF NOT EXISTS"))
+            self._migrar_remover_batches(conn)
+            conn.executescript(ESQUEMA_USERS)
+            conn.executescript(INDICES)
             conn.commit()
             sys.stderr.write(f"[DB] SQLite initialized at {self.db_path}\n")
         finally:
             conn.close()
 
-    def ensure_batch(self, batch_id, total_records=0):
-        """Create or update a batch record."""
-        conn = self._get_conn()
-        try:
-            existing = conn.execute(
-                "SELECT id FROM batches WHERE batch_id = ?", (batch_id,)
-            ).fetchone()
-            if not existing:
-                conn.execute(
-                    "INSERT INTO batches (batch_id, total_records, status, created_at) VALUES (?, ?, 'processing', ?)",
-                    (batch_id, total_records, datetime.utcnow().isoformat())
-                )
-                conn.commit()
-        finally:
-            conn.close()
+    @staticmethod
+    def _migrar_remover_batches(conn):
+        """Bancos antigos têm a tabela `batches` e uma FOREIGN KEY em audit_results apontando para ela.
+
+        Sem migrar, todo INSERT novo falharia (o lote deixou de ser criado e a FK segue ativa). O SQLite não
+        remove FK por ALTER, então a tabela é reconstruída; os resultados são copiados como estão.
+        Não faz nada em banco novo ou já migrado.
+        """
+        tem_fk = conn.execute("PRAGMA foreign_key_list(audit_results)").fetchall()
+        tem_batches = conn.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='batches'").fetchone()
+        if not tem_fk and not tem_batches:
+            return
+        colunas = ", ".join(COLUNAS_AUDIT_RESULTS)
+        # foreign_keys=OFF só vale fora de transação; o executescript faz o COMMIT pendente antes de rodar
+        conn.executescript(
+            "PRAGMA foreign_keys=OFF;"
+            "BEGIN;"
+            + ESQUEMA_AUDIT_RESULTS.format(nome="audit_results_novo", se_nao_existe="")
+            + f"INSERT INTO audit_results_novo ({colunas}) SELECT {colunas} FROM audit_results;"
+            "DROP TABLE audit_results;"
+            "ALTER TABLE audit_results_novo RENAME TO audit_results;"
+            "DROP TABLE IF EXISTS batches;"
+            "COMMIT;"
+            "PRAGMA foreign_keys=ON;"
+        )
 
     def save_result(self, job):
         """Save a completed audit result to the database."""
@@ -84,7 +122,7 @@ class AuditDatabase:
             record_number_display = job.get("record_number_display", record_number)
             encounter = job.get("encounter", "")
             audit_data = job.get("result", {})
-            
+
             # Extract conformity percentage from the audit data
             conformity_percent = 0
             if isinstance(audit_data, dict):
@@ -101,47 +139,25 @@ class AuditDatabase:
 
             if existing:
                 conn.execute(
-                    """UPDATE audit_results 
+                    """UPDATE audit_results
                        SET audit_data = ?, conformity_percent = ?, status = 'done'
                        WHERE job_id = ?""",
                     (audit_data_json, conformity_percent, job_id)
                 )
             else:
                 conn.execute(
-                    """INSERT INTO audit_results 
+                    """INSERT INTO audit_results
                        (batch_id, job_id, record_number, record_number_display, encounter, audit_data, conformity_percent, status, created_at)
                        VALUES (?, ?, ?, ?, ?, ?, ?, 'done', ?)""",
                     (batch_id, job_id, record_number, record_number_display, encounter,
-                     audit_data_json, conformity_percent, datetime.utcnow().isoformat())
+                     audit_data_json, conformity_percent, _agora_utc())
                 )
 
             conn.commit()
 
-            # Check if all jobs in the batch are done
-            self._update_batch_status(conn, batch_id)
-
             sys.stderr.write(f"[DB] Saved result for record {record_number} (job {job_id})\n")
         finally:
             conn.close()
-
-    def _update_batch_status(self, conn, batch_id):
-        """Check if all records in a batch are done and update batch status."""
-        batch = conn.execute(
-            "SELECT total_records FROM batches WHERE batch_id = ?", (batch_id,)
-        ).fetchone()
-        if not batch:
-            return
-
-        done_count = conn.execute(
-            "SELECT COUNT(*) as cnt FROM audit_results WHERE batch_id = ? AND status = 'done'",
-            (batch_id,)
-        ).fetchone()["cnt"]
-
-        if done_count >= batch["total_records"]:
-            conn.execute(
-                "UPDATE batches SET status = 'done' WHERE batch_id = ?", (batch_id,)
-            )
-            conn.commit()
 
     def get_all_results(self):
         """Retrieve all audit results, most recent first."""
@@ -200,7 +216,7 @@ class AuditDatabase:
         conn = self._get_conn()
         try:
             total = conn.execute("SELECT COUNT(*) as cnt FROM audit_results").fetchone()["cnt"]
-            
+
             if total == 0:
                 return {
                     "total_audits": 0,

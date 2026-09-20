@@ -4,3 +4,4 @@ redis>=5.0.0
 ruff>=0.16
 mypy>=1.10
 pre-commit>=3.7
+argon2-cffi>=23
