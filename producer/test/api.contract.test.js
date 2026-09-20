@@ -129,12 +129,46 @@ test("POST /batches: corpo que não é JSON -> 400 'Invalid payload'", async () 
   assert.match((await res.json()).error, /^Invalid payload/);
 });
 
-test("POST /batches: registros sem 'Prontuário' são ignorados (lote sem jobs ainda retorna 202)", async () => {
+test("POST /batches: registro sem 'Prontuário' -> 400 e nada é publicado", async () => {
   reset();
   const res = await post("/batches", JSON.stringify([{ x: 1 }]));
-  assert.equal(res.status, 202);
-  assert.equal((await res.json()).total_records, 0);
+  assert.equal(res.status, 400);
+  assert.match((await res.json()).error, /^Invalid payload.*Prontuário/);
   assert.equal(pushed.length, 0);
+});
+
+test("POST /batches: um registro sem 'Prontuário' derruba o lote inteiro (nada é publicado pela metade)", async () => {
+  reset();
+  const res = await post("/batches", JSON.stringify([{ "Prontuário": "12.345" }, { Atendimento: "9" }]));
+  assert.equal(res.status, 400);
+  assert.match((await res.json()).error, /registro 2/);
+  assert.equal(pushed.length, 0);
+});
+
+test("POST /batches: 'Prontuário' vazio ou em branco também é recusado", async () => {
+  reset();
+  for (const valor of ["", "   ", null]) {
+    const res = await post("/batches", JSON.stringify([{ "Prontuário": valor }]));
+    assert.equal(res.status, 400);
+  }
+  assert.equal(pushed.length, 0);
+});
+
+test("POST /batches: item que não é objeto -> 400 sem vazar erro interno", async () => {
+  reset();
+  const res = await post("/batches", JSON.stringify([null, "texto"]));
+  assert.equal(res.status, 400);
+  const { error } = await res.json();
+  assert.match(error, /^Invalid payload/);
+  assert.doesNotMatch(error, /Cannot read|undefined|TypeError/);
+  assert.equal(pushed.length, 0);
+});
+
+test("POST /batches: 'Prontuário' numérico é aceito e vira texto", async () => {
+  reset();
+  const res = await post("/batches", JSON.stringify([{ "Prontuário": 12345 }]));
+  assert.equal(res.status, 202);
+  assert.deepEqual((await res.json()).jobs.map((j) => j.record_number), ["12345"]);
 });
 
 test("GET /jobs/:id/status: processing | done | partial | failed", async () => {
@@ -150,10 +184,21 @@ test("GET /jobs/:id/status: processing | done | partial | failed", async () => {
   r = await getJson("/jobs/abc/status");
   assert.equal(r.body.status, "partial");
 
+  // Job que esgotou as tentativas: devolve o motivo de forma explícita. Não passa pelo transformer, que
+  // descartaria o erro e montaria um resultado "vazio" com cara de auditoria.
   store.set("resultado:abc", JSON.stringify({ _job_failed: true, error: "boom", attempts: 3 }));
   r = await getJson("/jobs/abc/status");
-  assert.equal(r.body.status, "failed");
-  assert.equal(r.body.result.error, "boom");
+  assert.equal(r.status, 200);
+  assert.deepEqual(r.body, { status: "failed", job_id: "abc", error: "boom", attempts: 3 });
+});
+
+test("GET /jobs/:id/status: resultado parcial traz o aviso da IA em 'raw' para o front poder mostrá-lo", async () => {
+  reset();
+  const parcial = { record_id: "1", audit_data: { ia_incompleta: true, observacao_ia: "IA falhou em 2 campos" } };
+  store.set("resultado:abc", JSON.stringify(parcial));
+  const r = await getJson("/jobs/abc/status");
+  assert.equal(r.body.status, "partial");
+  assert.equal(r.body.raw.audit_data.observacao_ia, "IA falhou em 2 campos");
 });
 
 test("GET /records/:number/status: normaliza pontos e lê o último resultado do prontuário", async () => {

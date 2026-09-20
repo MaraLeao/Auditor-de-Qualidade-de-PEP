@@ -85,7 +85,13 @@ app.get("/jobs/:id/status", async (req, res) => {
       return res.status(202).json({ status: "processing", job_id: jobId });
     }
 
-    // done | partial (IA não rodou em todos os campos) | failed (esgotou tentativas)
+    // failed: o Worker esgotou as tentativas. Devolve o motivo explícito; passar pelo transformer descartaria
+    // o erro e montaria um resultado vazio com cara de auditoria.
+    if (result._job_failed) {
+      return res.json({ status: "failed", job_id: jobId, error: result.error, attempts: result.attempts });
+    }
+
+    // done | partial (IA não rodou em todos os campos)
     const transformed = transformAuditResult(result);
     res.json({ status: jobStatusOf(result), result: transformed, raw: result });
   } catch (err) {

@@ -7,6 +7,9 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
+    "test": "npm run test:front && npm run test:producer",
+    "test:front": "node --test \"src/**/*.test.js\"",
+    "test:producer": "npm --prefix producer test",
     "preview": "vite preview"
   },
   "dependencies": {

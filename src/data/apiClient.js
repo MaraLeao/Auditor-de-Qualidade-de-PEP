@@ -4,7 +4,8 @@
  * Handles batch submission, job polling, and dashboard data fetching.
  */
 
-const API_BASE = import.meta.env.VITE_API_URL || "";
+// `?.` porque fora do Vite (nos testes, em Node) `import.meta.env` não existe.
+const API_BASE = import.meta.env?.VITE_API_URL || "";
 
 /**
  * Submit a batch of raw medical records to be audited.
@@ -48,10 +49,26 @@ export async function pollJobStatus(jobId, opts = {}) {
     const res = await fetch(`${API_BASE}/jobs/${jobId}/status`);
     const data = await res.json();
 
+    // Erro do servidor: falha na hora, em vez de repetir a consulta até o timeout.
+    if (!res.ok) {
+      throw new Error(data.error || `Erro ${res.status} ao consultar o job ${jobId}`);
+    }
+
     if (onPoll) onPoll(data);
 
     if (data.status === "done") {
       return data.result;
+    }
+
+    // Parcial: a IA falhou em alguns campos, mas o resultado existe. Entrega com o aviso, em vez de esperar
+    // até o timeout — é o desfecho normal quando o servidor de IA erra ou fica fora do ar por um instante.
+    if (data.status === "partial") {
+      return { ...data.result, _parcial: true, _aviso_ia: data.raw?.audit_data?.observacao_ia ?? null };
+    }
+
+    // O Worker esgotou as tentativas: falha com o motivo, sem esperar o timeout.
+    if (data.status === "failed") {
+      throw new Error(data.error ? `O processamento falhou: ${data.error}` : "O processamento do prontuário falhou");
     }
 
     // Wait before next poll

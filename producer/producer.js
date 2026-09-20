@@ -39,9 +39,21 @@ function parsePayload(rawText) {
 function groupByRecordNumber(records) {
   const groups = new Map();
 
+  // Valida o lote inteiro antes de publicar qualquer coisa: um registro ruim recusa o lote todo, em vez de
+  // virar um paciente "Desconhecido" que o Worker audita como se existisse.
+  for (const [index, record] of records.entries()) {
+    const posicao = index + 1;
+    if (record === null || typeof record !== "object" || Array.isArray(record)) {
+      throw new Error(`Invalid payload: registro ${posicao} não é um objeto`);
+    }
+    const bruto = record["Prontuário"];
+    if (bruto === null || bruto === undefined || String(bruto).trim() === "") {
+      throw new Error(`Invalid payload: registro ${posicao} sem "Prontuário"`);
+    }
+  }
+
   for (const record of records) {
-    const originalNumber = record["Prontuário"] || "Desconhecido";
-    const encounter = record["Atendimento"] || "Não informado";
+    const originalNumber = String(record["Prontuário"]);
 
     const number = normalizeRecordNumber(originalNumber);
 
