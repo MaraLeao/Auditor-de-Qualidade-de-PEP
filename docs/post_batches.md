@@ -22,15 +22,21 @@ O corpo da requisição **não é um JSON Array válido**. O formato esperado é
   "message": "Batch received and queued",
   "batch_id": "e450c5b2-d401-4ddd-9904-df71dbb97dc1",
   "total_records": 2,
-  "record_numbers": [
-    "19265867",
-    "22111222"
+  "jobs": [
+    {
+      "record_number": "19265867",
+      "job_id": "11111111-2222-3333-4444-555555555555"
+    },
+    {
+      "record_number": "22111222",
+      "job_id": "66666666-7777-8888-9999-000000000000"
+    }
   ]
 }
 ```
 
 > [!NOTE]
-> A API automaticamente agrupa múltiplos documentos que pertencem ao mesmo número de `"Prontuário"`. O retorno `record_numbers` exibe os números de prontuário com a pontuação já normalizada.
+> A API automaticamente agrupa múltiplos documentos que pertencem ao mesmo número de `"Prontuário"`. O retorno `jobs` exibe os números de prontuário com a pontuação já normalizada junto com o ID único gerado para aquela requisição (usado na consulta via `/jobs/:id/status`).
 
 ## Erros Comuns
 - `400 Bad Request`: Caso o corpo da requisição esteja vazio, malformado ou o parse dos objetos falhe.

@@ -43,6 +43,22 @@ def check_keywords(text, terms):
         return f"conforme ({', '.join(found)})"
     return "Não registrado"
 
+def check_exame_fisico_completo(text, dicionario_sistemas):
+    if not text:
+        return "Não registrado"
+    
+    text_lower = text.lower()
+    missing_systems = []
+    
+    for sistema, sinônimos in dicionario_sistemas.items():
+        if not any(sinonimo in text_lower for sinonimo in sinônimos):
+            missing_systems.append(sistema)
+            
+    if missing_systems:
+        return f"Incompleto (Faltam: {', '.join(missing_systems)})"
+    
+    return "conforme"
+
 def check_curativo(text):
     if not text:
         return "Não se aplica"

@@ -27,12 +27,13 @@ const PORT = process.env.PORT || 3001;
 app.post("/batches", async (req, res) => {
   try {
     const rawText = typeof req.body === "string" ? req.body : JSON.stringify(req.body);
+    const modelName = req.query.model;
 
     if (!rawText || !rawText.trim()) {
       return res.status(400).json({ error: "Empty or invalid request body" });
     }
 
-    const result = await publishBatch(rawText);
+    const result = await publishBatch(rawText, modelName);
 
     res.status(202).json({
       message: "Batch received and queued",
