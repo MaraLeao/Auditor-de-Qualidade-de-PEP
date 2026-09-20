@@ -1,9 +1,6 @@
 from .helpers import (
-    load_json,
     calculate_age,
-    format_periodo,
-    check_keywords,
     check_curativo,
-    is_valid,
-    is_na
+    check_exame_fisico_completo,
+    format_periodo,
 )

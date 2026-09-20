@@ -5,6 +5,8 @@ Consulta de forma assíncrona se um determinado prontuário já teve sua auditor
 - **Endpoint:** `GET /records/:number/status`
 - **Parâmetro da URL:** `:number` é o número do prontuário (pode conter pontos, ex: `19.265.867`, pois a API fará a limpeza automática).
 
+> **Atenção:** esta rota devolve o resultado **mais recente** gravado para o prontuário, de **qualquer lote ou modelo**. Se o mesmo prontuário for enviado várias vezes (por exemplo, para comparar modelos), o resultado anterior é sobrescrito. Para consultar o resultado de um envio específico, use o `job_id` retornado por `POST /batches` em [`GET /jobs/:id/status`](get_jobs_status.md).
+
 ## Resposta: Em Processamento
 Enquanto o *Worker* (Python) ainda está executando a extração ou o item aguarda na fila.
 

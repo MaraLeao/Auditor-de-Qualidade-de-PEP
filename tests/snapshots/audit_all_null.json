@@ -1,0 +1,2797 @@
+[
+ {
+  "audit_data": {
+   "_ia_meta": {
+    "campos_enviados": [
+     "secao_c.descricao_tecnica",
+     "secao_b_anamnese.hda",
+     "secao_b_anamnese.ap_app",
+     "secao_b_evolucao.hd_cid",
+     "secao_b_evolucao.hd_cid",
+     "secao_d_anamnese.motivo_internacao",
+     "secao_d_anamnese.ap_app",
+     "secao_d_anamnese.af",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.condutas",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.condutas",
+     "secao_d_evolucao.curativo",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.condutas",
+     "secao_d_evolucao.curativo",
+     "secao_a.diagnostico_internacao"
+    ],
+    "campos_erro": [],
+    "campos_null": [
+     "secao_c.descricao_tecnica",
+     "secao_b_anamnese.hda",
+     "secao_b_anamnese.ap_app",
+     "secao_b_evolucao.hd_cid",
+     "secao_b_evolucao.hd_cid",
+     "secao_d_anamnese.motivo_internacao",
+     "secao_d_anamnese.ap_app",
+     "secao_d_anamnese.af",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.condutas",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.condutas",
+     "secao_d_evolucao.curativo",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.condutas",
+     "secao_d_evolucao.curativo",
+     "secao_a.diagnostico_internacao"
+    ],
+    "campos_ok": [],
+    "chamadas": 9,
+    "chamadas_ok": 9,
+    "latencia_ia_s": 0.0,
+    "model": "modelo-de-teste",
+    "seed": null,
+    "seed_aplicada": null,
+    "tentativas_total": 9
+   },
+   "conformity_a": {
+    "percent": 87.5,
+    "total": 8,
+    "valid": 7
+   },
+   "conformity_b_anamnese": {
+    "percent": 71.42857142857143,
+    "total": 7,
+    "valid": 5
+   },
+   "conformity_b_evolucao": {
+    "percent": 75.0,
+    "total": 4,
+    "valid": 3
+   },
+   "conformity_c": {
+    "applies": true,
+    "percent": 75.0,
+    "total": 8,
+    "valid": 6
+   },
+   "conformity_d_anamnese": {
+    "percent": 50.0,
+    "total": 8,
+    "valid": 4
+   },
+   "conformity_d_evolucao": {
+    "percent": 42.857142857142854,
+    "total": 7,
+    "valid": 3
+   },
+   "conformity_e": {
+    "applies": false,
+    "categoria": "Outras",
+    "percent": 100,
+    "total": 0,
+    "valid": 0
+   },
+   "conformity_global": {
+    "invalid": 14,
+    "percent": 66.66666666666666,
+    "total": 42,
+    "valid": 28
+   },
+   "ia_incompleta": false,
+   "matriz_documentos": {
+    "datas": [
+     "15/03/2024",
+     "16/03/2024",
+     "17/03/2024",
+     "18/03/2024"
+    ],
+    "matriz": {
+     "ENFERMAGEM - Anamnese": {
+      "15/03/2024": 1
+     },
+     "ENFERMAGEM - Evolução": {
+      "16/03/2024": 1,
+      "17/03/2024": 1,
+      "18/03/2024": 1
+     },
+     "MEDICINA - Anamnese": {
+      "15/03/2024": 1
+     },
+     "MEDICINA - Evolução": {
+      "16/03/2024": 1,
+      "17/03/2024": 1,
+      "18/03/2024": 1
+     }
+    }
+   },
+   "secao_a": {
+    "data_nascimento": "30/11/1946",
+    "diagnostico_internacao": "Não registrado (IA: null)",
+    "especialidade_cirurgia": "Ortopedia",
+    "especialidade_internacao": "Ortopedia",
+    "idade": "77 ANOS",
+    "periodo_internacao": "15/03/2024, 14:30 - 19/03/2024, 10:00 (3 dias)",
+    "prontuario": "94.098.934",
+    "unidade_funcional": "Ortopedia"
+   },
+   "secao_b_anamnese": {
+    "af": "conforme",
+    "ap_app": "Não registrado",
+    "cd": "conforme",
+    "criacao_anamnese": "conforme",
+    "exame_fisico": "conforme",
+    "hd_cid": "conforme",
+    "hda": "Não registrado"
+   },
+   "secao_b_evolucao": {
+    "exame_fisico": "conforme",
+    "frequencia_diaria": "conforme",
+    "hd_cid": "não conforme (IA: null — dia 17/03, 18/03)",
+    "procedimentos_condutas_queixas": "conforme"
+   },
+   "secao_c": {
+    "descricao_procedimento": "Osteossíntese de fêmur proximal com DHS",
+    "descricao_tecnica": "Não registrado (IA: null)",
+    "diagnostico_cid": "Não registrado",
+    "especialidade": "Ortopedia",
+    "fim": "17/03/2024, 10:45",
+    "inicio": "17/03/2024, 08:15",
+    "tem_cirurgia": true,
+    "unidade_funcional": "BLOCO CIRURGICO",
+    "uso_opme": "conforme (placa, parafuso)"
+   },
+   "secao_d_anamnese": {
+    "af": "Não registrado",
+    "ap_app": "Não registrado",
+    "cd": "conforme",
+    "criacao_anamnese": "conforme",
+    "escala_braden": "conforme",
+    "escala_morse": "conforme",
+    "exame_fisico": "não conforme (Faltam: Cardiovascular, Gastrointestinal, Genitourinário, Músculo-esquelético)",
+    "motivo_internacao": "Não registrado"
+   },
+   "secao_d_evolucao": {
+    "condutas": "Não registrado (IA: null)",
+    "criacao_evolucao": "conforme",
+    "curativo": "não conforme (IA: tipo de curativo não identificado — dia 17/03, 18/03)",
+    "escala_braden": "conforme",
+    "escala_morse": "conforme",
+    "exame_fisico": "não conforme (Faltam: Respiratório, Genitourinário, Músculo-esquelético — dia 16/03, 17/03, 18/03)",
+    "motivo_internacao": "Não registrado (IA: null)"
+   },
+   "secao_e": {
+    "categoria": "Não se aplica",
+    "descricao": "Não se aplica",
+    "tem_outras_categorias": false
+   }
+  },
+  "record_id": "94.098.934"
+ },
+ {
+  "audit_data": {
+   "_ia_meta": {
+    "campos_enviados": [
+     "secao_b_anamnese.hda",
+     "secao_b_anamnese.ap_app",
+     "secao_b_evolucao.hd_cid",
+     "secao_b_evolucao.hd_cid",
+     "secao_d_anamnese.motivo_internacao",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.condutas",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.condutas",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.condutas",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_a.diagnostico_internacao"
+    ],
+    "campos_erro": [],
+    "campos_null": [
+     "secao_b_anamnese.hda",
+     "secao_b_anamnese.ap_app",
+     "secao_b_evolucao.hd_cid",
+     "secao_b_evolucao.hd_cid",
+     "secao_d_anamnese.motivo_internacao",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.condutas",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.condutas",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.condutas",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_a.diagnostico_internacao"
+    ],
+    "campos_ok": [],
+    "chamadas": 9,
+    "chamadas_ok": 9,
+    "latencia_ia_s": 0.0,
+    "model": "modelo-de-teste",
+    "seed": null,
+    "seed_aplicada": null,
+    "tentativas_total": 9
+   },
+   "conformity_a": {
+    "percent": 71.42857142857143,
+    "total": 7,
+    "valid": 5
+   },
+   "conformity_b_anamnese": {
+    "percent": 71.42857142857143,
+    "total": 7,
+    "valid": 5
+   },
+   "conformity_b_evolucao": {
+    "percent": 75.0,
+    "total": 4,
+    "valid": 3
+   },
+   "conformity_c": {
+    "applies": false,
+    "percent": 100,
+    "total": 0,
+    "valid": 0
+   },
+   "conformity_d_anamnese": {
+    "percent": 75.0,
+    "total": 8,
+    "valid": 6
+   },
+   "conformity_d_evolucao": {
+    "percent": 50.0,
+    "total": 6,
+    "valid": 3
+   },
+   "conformity_e": {
+    "applies": false,
+    "categoria": "Outras",
+    "percent": 100,
+    "total": 0,
+    "valid": 0
+   },
+   "conformity_global": {
+    "invalid": 10,
+    "percent": 68.75,
+    "total": 32,
+    "valid": 22
+   },
+   "ia_incompleta": false,
+   "matriz_documentos": {
+    "datas": [
+     "02/04/2024",
+     "03/04/2024",
+     "04/04/2024",
+     "05/04/2024",
+     "06/04/2024"
+    ],
+    "matriz": {
+     "ENFERMAGEM - Anamnese": {
+      "02/04/2024": 1
+     },
+     "ENFERMAGEM - Evolução": {
+      "03/04/2024": 1,
+      "04/04/2024": 1,
+      "05/04/2024": 1,
+      "06/04/2024": 1
+     },
+     "MEDICINA - Anamnese": {
+      "02/04/2024": 1
+     },
+     "MEDICINA - Evolução": {
+      "03/04/2024": 1,
+      "04/04/2024": 1,
+      "05/04/2024": 1,
+      "06/04/2024": 1
+     }
+    }
+   },
+   "secao_a": {
+    "data_nascimento": "25/6/1959",
+    "diagnostico_internacao": "Não registrado (IA: null)",
+    "especialidade_cirurgia": "Não se aplica",
+    "especialidade_internacao": "Não registrado",
+    "idade": "64 ANOS",
+    "periodo_internacao": "02/04/2024, 22:10 - 07/04/2024, 11:30 (4 dias)",
+    "prontuario": "99.692.381",
+    "unidade_funcional": "Unidade Coronariana"
+   },
+   "secao_b_anamnese": {
+    "af": "conforme",
+    "ap_app": "Não registrado",
+    "cd": "conforme",
+    "criacao_anamnese": "conforme",
+    "exame_fisico": "conforme",
+    "hd_cid": "conforme",
+    "hda": "Não registrado"
+   },
+   "secao_b_evolucao": {
+    "exame_fisico": "conforme",
+    "frequencia_diaria": "conforme",
+    "hd_cid": "não conforme (IA: null — dia 05/04, 06/04)",
+    "procedimentos_condutas_queixas": "conforme"
+   },
+   "secao_c": {
+    "descricao_procedimento": "Não registrado",
+    "descricao_tecnica": "Não registrado",
+    "diagnostico_cid": "I50.9",
+    "especialidade": "Não registrado",
+    "fim": "Não registrado",
+    "inicio": "Não registrado",
+    "tem_cirurgia": false,
+    "unidade_funcional": "Não registrado",
+    "uso_opme": "Não se aplica"
+   },
+   "secao_d_anamnese": {
+    "af": "conforme",
+    "ap_app": "conforme",
+    "cd": "conforme",
+    "criacao_anamnese": "conforme",
+    "escala_braden": "conforme",
+    "escala_morse": "conforme",
+    "exame_fisico": "não conforme (Faltam: Pele/Mucosas, Músculo-esquelético)",
+    "motivo_internacao": "Não registrado"
+   },
+   "secao_d_evolucao": {
+    "condutas": "não conforme (IA: null — dia 03/04, 04/04, 05/04)",
+    "criacao_evolucao": "conforme",
+    "curativo": "Não se aplica",
+    "escala_braden": "conforme",
+    "escala_morse": "conforme",
+    "exame_fisico": "não conforme (Faltam: Músculo-esquelético — dia 03/04, 04/04, 05/04, 06/04)",
+    "motivo_internacao": "Não registrado (IA: null)"
+   },
+   "secao_e": {
+    "categoria": "Não se aplica",
+    "descricao": "Não se aplica",
+    "tem_outras_categorias": false
+   }
+  },
+  "record_id": "99.692.381"
+ },
+ {
+  "audit_data": {
+   "_ia_meta": {
+    "campos_enviados": [
+     "secao_c.descricao_tecnica",
+     "secao_b_anamnese.hda",
+     "secao_b_evolucao.hd_cid",
+     "secao_d_anamnese.motivo_internacao",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.curativo",
+     "secao_a.diagnostico_internacao"
+    ],
+    "campos_erro": [],
+    "campos_null": [
+     "secao_c.descricao_tecnica",
+     "secao_b_anamnese.hda",
+     "secao_b_evolucao.hd_cid",
+     "secao_d_anamnese.motivo_internacao",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.curativo",
+     "secao_a.diagnostico_internacao"
+    ],
+    "campos_ok": [],
+    "chamadas": 7,
+    "chamadas_ok": 7,
+    "latencia_ia_s": 0.0,
+    "model": "modelo-de-teste",
+    "seed": null,
+    "seed_aplicada": null,
+    "tentativas_total": 7
+   },
+   "conformity_a": {
+    "percent": 87.5,
+    "total": 8,
+    "valid": 7
+   },
+   "conformity_b_anamnese": {
+    "percent": 71.42857142857143,
+    "total": 7,
+    "valid": 5
+   },
+   "conformity_b_evolucao": {
+    "percent": 75.0,
+    "total": 4,
+    "valid": 3
+   },
+   "conformity_c": {
+    "applies": true,
+    "percent": 75.0,
+    "total": 8,
+    "valid": 6
+   },
+   "conformity_d_anamnese": {
+    "percent": 75.0,
+    "total": 8,
+    "valid": 6
+   },
+   "conformity_d_evolucao": {
+    "percent": 57.14285714285714,
+    "total": 7,
+    "valid": 4
+   },
+   "conformity_e": {
+    "applies": false,
+    "categoria": "Outras",
+    "percent": 100,
+    "total": 0,
+    "valid": 0
+   },
+   "conformity_global": {
+    "invalid": 11,
+    "percent": 73.80952380952381,
+    "total": 42,
+    "valid": 31
+   },
+   "ia_incompleta": false,
+   "matriz_documentos": {
+    "datas": [
+     "12/03/2025",
+     "13/03/2025",
+     "14/03/2025"
+    ],
+    "matriz": {
+     "ENFERMAGEM - Anamnese": {
+      "12/03/2025": 1
+     },
+     "ENFERMAGEM - Evolução": {
+      "13/03/2025": 1,
+      "14/03/2025": 1
+     },
+     "MEDICINA - Anamnese": {
+      "12/03/2025": 1
+     },
+     "MEDICINA - Evolução": {
+      "13/03/2025": 1,
+      "14/03/2025": 1
+     }
+    }
+   },
+   "secao_a": {
+    "data_nascimento": "4/3/1957",
+    "diagnostico_internacao": "Não registrado (IA: null)",
+    "especialidade_cirurgia": "CARDIOLOGIA",
+    "especialidade_internacao": "CARDIOLOGIA",
+    "idade": "68 ANOS",
+    "periodo_internacao": "12/03/2025, 09:30 - 15/03/2025, 14:00 (3 dias)",
+    "prontuario": "20.981.529",
+    "unidade_funcional": "Unidade Coronariana"
+   },
+   "secao_b_anamnese": {
+    "af": "conforme",
+    "ap_app": "conforme",
+    "cd": "conforme",
+    "criacao_anamnese": "conforme",
+    "exame_fisico": "não conforme (Faltam: Cardiovascular, Abdome)",
+    "hd_cid": "conforme",
+    "hda": "Não registrado"
+   },
+   "secao_b_evolucao": {
+    "exame_fisico": "conforme",
+    "frequencia_diaria": "conforme",
+    "hd_cid": "não conforme (IA: null — dia 13/03)",
+    "procedimentos_condutas_queixas": "conforme"
+   },
+   "secao_c": {
+    "descricao_procedimento": "Cateterismo Cardíaco",
+    "descricao_tecnica": "Não registrado (IA: null)",
+    "diagnostico_cid": "Não registrado",
+    "especialidade": "CARDIOLOGIA",
+    "fim": "13/03/2025, 11:45",
+    "inicio": "13/03/2025, 10:15",
+    "tem_cirurgia": true,
+    "unidade_funcional": "BLOCO CIRURGICO",
+    "uso_opme": "conforme (cateter, introdutor)"
+   },
+   "secao_d_anamnese": {
+    "af": "conforme",
+    "ap_app": "conforme",
+    "cd": "conforme",
+    "criacao_anamnese": "conforme",
+    "escala_braden": "conforme",
+    "escala_morse": "conforme",
+    "exame_fisico": "não conforme (Faltam: Gastrointestinal, Genitourinário, Músculo-esquelético)",
+    "motivo_internacao": "Não registrado"
+   },
+   "secao_d_evolucao": {
+    "condutas": "conforme",
+    "criacao_evolucao": "conforme",
+    "curativo": "não conforme (IA: tipo de curativo não identificado — dia 14/03)",
+    "escala_braden": "conforme",
+    "escala_morse": "conforme",
+    "exame_fisico": "não conforme (Faltam: Genitourinário, Músculo-esquelético — dia 13/03, 14/03)",
+    "motivo_internacao": "Não registrado (IA: null)"
+   },
+   "secao_e": {
+    "categoria": "Não se aplica",
+    "descricao": "Não se aplica",
+    "tem_outras_categorias": false
+   }
+  },
+  "record_id": "20.981.529"
+ },
+ {
+  "audit_data": {
+   "_ia_meta": {
+    "campos_enviados": [
+     "secao_c.descricao_tecnica",
+     "secao_b_anamnese.hda",
+     "secao_b_anamnese.ap_app",
+     "secao_b_anamnese.af",
+     "secao_d_anamnese.motivo_internacao",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.curativo",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.curativo",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.curativo",
+     "secao_a.diagnostico_internacao"
+    ],
+    "campos_erro": [],
+    "campos_null": [
+     "secao_c.descricao_tecnica",
+     "secao_b_anamnese.hda",
+     "secao_b_anamnese.ap_app",
+     "secao_b_anamnese.af",
+     "secao_d_anamnese.motivo_internacao",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.curativo",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.curativo",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.curativo",
+     "secao_a.diagnostico_internacao"
+    ],
+    "campos_ok": [],
+    "chamadas": 7,
+    "chamadas_ok": 7,
+    "latencia_ia_s": 0.0,
+    "model": "modelo-de-teste",
+    "seed": null,
+    "seed_aplicada": null,
+    "tentativas_total": 7
+   },
+   "conformity_a": {
+    "percent": 87.5,
+    "total": 8,
+    "valid": 7
+   },
+   "conformity_b_anamnese": {
+    "percent": 57.14285714285714,
+    "total": 7,
+    "valid": 4
+   },
+   "conformity_b_evolucao": {
+    "percent": 75.0,
+    "total": 4,
+    "valid": 3
+   },
+   "conformity_c": {
+    "applies": true,
+    "percent": 87.5,
+    "total": 8,
+    "valid": 7
+   },
+   "conformity_d_anamnese": {
+    "percent": 75.0,
+    "total": 8,
+    "valid": 6
+   },
+   "conformity_d_evolucao": {
+    "percent": 57.14285714285714,
+    "total": 7,
+    "valid": 4
+   },
+   "conformity_e": {
+    "applies": false,
+    "categoria": "Outras",
+    "percent": 100,
+    "total": 0,
+    "valid": 0
+   },
+   "conformity_global": {
+    "invalid": 11,
+    "percent": 73.80952380952381,
+    "total": 42,
+    "valid": 31
+   },
+   "ia_incompleta": false,
+   "matriz_documentos": {
+    "datas": [
+     "20/05/2025",
+     "21/05/2025",
+     "22/05/2025",
+     "23/05/2025"
+    ],
+    "matriz": {
+     "ENFERMAGEM - Anamnese": {
+      "20/05/2025": 1
+     },
+     "ENFERMAGEM - Evolução": {
+      "21/05/2025": 1,
+      "22/05/2025": 1,
+      "23/05/2025": 1
+     },
+     "MEDICINA - Anamnese": {
+      "20/05/2025": 1
+     },
+     "MEDICINA - Evolução": {
+      "21/05/2025": 1,
+      "22/05/2025": 1,
+      "23/05/2025": 1
+     }
+    }
+   },
+   "secao_a": {
+    "data_nascimento": "12/12/1943",
+    "diagnostico_internacao": "Não registrado (IA: null)",
+    "especialidade_cirurgia": "ORTOPEDIA",
+    "especialidade_internacao": "ORTOPEDIA",
+    "idade": "81 ANOS",
+    "periodo_internacao": "20/05/2025, 16:45 - 24/05/2025, 11:00 (3 dias)",
+    "prontuario": "75.463.740",
+    "unidade_funcional": "Ortopedia"
+   },
+   "secao_b_anamnese": {
+    "af": "Não registrado",
+    "ap_app": "Não registrado",
+    "cd": "conforme",
+    "criacao_anamnese": "conforme",
+    "exame_fisico": "conforme",
+    "hd_cid": "conforme",
+    "hda": "Não registrado"
+   },
+   "secao_b_evolucao": {
+    "exame_fisico": "não conforme (Faltam: Geral — dia 21/05)",
+    "frequencia_diaria": "conforme",
+    "hd_cid": "conforme",
+    "procedimentos_condutas_queixas": "conforme"
+   },
+   "secao_c": {
+    "descricao_procedimento": "Artroplastia Total de Quadril Direita",
+    "descricao_tecnica": "Não registrado (IA: null)",
+    "diagnostico_cid": "S72.1",
+    "especialidade": "ORTOPEDIA",
+    "fim": "21/05/2025, 10:30",
+    "inicio": "21/05/2025, 08:00",
+    "tem_cirurgia": true,
+    "unidade_funcional": "BLOCO CIRURGICO",
+    "uso_opme": "conforme (haste)"
+   },
+   "secao_d_anamnese": {
+    "af": "conforme",
+    "ap_app": "conforme",
+    "cd": "conforme",
+    "criacao_anamnese": "conforme",
+    "escala_braden": "conforme",
+    "escala_morse": "conforme",
+    "exame_fisico": "não conforme (Faltam: Genitourinário, Músculo-esquelético)",
+    "motivo_internacao": "Não registrado"
+   },
+   "secao_d_evolucao": {
+    "condutas": "conforme",
+    "criacao_evolucao": "conforme",
+    "curativo": "não conforme (IA: tipo de curativo não identificado — dia 21/05, 22/05, 23/05)",
+    "escala_braden": "conforme",
+    "escala_morse": "conforme",
+    "exame_fisico": "não conforme (Faltam: Pele/Mucosas, Respiratório — dia 21/05, 22/05, 23/05)",
+    "motivo_internacao": "Não registrado (IA: null)"
+   },
+   "secao_e": {
+    "categoria": "Não se aplica",
+    "descricao": "Não se aplica",
+    "tem_outras_categorias": false
+   }
+  },
+  "record_id": "75.463.740"
+ },
+ {
+  "audit_data": {
+   "_ia_meta": {
+    "campos_enviados": [
+     "secao_b_anamnese.hda",
+     "secao_b_evolucao.procedimentos_condutas_queixas",
+     "secao_d_anamnese.motivo_internacao",
+     "secao_d_anamnese.ap_app",
+     "secao_d_anamnese.af",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.condutas",
+     "secao_d_evolucao.curativo",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.condutas",
+     "secao_d_evolucao.curativo",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.curativo",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.curativo",
+     "secao_a.diagnostico_internacao"
+    ],
+    "campos_erro": [],
+    "campos_null": [
+     "secao_b_anamnese.hda",
+     "secao_b_evolucao.procedimentos_condutas_queixas",
+     "secao_d_anamnese.motivo_internacao",
+     "secao_d_anamnese.ap_app",
+     "secao_d_anamnese.af",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.condutas",
+     "secao_d_evolucao.curativo",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.condutas",
+     "secao_d_evolucao.curativo",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.curativo",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.curativo",
+     "secao_a.diagnostico_internacao"
+    ],
+    "campos_ok": [],
+    "chamadas": 8,
+    "chamadas_ok": 8,
+    "latencia_ia_s": 0.0,
+    "model": "modelo-de-teste",
+    "seed": null,
+    "seed_aplicada": null,
+    "tentativas_total": 8
+   },
+   "conformity_a": {
+    "percent": 71.42857142857143,
+    "total": 7,
+    "valid": 5
+   },
+   "conformity_b_anamnese": {
+    "percent": 85.71428571428571,
+    "total": 7,
+    "valid": 6
+   },
+   "conformity_b_evolucao": {
+    "percent": 50.0,
+    "total": 4,
+    "valid": 2
+   },
+   "conformity_c": {
+    "applies": false,
+    "percent": 100,
+    "total": 0,
+    "valid": 0
+   },
+   "conformity_d_anamnese": {
+    "percent": 50.0,
+    "total": 8,
+    "valid": 4
+   },
+   "conformity_d_evolucao": {
+    "percent": 42.857142857142854,
+    "total": 7,
+    "valid": 3
+   },
+   "conformity_e": {
+    "applies": false,
+    "categoria": "Outras",
+    "percent": 100,
+    "total": 0,
+    "valid": 0
+   },
+   "conformity_global": {
+    "invalid": 13,
+    "percent": 60.60606060606061,
+    "total": 33,
+    "valid": 20
+   },
+   "ia_incompleta": false,
+   "matriz_documentos": {
+    "datas": [
+     "02/06/2025",
+     "03/06/2025",
+     "04/06/2025",
+     "05/06/2025",
+     "06/06/2025"
+    ],
+    "matriz": {
+     "ENFERMAGEM - Anamnese": {
+      "02/06/2025": 1
+     },
+     "ENFERMAGEM - Evolução": {
+      "03/06/2025": 1,
+      "04/06/2025": 1,
+      "05/06/2025": 1,
+      "06/06/2025": 1
+     },
+     "MEDICINA - Anamnese": {
+      "02/06/2025": 1
+     },
+     "MEDICINA - Evolução": {
+      "03/06/2025": 1,
+      "04/06/2025": 1,
+      "05/06/2025": 1,
+      "06/06/2025": 1
+     }
+    }
+   },
+   "secao_a": {
+    "data_nascimento": "24/3/1980",
+    "diagnostico_internacao": "Não registrado (IA: null)",
+    "especialidade_cirurgia": "Não se aplica",
+    "especialidade_internacao": "Não registrado",
+    "idade": "45 ANOS",
+    "periodo_internacao": "02/06/2025, 22:10 - 07/06/2025, 10:00 (4 dias)",
+    "prontuario": "93.165.952",
+    "unidade_funcional": "Clínica Médica"
+   },
+   "secao_b_anamnese": {
+    "af": "conforme",
+    "ap_app": "conforme",
+    "cd": "conforme",
+    "criacao_anamnese": "conforme",
+    "exame_fisico": "conforme",
+    "hd_cid": "conforme",
+    "hda": "Não registrado"
+   },
+   "secao_b_evolucao": {
+    "exame_fisico": "não conforme (Faltam: Cardiovascular — dia 03/06, 04/06)",
+    "frequencia_diaria": "conforme",
+    "hd_cid": "conforme",
+    "procedimentos_condutas_queixas": "não conforme (IA: null — dia 04/06)"
+   },
+   "secao_c": {
+    "descricao_procedimento": "Não registrado",
+    "descricao_tecnica": "Não registrado",
+    "diagnostico_cid": "J18.9",
+    "especialidade": "Não registrado",
+    "fim": "Não registrado",
+    "inicio": "Não registrado",
+    "tem_cirurgia": false,
+    "unidade_funcional": "Não registrado",
+    "uso_opme": "Não se aplica"
+   },
+   "secao_d_anamnese": {
+    "af": "Não registrado",
+    "ap_app": "Não registrado",
+    "cd": "conforme",
+    "criacao_anamnese": "conforme",
+    "escala_braden": "conforme",
+    "escala_morse": "conforme",
+    "exame_fisico": "não conforme (Faltam: Pele/Mucosas, Cardiovascular, Músculo-esquelético)",
+    "motivo_internacao": "Não registrado"
+   },
+   "secao_d_evolucao": {
+    "condutas": "não conforme (IA: null — dia 03/06, 04/06)",
+    "criacao_evolucao": "conforme",
+    "curativo": "não conforme (IA: tipo de curativo não identificado — dia 03/06, 04/06, 05/06, 06/06)",
+    "escala_braden": "conforme",
+    "escala_morse": "conforme",
+    "exame_fisico": "não conforme (Faltam: Pele/Mucosas, Genitourinário, Músculo-esquelético — dia 03/06, 04/06, 05/06, 06/06)",
+    "motivo_internacao": "Não registrado (IA: null)"
+   },
+   "secao_e": {
+    "categoria": "Não se aplica",
+    "descricao": "Não se aplica",
+    "tem_outras_categorias": false
+   }
+  },
+  "record_id": "93.165.952"
+ },
+ {
+  "audit_data": {
+   "_ia_meta": {
+    "campos_enviados": [
+     "secao_c.descricao_tecnica",
+     "secao_b_anamnese.hda",
+     "secao_b_anamnese.af",
+     "secao_d_anamnese.motivo_internacao",
+     "secao_d_anamnese.escala_braden",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.condutas",
+     "secao_a.diagnostico_internacao"
+    ],
+    "campos_erro": [],
+    "campos_null": [
+     "secao_c.descricao_tecnica",
+     "secao_b_anamnese.hda",
+     "secao_b_anamnese.af",
+     "secao_d_anamnese.motivo_internacao",
+     "secao_d_anamnese.escala_braden",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.condutas",
+     "secao_a.diagnostico_internacao"
+    ],
+    "campos_ok": [],
+    "chamadas": 5,
+    "chamadas_ok": 5,
+    "latencia_ia_s": 0.0,
+    "model": "modelo-de-teste",
+    "seed": null,
+    "seed_aplicada": null,
+    "tentativas_total": 5
+   },
+   "conformity_a": {
+    "percent": 87.5,
+    "total": 8,
+    "valid": 7
+   },
+   "conformity_b_anamnese": {
+    "percent": 71.42857142857143,
+    "total": 7,
+    "valid": 5
+   },
+   "conformity_b_evolucao": {
+    "percent": 75.0,
+    "total": 4,
+    "valid": 3
+   },
+   "conformity_c": {
+    "applies": true,
+    "percent": 75.0,
+    "total": 8,
+    "valid": 6
+   },
+   "conformity_d_anamnese": {
+    "percent": 62.5,
+    "total": 8,
+    "valid": 5
+   },
+   "conformity_d_evolucao": {
+    "percent": 33.33333333333333,
+    "total": 6,
+    "valid": 2
+   },
+   "conformity_e": {
+    "applies": false,
+    "categoria": "Outras",
+    "percent": 100,
+    "total": 0,
+    "valid": 0
+   },
+   "conformity_global": {
+    "invalid": 13,
+    "percent": 68.29268292682927,
+    "total": 41,
+    "valid": 28
+   },
+   "ia_incompleta": false,
+   "matriz_documentos": {
+    "datas": [
+     "15/01/2024",
+     "16/01/2024",
+     "17/01/2024"
+    ],
+    "matriz": {
+     "ENFERMAGEM - Anamnese": {
+      "15/01/2024": 1
+     },
+     "ENFERMAGEM - Evolução": {
+      "17/01/2024": 1
+     },
+     "MEDICINA - Anamnese": {
+      "15/01/2024": 1
+     },
+     "MEDICINA - Evolução": {
+      "16/01/2024": 1,
+      "17/01/2024": 1
+     }
+    }
+   },
+   "secao_a": {
+    "data_nascimento": "29/7/1956",
+    "diagnostico_internacao": "Não registrado (IA: null)",
+    "especialidade_cirurgia": "Cardiologia",
+    "especialidade_internacao": "Cardiologia",
+    "idade": "67 ANOS",
+    "periodo_internacao": "15/01/2024, 10:30 - 18/01/2024, 14:00 (3 dias)",
+    "prontuario": "92.822.652",
+    "unidade_funcional": "Unidade Coronariana"
+   },
+   "secao_b_anamnese": {
+    "af": "Não registrado",
+    "ap_app": "conforme",
+    "cd": "conforme",
+    "criacao_anamnese": "conforme",
+    "exame_fisico": "conforme",
+    "hd_cid": "conforme",
+    "hda": "Não registrado"
+   },
+   "secao_b_evolucao": {
+    "exame_fisico": "não conforme (Faltam: Geral, Cardiovascular, Respiratório, Abdome — dia 16/01, 17/01)",
+    "frequencia_diaria": "conforme",
+    "hd_cid": "conforme",
+    "procedimentos_condutas_queixas": "conforme"
+   },
+   "secao_c": {
+    "descricao_procedimento": "Cateterismo Cardíaco",
+    "descricao_tecnica": "Não registrado (IA: null)",
+    "diagnostico_cid": "Não registrado",
+    "especialidade": "Cardiologia",
+    "fim": "16/01/2024, 09:45",
+    "inicio": "16/01/2024, 08:00",
+    "tem_cirurgia": true,
+    "unidade_funcional": "BLOCO CIRURGICO",
+    "uso_opme": "conforme (cateter, introdutor)"
+   },
+   "secao_d_anamnese": {
+    "af": "conforme",
+    "ap_app": "conforme",
+    "cd": "conforme",
+    "criacao_anamnese": "conforme",
+    "escala_braden": "Não registrado",
+    "escala_morse": "conforme",
+    "exame_fisico": "não conforme (Faltam: Genitourinário, Músculo-esquelético)",
+    "motivo_internacao": "Não registrado"
+   },
+   "secao_d_evolucao": {
+    "condutas": "Não registrado (IA: null)",
+    "criacao_evolucao": "não conforme (sem evolução entre 16/01 10:30 e 17/01 10:30)",
+    "curativo": "Não se aplica",
+    "escala_braden": "conforme",
+    "escala_morse": "conforme",
+    "exame_fisico": "não conforme (Faltam: Genitourinário, Músculo-esquelético — dia 17/01)",
+    "motivo_internacao": "Não registrado (IA: null)"
+   },
+   "secao_e": {
+    "categoria": "Não se aplica",
+    "descricao": "Não se aplica",
+    "tem_outras_categorias": false
+   }
+  },
+  "record_id": "92.822.652"
+ },
+ {
+  "audit_data": {
+   "_ia_meta": {
+    "campos_enviados": [
+     "secao_c.descricao_tecnica",
+     "secao_c.uso_opme",
+     "secao_b_anamnese.hda",
+     "secao_d_anamnese.motivo_internacao",
+     "secao_d_anamnese.ap_app",
+     "secao_d_anamnese.af",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.curativo",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.curativo",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.curativo",
+     "secao_a.diagnostico_internacao"
+    ],
+    "campos_erro": [],
+    "campos_null": [
+     "secao_c.descricao_tecnica",
+     "secao_c.uso_opme",
+     "secao_b_anamnese.hda",
+     "secao_d_anamnese.motivo_internacao",
+     "secao_d_anamnese.ap_app",
+     "secao_d_anamnese.af",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.curativo",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.curativo",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.curativo",
+     "secao_a.diagnostico_internacao"
+    ],
+    "campos_ok": [],
+    "chamadas": 7,
+    "chamadas_ok": 7,
+    "latencia_ia_s": 0.0,
+    "model": "modelo-de-teste",
+    "seed": null,
+    "seed_aplicada": null,
+    "tentativas_total": 7
+   },
+   "conformity_a": {
+    "percent": 87.5,
+    "total": 8,
+    "valid": 7
+   },
+   "conformity_b_anamnese": {
+    "percent": 71.42857142857143,
+    "total": 7,
+    "valid": 5
+   },
+   "conformity_b_evolucao": {
+    "percent": 100.0,
+    "total": 4,
+    "valid": 4
+   },
+   "conformity_c": {
+    "applies": true,
+    "percent": 85.71428571428571,
+    "total": 7,
+    "valid": 6
+   },
+   "conformity_d_anamnese": {
+    "percent": 50.0,
+    "total": 8,
+    "valid": 4
+   },
+   "conformity_d_evolucao": {
+    "percent": 57.14285714285714,
+    "total": 7,
+    "valid": 4
+   },
+   "conformity_e": {
+    "applies": false,
+    "categoria": "Outras",
+    "percent": 100,
+    "total": 0,
+    "valid": 0
+   },
+   "conformity_global": {
+    "invalid": 11,
+    "percent": 73.17073170731707,
+    "total": 41,
+    "valid": 30
+   },
+   "ia_incompleta": false,
+   "matriz_documentos": {
+    "datas": [
+     "20/02/2024",
+     "21/02/2024",
+     "22/02/2024",
+     "23/02/2024"
+    ],
+    "matriz": {
+     "ENFERMAGEM - Anamnese": {
+      "20/02/2024": 1
+     },
+     "ENFERMAGEM - Evolução": {
+      "21/02/2024": 1,
+      "22/02/2024": 1,
+      "23/02/2024": 1
+     },
+     "MEDICINA - Anamnese": {
+      "20/02/2024": 1
+     },
+     "MEDICINA - Evolução": {
+      "21/02/2024": 1,
+      "22/02/2024": 1,
+      "23/02/2024": 1
+     }
+    }
+   },
+   "secao_a": {
+    "data_nascimento": "10/7/1942",
+    "diagnostico_internacao": "Não registrado (IA: null)",
+    "especialidade_cirurgia": "Ortopedia",
+    "especialidade_internacao": "Ortopedia",
+    "idade": "81 ANOS",
+    "periodo_internacao": "20/02/2024, 18:15 - 24/02/2024, 11:30 (3 dias)",
+    "prontuario": "65.534.823",
+    "unidade_funcional": "Enfermaria de Ortopedia"
+   },
+   "secao_b_anamnese": {
+    "af": "conforme",
+    "ap_app": "conforme",
+    "cd": "conforme",
+    "criacao_anamnese": "conforme",
+    "exame_fisico": "não conforme (Faltam: Respiratório, Extremidades)",
+    "hd_cid": "conforme",
+    "hda": "Não registrado"
+   },
+   "secao_b_evolucao": {
+    "exame_fisico": "conforme",
+    "frequencia_diaria": "conforme",
+    "hd_cid": "conforme",
+    "procedimentos_condutas_queixas": "conforme"
+   },
+   "secao_c": {
+    "descricao_procedimento": "Osteossíntese de Fêmur com Haste Intramedular",
+    "descricao_tecnica": "Não registrado (IA: null)",
+    "diagnostico_cid": "S72.1",
+    "especialidade": "Ortopedia",
+    "fim": "21/02/2024, 10:15",
+    "inicio": "21/02/2024, 07:30",
+    "tem_cirurgia": true,
+    "unidade_funcional": "BLOCO CIRURGICO",
+    "uso_opme": "Não se aplica (IA: null)"
+   },
+   "secao_d_anamnese": {
+    "af": "Não registrado",
+    "ap_app": "Não registrado",
+    "cd": "conforme",
+    "criacao_anamnese": "conforme",
+    "escala_braden": "conforme",
+    "escala_morse": "conforme",
+    "exame_fisico": "não conforme (Faltam: Genitourinário)",
+    "motivo_internacao": "Não registrado"
+   },
+   "secao_d_evolucao": {
+    "condutas": "conforme",
+    "criacao_evolucao": "conforme",
+    "curativo": "não conforme (IA: tipo de curativo não identificado — dia 21/02, 22/02, 23/02)",
+    "escala_braden": "conforme",
+    "escala_morse": "conforme",
+    "exame_fisico": "não conforme (Faltam: Respiratório, Genitourinário, Músculo-esquelético — dia 21/02, 22/02, 23/02)",
+    "motivo_internacao": "Não registrado (IA: null)"
+   },
+   "secao_e": {
+    "categoria": "Não se aplica",
+    "descricao": "Não se aplica",
+    "tem_outras_categorias": false
+   }
+  },
+  "record_id": "65.534.823"
+ },
+ {
+  "audit_data": {
+   "_ia_meta": {
+    "campos_enviados": [
+     "secao_b_anamnese.hda",
+     "secao_b_evolucao.hd_cid",
+     "secao_b_evolucao.hd_cid",
+     "secao_b_evolucao.procedimentos_condutas_queixas",
+     "secao_b_evolucao.hd_cid",
+     "secao_b_evolucao.procedimentos_condutas_queixas",
+     "secao_d_anamnese.motivo_internacao",
+     "secao_d_anamnese.escala_morse",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.condutas",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.condutas",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.condutas",
+     "secao_a.diagnostico_internacao"
+    ],
+    "campos_erro": [],
+    "campos_null": [
+     "secao_b_anamnese.hda",
+     "secao_b_evolucao.hd_cid",
+     "secao_b_evolucao.hd_cid",
+     "secao_b_evolucao.procedimentos_condutas_queixas",
+     "secao_b_evolucao.hd_cid",
+     "secao_b_evolucao.procedimentos_condutas_queixas",
+     "secao_d_anamnese.motivo_internacao",
+     "secao_d_anamnese.escala_morse",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.condutas",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.condutas",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.condutas",
+     "secao_a.diagnostico_internacao"
+    ],
+    "campos_ok": [],
+    "chamadas": 10,
+    "chamadas_ok": 10,
+    "latencia_ia_s": 0.0,
+    "model": "modelo-de-teste",
+    "seed": null,
+    "seed_aplicada": null,
+    "tentativas_total": 10
+   },
+   "conformity_a": {
+    "percent": 71.42857142857143,
+    "total": 7,
+    "valid": 5
+   },
+   "conformity_b_anamnese": {
+    "percent": 85.71428571428571,
+    "total": 7,
+    "valid": 6
+   },
+   "conformity_b_evolucao": {
+    "percent": 0.0,
+    "total": 4,
+    "valid": 0
+   },
+   "conformity_c": {
+    "applies": false,
+    "percent": 100,
+    "total": 0,
+    "valid": 0
+   },
+   "conformity_d_anamnese": {
+    "percent": 62.5,
+    "total": 8,
+    "valid": 5
+   },
+   "conformity_d_evolucao": {
+    "percent": 50.0,
+    "total": 6,
+    "valid": 3
+   },
+   "conformity_e": {
+    "applies": false,
+    "categoria": "Outras",
+    "percent": 100,
+    "total": 0,
+    "valid": 0
+   },
+   "conformity_global": {
+    "invalid": 13,
+    "percent": 59.375,
+    "total": 32,
+    "valid": 19
+   },
+   "ia_incompleta": false,
+   "matriz_documentos": {
+    "datas": [
+     "05/03/2024",
+     "06/03/2024",
+     "07/03/2024",
+     "08/03/2024",
+     "09/03/2024"
+    ],
+    "matriz": {
+     "ENFERMAGEM - Anamnese": {
+      "05/03/2024": 1
+     },
+     "ENFERMAGEM - Evolução": {
+      "06/03/2024": 1,
+      "07/03/2024": 1,
+      "08/03/2024": 1,
+      "09/03/2024": 1
+     },
+     "MEDICINA - Anamnese": {
+      "05/03/2024": 1
+     },
+     "MEDICINA - Evolução": {
+      "06/03/2024": 1,
+      "08/03/2024": 1,
+      "09/03/2024": 1
+     }
+    }
+   },
+   "secao_a": {
+    "data_nascimento": "1/7/1969",
+    "diagnostico_internacao": "Não registrado (IA: null)",
+    "especialidade_cirurgia": "Não se aplica",
+    "especialidade_internacao": "Não registrado",
+    "idade": "54 ANOS",
+    "periodo_internacao": "05/03/2024, 22:00 - 10/03/2024, 16:45 (4 dias)",
+    "prontuario": "90.572.623",
+    "unidade_funcional": "Enfermaria de Clínica Médica"
+   },
+   "secao_b_anamnese": {
+    "af": "conforme",
+    "ap_app": "conforme",
+    "cd": "conforme",
+    "criacao_anamnese": "conforme",
+    "exame_fisico": "conforme",
+    "hd_cid": "conforme",
+    "hda": "Não registrado"
+   },
+   "secao_b_evolucao": {
+    "exame_fisico": "não conforme (Faltam: Geral, Cardiovascular — dia 06/03)",
+    "frequencia_diaria": "não conforme (sem evolução entre 07/03 22:00 e 08/03 22:00)",
+    "hd_cid": "Não registrado (IA: null)",
+    "procedimentos_condutas_queixas": "não conforme (IA: null — dia 08/03, 09/03)"
+   },
+   "secao_c": {
+    "descricao_procedimento": "Não registrado",
+    "descricao_tecnica": "Não registrado",
+    "diagnostico_cid": "J15.9",
+    "especialidade": "Não registrado",
+    "fim": "Não registrado",
+    "inicio": "Não registrado",
+    "tem_cirurgia": false,
+    "unidade_funcional": "Não registrado",
+    "uso_opme": "Não se aplica"
+   },
+   "secao_d_anamnese": {
+    "af": "conforme",
+    "ap_app": "conforme",
+    "cd": "conforme",
+    "criacao_anamnese": "conforme",
+    "escala_braden": "conforme",
+    "escala_morse": "Não registrado",
+    "exame_fisico": "não conforme (Faltam: Genitourinário, Músculo-esquelético)",
+    "motivo_internacao": "Não registrado"
+   },
+   "secao_d_evolucao": {
+    "condutas": "não conforme (IA: null — dia 06/03, 08/03, 09/03)",
+    "criacao_evolucao": "conforme",
+    "curativo": "Não se aplica",
+    "escala_braden": "conforme",
+    "escala_morse": "conforme",
+    "exame_fisico": "não conforme (Faltam: Respiratório, Cardiovascular, Genitourinário, Músculo-esquelético — dia 06/03, 07/03, 08/03, 09/03)",
+    "motivo_internacao": "Não registrado (IA: null)"
+   },
+   "secao_e": {
+    "categoria": "Não se aplica",
+    "descricao": "Não se aplica",
+    "tem_outras_categorias": false
+   }
+  },
+  "record_id": "90.572.623"
+ },
+ {
+  "audit_data": {
+   "_ia_meta": {
+    "campos_enviados": [
+     "secao_c.descricao_tecnica",
+     "secao_b_anamnese.hda",
+     "secao_b_anamnese.af",
+     "secao_d_anamnese.motivo_internacao",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.curativo",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.condutas",
+     "secao_d_evolucao.curativo",
+     "secao_a.diagnostico_internacao"
+    ],
+    "campos_erro": [],
+    "campos_null": [
+     "secao_c.descricao_tecnica",
+     "secao_b_anamnese.hda",
+     "secao_b_anamnese.af",
+     "secao_d_anamnese.motivo_internacao",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.curativo",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.condutas",
+     "secao_d_evolucao.curativo",
+     "secao_a.diagnostico_internacao"
+    ],
+    "campos_ok": [],
+    "chamadas": 6,
+    "chamadas_ok": 6,
+    "latencia_ia_s": 0.0,
+    "model": "modelo-de-teste",
+    "seed": null,
+    "seed_aplicada": null,
+    "tentativas_total": 6
+   },
+   "conformity_a": {
+    "percent": 87.5,
+    "total": 8,
+    "valid": 7
+   },
+   "conformity_b_anamnese": {
+    "percent": 71.42857142857143,
+    "total": 7,
+    "valid": 5
+   },
+   "conformity_b_evolucao": {
+    "percent": 100.0,
+    "total": 4,
+    "valid": 4
+   },
+   "conformity_c": {
+    "applies": true,
+    "percent": 75.0,
+    "total": 8,
+    "valid": 6
+   },
+   "conformity_d_anamnese": {
+    "percent": 75.0,
+    "total": 8,
+    "valid": 6
+   },
+   "conformity_d_evolucao": {
+    "percent": 42.857142857142854,
+    "total": 7,
+    "valid": 3
+   },
+   "conformity_e": {
+    "applies": false,
+    "categoria": "Outras",
+    "percent": 100,
+    "total": 0,
+    "valid": 0
+   },
+   "conformity_global": {
+    "invalid": 11,
+    "percent": 73.80952380952381,
+    "total": 42,
+    "valid": 31
+   },
+   "ia_incompleta": false,
+   "matriz_documentos": {
+    "datas": [
+     "05/10/2023",
+     "06/10/2023",
+     "07/10/2023"
+    ],
+    "matriz": {
+     "ENFERMAGEM - Anamnese": {
+      "05/10/2023": 1
+     },
+     "ENFERMAGEM - Evolução": {
+      "06/10/2023": 1,
+      "07/10/2023": 1
+     },
+     "MEDICINA - Anamnese": {
+      "05/10/2023": 1
+     },
+     "MEDICINA - Evolução": {
+      "06/10/2023": 1,
+      "07/10/2023": 1
+     }
+    }
+   },
+   "secao_a": {
+    "data_nascimento": "11/8/1965",
+    "diagnostico_internacao": "Não registrado (IA: null)",
+    "especialidade_cirurgia": "CARDIOLOGIA",
+    "especialidade_internacao": "CARDIOLOGIA",
+    "idade": "58 ANOS",
+    "periodo_internacao": "05/10/2023, 14:30 - 08/10/2023, 11:00 (2 dias)",
+    "prontuario": "50.888.322",
+    "unidade_funcional": "Unidade Coronariana"
+   },
+   "secao_b_anamnese": {
+    "af": "Não registrado",
+    "ap_app": "conforme",
+    "cd": "conforme",
+    "criacao_anamnese": "conforme",
+    "exame_fisico": "conforme",
+    "hd_cid": "conforme",
+    "hda": "Não registrado"
+   },
+   "secao_b_evolucao": {
+    "exame_fisico": "conforme",
+    "frequencia_diaria": "conforme",
+    "hd_cid": "conforme",
+    "procedimentos_condutas_queixas": "conforme"
+   },
+   "secao_c": {
+    "descricao_procedimento": "Cinecoronariografia",
+    "descricao_tecnica": "Não registrado (IA: null)",
+    "diagnostico_cid": "Não registrado",
+    "especialidade": "CARDIOLOGIA",
+    "fim": "06/10/2023, 11:45",
+    "inicio": "06/10/2023, 10:15",
+    "tem_cirurgia": true,
+    "unidade_funcional": "BLOCO CIRURGICO",
+    "uso_opme": "conforme (introdutor)"
+   },
+   "secao_d_anamnese": {
+    "af": "conforme",
+    "ap_app": "conforme",
+    "cd": "conforme",
+    "criacao_anamnese": "conforme",
+    "escala_braden": "conforme",
+    "escala_morse": "conforme",
+    "exame_fisico": "não conforme (Faltam: Genitourinário, Músculo-esquelético)",
+    "motivo_internacao": "Não registrado"
+   },
+   "secao_d_evolucao": {
+    "condutas": "não conforme (IA: null — dia 07/10)",
+    "criacao_evolucao": "conforme",
+    "curativo": "não conforme (IA: tipo de curativo não identificado — dia 06/10, 07/10)",
+    "escala_braden": "conforme",
+    "escala_morse": "conforme",
+    "exame_fisico": "não conforme (Faltam: Músculo-esquelético — dia 06/10, 07/10)",
+    "motivo_internacao": "Não registrado (IA: null)"
+   },
+   "secao_e": {
+    "categoria": "Não se aplica",
+    "descricao": "Não se aplica",
+    "tem_outras_categorias": false
+   }
+  },
+  "record_id": "50.888.322"
+ },
+ {
+  "audit_data": {
+   "_ia_meta": {
+    "campos_enviados": [
+     "secao_c.descricao_tecnica",
+     "secao_b_anamnese.hda",
+     "secao_b_evolucao.hd_cid",
+     "secao_b_evolucao.procedimentos_condutas_queixas",
+     "secao_d_anamnese.motivo_internacao",
+     "secao_d_anamnese.ap_app",
+     "secao_d_anamnese.af",
+     "secao_d_anamnese.escala_braden",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.condutas",
+     "secao_d_evolucao.curativo",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.curativo",
+     "secao_a.diagnostico_internacao"
+    ],
+    "campos_erro": [],
+    "campos_null": [
+     "secao_c.descricao_tecnica",
+     "secao_b_anamnese.hda",
+     "secao_b_evolucao.hd_cid",
+     "secao_b_evolucao.procedimentos_condutas_queixas",
+     "secao_d_anamnese.motivo_internacao",
+     "secao_d_anamnese.ap_app",
+     "secao_d_anamnese.af",
+     "secao_d_anamnese.escala_braden",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.condutas",
+     "secao_d_evolucao.curativo",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.curativo",
+     "secao_a.diagnostico_internacao"
+    ],
+    "campos_ok": [],
+    "chamadas": 8,
+    "chamadas_ok": 8,
+    "latencia_ia_s": 0.0,
+    "model": "modelo-de-teste",
+    "seed": null,
+    "seed_aplicada": null,
+    "tentativas_total": 8
+   },
+   "conformity_a": {
+    "percent": 87.5,
+    "total": 8,
+    "valid": 7
+   },
+   "conformity_b_anamnese": {
+    "percent": 57.14285714285714,
+    "total": 7,
+    "valid": 4
+   },
+   "conformity_b_evolucao": {
+    "percent": 50.0,
+    "total": 4,
+    "valid": 2
+   },
+   "conformity_c": {
+    "applies": true,
+    "percent": 87.5,
+    "total": 8,
+    "valid": 7
+   },
+   "conformity_d_anamnese": {
+    "percent": 37.5,
+    "total": 8,
+    "valid": 3
+   },
+   "conformity_d_evolucao": {
+    "percent": 28.57142857142857,
+    "total": 7,
+    "valid": 2
+   },
+   "conformity_e": {
+    "applies": false,
+    "categoria": "Outras",
+    "percent": 100,
+    "total": 0,
+    "valid": 0
+   },
+   "conformity_global": {
+    "invalid": 17,
+    "percent": 59.523809523809526,
+    "total": 42,
+    "valid": 25
+   },
+   "ia_incompleta": false,
+   "matriz_documentos": {
+    "datas": [
+     "12/11/2023",
+     "13/11/2023",
+     "14/11/2023",
+     "15/11/2023"
+    ],
+    "matriz": {
+     "ENFERMAGEM - Anamnese": {
+      "12/11/2023": 1
+     },
+     "ENFERMAGEM - Evolução": {
+      "14/11/2023": 1,
+      "15/11/2023": 1
+     },
+     "MEDICINA - Anamnese": {
+      "12/11/2023": 1
+     },
+     "MEDICINA - Evolução": {
+      "13/11/2023": 1,
+      "14/11/2023": 1,
+      "15/11/2023": 1
+     }
+    }
+   },
+   "secao_a": {
+    "data_nascimento": "11/6/1941",
+    "diagnostico_internacao": "Não registrado (IA: null)",
+    "especialidade_cirurgia": "ORTOPEDIA",
+    "especialidade_internacao": "ORTOPEDIA",
+    "idade": "82 ANOS",
+    "periodo_internacao": "12/11/2023, 09:20 - 16/11/2023, 16:45 (4 dias)",
+    "prontuario": "60.616.859",
+    "unidade_funcional": "Enfermaria de Ortopedia"
+   },
+   "secao_b_anamnese": {
+    "af": "conforme",
+    "ap_app": "conforme",
+    "cd": "conforme",
+    "criacao_anamnese": "não conforme (criada 13h15 após a internação; prazo de 12h)",
+    "exame_fisico": "não conforme (Faltam: Cardiovascular, Respiratório)",
+    "hd_cid": "conforme",
+    "hda": "Não registrado"
+   },
+   "secao_b_evolucao": {
+    "exame_fisico": "conforme",
+    "frequencia_diaria": "conforme",
+    "hd_cid": "não conforme (IA: null — dia 13/11)",
+    "procedimentos_condutas_queixas": "não conforme (IA: null — dia 14/11)"
+   },
+   "secao_c": {
+    "descricao_procedimento": "Artroplastia Parcial de Quadril",
+    "descricao_tecnica": "Não registrado (IA: null)",
+    "diagnostico_cid": "S72.1",
+    "especialidade": "ORTOPEDIA",
+    "fim": "13/11/2023, 10:30",
+    "inicio": "13/11/2023, 08:00",
+    "tem_cirurgia": true,
+    "unidade_funcional": "BLOCO CIRURGICO",
+    "uso_opme": "conforme (haste, cimento ósseo)"
+   },
+   "secao_d_anamnese": {
+    "af": "Não registrado",
+    "ap_app": "Não registrado",
+    "cd": "conforme",
+    "criacao_anamnese": "conforme",
+    "escala_braden": "Não registrado",
+    "escala_morse": "conforme",
+    "exame_fisico": "não conforme (Faltam: Genitourinário)",
+    "motivo_internacao": "Não registrado"
+   },
+   "secao_d_evolucao": {
+    "condutas": "não conforme (IA: null — dia 14/11)",
+    "criacao_evolucao": "não conforme (sem evolução entre 13/11 09:20 e 14/11 09:20)",
+    "curativo": "não conforme (IA: tipo de curativo não identificado — dia 14/11, 15/11)",
+    "escala_braden": "conforme",
+    "escala_morse": "conforme",
+    "exame_fisico": "não conforme (Faltam: Nervoso, Pele/Mucosas, Respiratório, Genitourinário — dia 15/11)",
+    "motivo_internacao": "Não registrado (IA: null)"
+   },
+   "secao_e": {
+    "categoria": "Não se aplica",
+    "descricao": "Não se aplica",
+    "tem_outras_categorias": false
+   }
+  },
+  "record_id": "60.616.859"
+ },
+ {
+  "audit_data": {
+   "_ia_meta": {
+    "campos_enviados": [
+     "secao_b_anamnese.hda",
+     "secao_b_anamnese.ap_app",
+     "secao_d_anamnese.motivo_internacao",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.condutas",
+     "secao_d_evolucao.curativo",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.condutas",
+     "secao_d_evolucao.curativo",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.condutas",
+     "secao_d_evolucao.curativo",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.curativo",
+     "secao_a.diagnostico_internacao"
+    ],
+    "campos_erro": [],
+    "campos_null": [
+     "secao_b_anamnese.hda",
+     "secao_b_anamnese.ap_app",
+     "secao_d_anamnese.motivo_internacao",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.condutas",
+     "secao_d_evolucao.curativo",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.condutas",
+     "secao_d_evolucao.curativo",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.condutas",
+     "secao_d_evolucao.curativo",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.curativo",
+     "secao_a.diagnostico_internacao"
+    ],
+    "campos_ok": [],
+    "chamadas": 7,
+    "chamadas_ok": 7,
+    "latencia_ia_s": 0.0,
+    "model": "modelo-de-teste",
+    "seed": null,
+    "seed_aplicada": null,
+    "tentativas_total": 7
+   },
+   "conformity_a": {
+    "percent": 71.42857142857143,
+    "total": 7,
+    "valid": 5
+   },
+   "conformity_b_anamnese": {
+    "percent": 71.42857142857143,
+    "total": 7,
+    "valid": 5
+   },
+   "conformity_b_evolucao": {
+    "percent": 75.0,
+    "total": 4,
+    "valid": 3
+   },
+   "conformity_c": {
+    "applies": false,
+    "percent": 100,
+    "total": 0,
+    "valid": 0
+   },
+   "conformity_d_anamnese": {
+    "percent": 75.0,
+    "total": 8,
+    "valid": 6
+   },
+   "conformity_d_evolucao": {
+    "percent": 42.857142857142854,
+    "total": 7,
+    "valid": 3
+   },
+   "conformity_e": {
+    "applies": false,
+    "categoria": "Outras",
+    "percent": 100,
+    "total": 0,
+    "valid": 0
+   },
+   "conformity_global": {
+    "invalid": 11,
+    "percent": 66.66666666666666,
+    "total": 33,
+    "valid": 22
+   },
+   "ia_incompleta": false,
+   "matriz_documentos": {
+    "datas": [
+     "20/11/2023",
+     "21/11/2023",
+     "22/11/2023",
+     "23/11/2023",
+     "24/11/2023"
+    ],
+    "matriz": {
+     "ENFERMAGEM - Anamnese": {
+      "20/11/2023": 1
+     },
+     "ENFERMAGEM - Evolução": {
+      "21/11/2023": 1,
+      "22/11/2023": 1,
+      "23/11/2023": 1,
+      "24/11/2023": 1
+     },
+     "MEDICINA - Anamnese": {
+      "20/11/2023": 1
+     },
+     "MEDICINA - Evolução": {
+      "21/11/2023": 1,
+      "22/11/2023": 1,
+      "23/11/2023": 1,
+      "24/11/2023": 1
+     }
+    }
+   },
+   "secao_a": {
+    "data_nascimento": "28/11/1978",
+    "diagnostico_internacao": "Não registrado (IA: null)",
+    "especialidade_cirurgia": "Não se aplica",
+    "especialidade_internacao": "Não registrado",
+    "idade": "44 ANOS",
+    "periodo_internacao": "20/11/2023, 22:10 - 25/11/2023, 10:00 (4 dias)",
+    "prontuario": "85.200.145",
+    "unidade_funcional": "Enfermaria de Clínica Médica"
+   },
+   "secao_b_anamnese": {
+    "af": "conforme",
+    "ap_app": "Não registrado",
+    "cd": "conforme",
+    "criacao_anamnese": "conforme",
+    "exame_fisico": "conforme",
+    "hd_cid": "conforme",
+    "hda": "Não registrado"
+   },
+   "secao_b_evolucao": {
+    "exame_fisico": "não conforme (Faltam: Cardiovascular — dia 24/11)",
+    "frequencia_diaria": "conforme",
+    "hd_cid": "conforme",
+    "procedimentos_condutas_queixas": "conforme"
+   },
+   "secao_c": {
+    "descricao_procedimento": "Não registrado",
+    "descricao_tecnica": "Não registrado",
+    "diagnostico_cid": "J18.9",
+    "especialidade": "Não registrado",
+    "fim": "Não registrado",
+    "inicio": "Não registrado",
+    "tem_cirurgia": false,
+    "unidade_funcional": "Não registrado",
+    "uso_opme": "Não se aplica"
+   },
+   "secao_d_anamnese": {
+    "af": "conforme",
+    "ap_app": "conforme",
+    "cd": "conforme",
+    "criacao_anamnese": "conforme",
+    "escala_braden": "conforme",
+    "escala_morse": "conforme",
+    "exame_fisico": "não conforme (Faltam: Cardiovascular, Genitourinário, Músculo-esquelético)",
+    "motivo_internacao": "Não registrado"
+   },
+   "secao_d_evolucao": {
+    "condutas": "não conforme (IA: null — dia 21/11, 22/11, 23/11)",
+    "criacao_evolucao": "conforme",
+    "curativo": "não conforme (IA: tipo de curativo não identificado — dia 21/11, 22/11, 23/11, 24/11)",
+    "escala_braden": "conforme",
+    "escala_morse": "conforme",
+    "exame_fisico": "não conforme (Faltam: Genitourinário, Músculo-esquelético — dia 21/11, 22/11, 23/11, 24/11)",
+    "motivo_internacao": "Não registrado (IA: null)"
+   },
+   "secao_e": {
+    "categoria": "Não se aplica",
+    "descricao": "Não se aplica",
+    "tem_outras_categorias": false
+   }
+  },
+  "record_id": "85.200.145"
+ },
+ {
+  "audit_data": {
+   "_ia_meta": {
+    "campos_enviados": [
+     "secao_c.descricao_tecnica",
+     "secao_b_anamnese.hda",
+     "secao_d_anamnese.motivo_internacao",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.condutas",
+     "secao_d_evolucao.curativo",
+     "secao_a.diagnostico_internacao"
+    ],
+    "campos_erro": [],
+    "campos_null": [
+     "secao_c.descricao_tecnica",
+     "secao_b_anamnese.hda",
+     "secao_d_anamnese.motivo_internacao",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.condutas",
+     "secao_d_evolucao.curativo",
+     "secao_a.diagnostico_internacao"
+    ],
+    "campos_ok": [],
+    "chamadas": 6,
+    "chamadas_ok": 6,
+    "latencia_ia_s": 0.0,
+    "model": "modelo-de-teste",
+    "seed": null,
+    "seed_aplicada": null,
+    "tentativas_total": 6
+   },
+   "conformity_a": {
+    "percent": 87.5,
+    "total": 8,
+    "valid": 7
+   },
+   "conformity_b_anamnese": {
+    "percent": 85.71428571428571,
+    "total": 7,
+    "valid": 6
+   },
+   "conformity_b_evolucao": {
+    "percent": 100.0,
+    "total": 4,
+    "valid": 4
+   },
+   "conformity_c": {
+    "applies": true,
+    "percent": 87.5,
+    "total": 8,
+    "valid": 7
+   },
+   "conformity_d_anamnese": {
+    "percent": 75.0,
+    "total": 8,
+    "valid": 6
+   },
+   "conformity_d_evolucao": {
+    "percent": 42.857142857142854,
+    "total": 7,
+    "valid": 3
+   },
+   "conformity_e": {
+    "applies": false,
+    "categoria": "Outras",
+    "percent": 100,
+    "total": 0,
+    "valid": 0
+   },
+   "conformity_global": {
+    "invalid": 9,
+    "percent": 78.57142857142857,
+    "total": 42,
+    "valid": 33
+   },
+   "ia_incompleta": false,
+   "matriz_documentos": {
+    "datas": [
+     "10/01/2025",
+     "11/01/2025",
+     "12/01/2025"
+    ],
+    "matriz": {
+     "ENFERMAGEM - Anamnese": {
+      "10/01/2025": 1
+     },
+     "ENFERMAGEM - Evolução": {
+      "11/01/2025": 1,
+      "12/01/2025": 1
+     },
+     "MEDICINA - Anamnese": {
+      "10/01/2025": 1
+     },
+     "MEDICINA - Evolução": {
+      "11/01/2025": 1,
+      "12/01/2025": 1
+     }
+    }
+   },
+   "secao_a": {
+    "data_nascimento": "15/6/1963",
+    "diagnostico_internacao": "Não registrado (IA: null)",
+    "especialidade_cirurgia": "Cardiologia",
+    "especialidade_internacao": "Cardiologia",
+    "idade": "61 ANOS",
+    "periodo_internacao": "10/01/2025, 08:00 - 13/01/2025, 10:00 (3 dias)",
+    "prontuario": "85.411.638",
+    "unidade_funcional": "Unidade de Pós-Operatório Cardíaco"
+   },
+   "secao_b_anamnese": {
+    "af": "conforme",
+    "ap_app": "conforme",
+    "cd": "conforme",
+    "criacao_anamnese": "conforme",
+    "exame_fisico": "conforme",
+    "hd_cid": "conforme",
+    "hda": "Não registrado"
+   },
+   "secao_b_evolucao": {
+    "exame_fisico": "conforme",
+    "frequencia_diaria": "conforme",
+    "hd_cid": "conforme",
+    "procedimentos_condutas_queixas": "conforme"
+   },
+   "secao_c": {
+    "descricao_procedimento": "Revascularização do miocárdio (ponte de safena)",
+    "descricao_tecnica": "Não registrado (IA: null)",
+    "diagnostico_cid": "I50.0",
+    "especialidade": "Cardiologia",
+    "fim": "11/01/2025, 12:30",
+    "inicio": "11/01/2025, 09:00",
+    "tem_cirurgia": true,
+    "unidade_funcional": "BLOCO CIRURGICO",
+    "uso_opme": "conforme (marcapasso, dreno)"
+   },
+   "secao_d_anamnese": {
+    "af": "conforme",
+    "ap_app": "conforme",
+    "cd": "conforme",
+    "criacao_anamnese": "conforme",
+    "escala_braden": "conforme",
+    "escala_morse": "conforme",
+    "exame_fisico": "não conforme (Faltam: Genitourinário, Músculo-esquelético)",
+    "motivo_internacao": "Não registrado"
+   },
+   "secao_d_evolucao": {
+    "condutas": "não conforme (IA: null — dia 12/01)",
+    "criacao_evolucao": "conforme",
+    "curativo": "não conforme (IA: tipo de curativo não identificado — dia 12/01)",
+    "escala_braden": "conforme",
+    "escala_morse": "conforme",
+    "exame_fisico": "não conforme (Faltam: Genitourinário, Músculo-esquelético — dia 11/01, 12/01)",
+    "motivo_internacao": "Não registrado (IA: null)"
+   },
+   "secao_e": {
+    "categoria": "Não se aplica",
+    "descricao": "Não se aplica",
+    "tem_outras_categorias": false
+   }
+  },
+  "record_id": "85.411.638"
+ },
+ {
+  "audit_data": {
+   "_ia_meta": {
+    "campos_enviados": [
+     "secao_c.descricao_tecnica",
+     "secao_b_anamnese.hda",
+     "secao_b_anamnese.ap_app",
+     "secao_b_anamnese.af",
+     "secao_b_evolucao.hd_cid",
+     "secao_b_evolucao.hd_cid",
+     "secao_d_anamnese.motivo_internacao",
+     "secao_d_anamnese.ap_app",
+     "secao_d_anamnese.af",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.curativo",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.condutas",
+     "secao_d_evolucao.curativo",
+     "secao_a.diagnostico_internacao"
+    ],
+    "campos_erro": [],
+    "campos_null": [
+     "secao_c.descricao_tecnica",
+     "secao_b_anamnese.hda",
+     "secao_b_anamnese.ap_app",
+     "secao_b_anamnese.af",
+     "secao_b_evolucao.hd_cid",
+     "secao_b_evolucao.hd_cid",
+     "secao_d_anamnese.motivo_internacao",
+     "secao_d_anamnese.ap_app",
+     "secao_d_anamnese.af",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.curativo",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.condutas",
+     "secao_d_evolucao.curativo",
+     "secao_a.diagnostico_internacao"
+    ],
+    "campos_ok": [],
+    "chamadas": 9,
+    "chamadas_ok": 9,
+    "latencia_ia_s": 0.0,
+    "model": "modelo-de-teste",
+    "seed": null,
+    "seed_aplicada": null,
+    "tentativas_total": 9
+   },
+   "conformity_a": {
+    "percent": 87.5,
+    "total": 8,
+    "valid": 7
+   },
+   "conformity_b_anamnese": {
+    "percent": 42.857142857142854,
+    "total": 7,
+    "valid": 3
+   },
+   "conformity_b_evolucao": {
+    "percent": 50.0,
+    "total": 4,
+    "valid": 2
+   },
+   "conformity_c": {
+    "applies": true,
+    "percent": 75.0,
+    "total": 8,
+    "valid": 6
+   },
+   "conformity_d_anamnese": {
+    "percent": 50.0,
+    "total": 8,
+    "valid": 4
+   },
+   "conformity_d_evolucao": {
+    "percent": 42.857142857142854,
+    "total": 7,
+    "valid": 3
+   },
+   "conformity_e": {
+    "applies": false,
+    "categoria": "Outras",
+    "percent": 100,
+    "total": 0,
+    "valid": 0
+   },
+   "conformity_global": {
+    "invalid": 17,
+    "percent": 59.523809523809526,
+    "total": 42,
+    "valid": 25
+   },
+   "ia_incompleta": false,
+   "matriz_documentos": {
+    "datas": [
+     "05/02/2025",
+     "06/02/2025",
+     "07/02/2025",
+     "08/02/2025"
+    ],
+    "matriz": {
+     "ENFERMAGEM - Anamnese": {
+      "05/02/2025": 1
+     },
+     "ENFERMAGEM - Evolução": {
+      "06/02/2025": 1,
+      "07/02/2025": 1,
+      "08/02/2025": 1
+     },
+     "MEDICINA - Anamnese": {
+      "05/02/2025": 1
+     },
+     "MEDICINA - Evolução": {
+      "06/02/2025": 1,
+      "08/02/2025": 1
+     }
+    }
+   },
+   "secao_a": {
+    "data_nascimento": "30/5/1947",
+    "diagnostico_internacao": "Não registrado (IA: null)",
+    "especialidade_cirurgia": "Ortopedia",
+    "especialidade_internacao": "Ortopedia",
+    "idade": "77 ANOS",
+    "periodo_internacao": "05/02/2025, 07:30 - 09/02/2025, 11:00 (4 dias)",
+    "prontuario": "72.116.418",
+    "unidade_funcional": "Enfermaria de Ortopedia"
+   },
+   "secao_b_anamnese": {
+    "af": "Não registrado",
+    "ap_app": "Não registrado",
+    "cd": "conforme",
+    "criacao_anamnese": "conforme",
+    "exame_fisico": "não conforme (Faltam: Abdome, Extremidades)",
+    "hd_cid": "conforme",
+    "hda": "Não registrado"
+   },
+   "secao_b_evolucao": {
+    "exame_fisico": "conforme",
+    "frequencia_diaria": "não conforme (sem evolução entre 07/02 07:30 e 08/02 07:30)",
+    "hd_cid": "Não registrado (IA: null)",
+    "procedimentos_condutas_queixas": "conforme"
+   },
+   "secao_c": {
+    "descricao_procedimento": "Artroplastia total de quadril esquerdo",
+    "descricao_tecnica": "Não registrado (IA: null)",
+    "diagnostico_cid": "Não registrado",
+    "especialidade": "Ortopedia",
+    "fim": "06/02/2025, 13:00",
+    "inicio": "06/02/2025, 10:00",
+    "tem_cirurgia": true,
+    "unidade_funcional": "BLOCO CIRURGICO",
+    "uso_opme": "conforme (haste, prótese)"
+   },
+   "secao_d_anamnese": {
+    "af": "Não registrado",
+    "ap_app": "Não registrado",
+    "cd": "conforme",
+    "criacao_anamnese": "conforme",
+    "escala_braden": "conforme",
+    "escala_morse": "conforme",
+    "exame_fisico": "não conforme (Faltam: Gastrointestinal, Genitourinário)",
+    "motivo_internacao": "Não registrado"
+   },
+   "secao_d_evolucao": {
+    "condutas": "não conforme (IA: null — dia 08/02)",
+    "criacao_evolucao": "conforme",
+    "curativo": "não conforme (IA: tipo de curativo não identificado — dia 07/02, 08/02)",
+    "escala_braden": "conforme",
+    "escala_morse": "conforme",
+    "exame_fisico": "não conforme (Faltam: Genitourinário, Músculo-esquelético — dia 06/02, 07/02, 08/02)",
+    "motivo_internacao": "Não registrado (IA: null)"
+   },
+   "secao_e": {
+    "categoria": "Não se aplica",
+    "descricao": "Não se aplica",
+    "tem_outras_categorias": false
+   }
+  },
+  "record_id": "72.116.418"
+ },
+ {
+  "audit_data": {
+   "_ia_meta": {
+    "campos_enviados": [
+     "secao_c.descricao_tecnica",
+     "secao_c.uso_opme",
+     "secao_b_anamnese.hda",
+     "secao_d_anamnese.motivo_internacao",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.curativo",
+     "secao_a.diagnostico_internacao"
+    ],
+    "campos_erro": [],
+    "campos_null": [
+     "secao_c.descricao_tecnica",
+     "secao_c.uso_opme",
+     "secao_b_anamnese.hda",
+     "secao_d_anamnese.motivo_internacao",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.curativo",
+     "secao_a.diagnostico_internacao"
+    ],
+    "campos_ok": [],
+    "chamadas": 5,
+    "chamadas_ok": 5,
+    "latencia_ia_s": 0.0,
+    "model": "modelo-de-teste",
+    "seed": null,
+    "seed_aplicada": null,
+    "tentativas_total": 5
+   },
+   "conformity_a": {
+    "percent": 87.5,
+    "total": 8,
+    "valid": 7
+   },
+   "conformity_b_anamnese": {
+    "percent": 85.71428571428571,
+    "total": 7,
+    "valid": 6
+   },
+   "conformity_b_evolucao": {
+    "percent": 100.0,
+    "total": 4,
+    "valid": 4
+   },
+   "conformity_c": {
+    "applies": true,
+    "percent": 85.71428571428571,
+    "total": 7,
+    "valid": 6
+   },
+   "conformity_d_anamnese": {
+    "percent": 75.0,
+    "total": 8,
+    "valid": 6
+   },
+   "conformity_d_evolucao": {
+    "percent": 57.14285714285714,
+    "total": 7,
+    "valid": 4
+   },
+   "conformity_e": {
+    "applies": false,
+    "categoria": "Outras",
+    "percent": 100,
+    "total": 0,
+    "valid": 0
+   },
+   "conformity_global": {
+    "invalid": 8,
+    "percent": 80.48780487804879,
+    "total": 41,
+    "valid": 33
+   },
+   "ia_incompleta": false,
+   "matriz_documentos": {
+    "datas": [
+     "20/03/2025",
+     "21/03/2025"
+    ],
+    "matriz": {
+     "ENFERMAGEM - Anamnese": {
+      "20/03/2025": 1
+     },
+     "ENFERMAGEM - Evolução": {
+      "21/03/2025": 1
+     },
+     "MEDICINA - Anamnese": {
+      "20/03/2025": 1
+     },
+     "MEDICINA - Evolução": {
+      "21/03/2025": 1
+     }
+    }
+   },
+   "secao_a": {
+    "data_nascimento": "3/4/1980",
+    "diagnostico_internacao": "Não registrado (IA: null)",
+    "especialidade_cirurgia": "Cirurgia Geral",
+    "especialidade_internacao": "Cirurgia Geral",
+    "idade": "44 ANOS",
+    "periodo_internacao": "20/03/2025, 14:00 - 22/03/2025, 09:30 (1 dias)",
+    "prontuario": "62.407.871",
+    "unidade_funcional": "Centro Cirúrgico / Enfermaria de Cirurgia Geral"
+   },
+   "secao_b_anamnese": {
+    "af": "conforme",
+    "ap_app": "conforme",
+    "cd": "conforme",
+    "criacao_anamnese": "conforme",
+    "exame_fisico": "conforme",
+    "hd_cid": "conforme",
+    "hda": "Não registrado"
+   },
+   "secao_b_evolucao": {
+    "exame_fisico": "conforme",
+    "frequencia_diaria": "conforme",
+    "hd_cid": "conforme",
+    "procedimentos_condutas_queixas": "conforme"
+   },
+   "secao_c": {
+    "descricao_procedimento": "Colecistectomia videolaparoscópica",
+    "descricao_tecnica": "Não registrado (IA: null)",
+    "diagnostico_cid": "K80.0",
+    "especialidade": "Cirurgia Geral",
+    "fim": "21/03/2025, 10:00",
+    "inicio": "21/03/2025, 08:30",
+    "tem_cirurgia": true,
+    "unidade_funcional": "BLOCO CIRURGICO",
+    "uso_opme": "Não se aplica (IA: null)"
+   },
+   "secao_d_anamnese": {
+    "af": "conforme",
+    "ap_app": "conforme",
+    "cd": "conforme",
+    "criacao_anamnese": "conforme",
+    "escala_braden": "conforme",
+    "escala_morse": "conforme",
+    "exame_fisico": "não conforme (Faltam: Genitourinário, Músculo-esquelético)",
+    "motivo_internacao": "Não registrado"
+   },
+   "secao_d_evolucao": {
+    "condutas": "conforme",
+    "criacao_evolucao": "conforme",
+    "curativo": "não conforme (IA: tipo de curativo não identificado — dia 21/03)",
+    "escala_braden": "conforme",
+    "escala_morse": "conforme",
+    "exame_fisico": "não conforme (Faltam: Respiratório — dia 21/03)",
+    "motivo_internacao": "Não registrado (IA: null)"
+   },
+   "secao_e": {
+    "categoria": "Não se aplica",
+    "descricao": "Não se aplica",
+    "tem_outras_categorias": false
+   }
+  },
+  "record_id": "62.407.871"
+ },
+ {
+  "audit_data": {
+   "_ia_meta": {
+    "campos_enviados": [
+     "secao_c.descricao_tecnica",
+     "secao_b_anamnese.hda",
+     "secao_b_anamnese.hd_cid",
+     "secao_b_anamnese.ap_app",
+     "secao_b_evolucao.hd_cid",
+     "secao_b_evolucao.hd_cid",
+     "secao_d_anamnese.motivo_internacao",
+     "secao_d_anamnese.cd",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.curativo",
+     "secao_a.diagnostico_internacao"
+    ],
+    "campos_erro": [],
+    "campos_null": [
+     "secao_c.descricao_tecnica",
+     "secao_b_anamnese.hda",
+     "secao_b_anamnese.hd_cid",
+     "secao_b_anamnese.ap_app",
+     "secao_b_evolucao.hd_cid",
+     "secao_b_evolucao.hd_cid",
+     "secao_d_anamnese.motivo_internacao",
+     "secao_d_anamnese.cd",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.curativo",
+     "secao_a.diagnostico_internacao"
+    ],
+    "campos_ok": [],
+    "chamadas": 8,
+    "chamadas_ok": 8,
+    "latencia_ia_s": 0.0,
+    "model": "modelo-de-teste",
+    "seed": null,
+    "seed_aplicada": null,
+    "tentativas_total": 8
+   },
+   "conformity_a": {
+    "percent": 87.5,
+    "total": 8,
+    "valid": 7
+   },
+   "conformity_b_anamnese": {
+    "percent": 42.857142857142854,
+    "total": 7,
+    "valid": 3
+   },
+   "conformity_b_evolucao": {
+    "percent": 75.0,
+    "total": 4,
+    "valid": 3
+   },
+   "conformity_c": {
+    "applies": true,
+    "percent": 75.0,
+    "total": 8,
+    "valid": 6
+   },
+   "conformity_d_anamnese": {
+    "percent": 62.5,
+    "total": 8,
+    "valid": 5
+   },
+   "conformity_d_evolucao": {
+    "percent": 57.14285714285714,
+    "total": 7,
+    "valid": 4
+   },
+   "conformity_e": {
+    "applies": false,
+    "categoria": "Outras",
+    "percent": 100,
+    "total": 0,
+    "valid": 0
+   },
+   "conformity_global": {
+    "invalid": 14,
+    "percent": 66.66666666666666,
+    "total": 42,
+    "valid": 28
+   },
+   "ia_incompleta": false,
+   "matriz_documentos": {
+    "datas": [
+     "10/03/2024",
+     "11/03/2024",
+     "12/03/2024"
+    ],
+    "matriz": {
+     "ENFERMAGEM - Anamnese": {
+      "10/03/2024": 1
+     },
+     "ENFERMAGEM - Evolução": {
+      "11/03/2024": 1,
+      "12/03/2024": 1
+     },
+     "MEDICINA - Anamnese": {
+      "10/03/2024": 1
+     },
+     "MEDICINA - Evolução": {
+      "11/03/2024": 1,
+      "12/03/2024": 1
+     }
+    }
+   },
+   "secao_a": {
+    "data_nascimento": "3/9/1946",
+    "diagnostico_internacao": "Não registrado (IA: null)",
+    "especialidade_cirurgia": "Ortopedia",
+    "especialidade_internacao": "Ortopedia",
+    "idade": "77 ANOS",
+    "periodo_internacao": "10/03/2024, 08:30 - 13/03/2024, 10:00 (3 dias)",
+    "prontuario": "26.696.588",
+    "unidade_funcional": "Enfermaria Ortopédica"
+   },
+   "secao_b_anamnese": {
+    "af": "conforme",
+    "ap_app": "Não registrado",
+    "cd": "conforme",
+    "criacao_anamnese": "conforme",
+    "exame_fisico": "não conforme (Faltam: Cardiovascular)",
+    "hd_cid": "Não registrado",
+    "hda": "Não registrado"
+   },
+   "secao_b_evolucao": {
+    "exame_fisico": "conforme",
+    "frequencia_diaria": "conforme",
+    "hd_cid": "Não registrado (IA: null)",
+    "procedimentos_condutas_queixas": "conforme"
+   },
+   "secao_c": {
+    "descricao_procedimento": "Artroplastia parcial do quadril",
+    "descricao_tecnica": "Não registrado (IA: null)",
+    "diagnostico_cid": "Não registrado",
+    "especialidade": "Ortopedia",
+    "fim": "11/03/2024, 11:30",
+    "inicio": "11/03/2024, 09:00",
+    "tem_cirurgia": true,
+    "unidade_funcional": "BLOCO CIRURGICO",
+    "uso_opme": "conforme (prótese)"
+   },
+   "secao_d_anamnese": {
+    "af": "conforme",
+    "ap_app": "conforme",
+    "cd": "Não registrado",
+    "criacao_anamnese": "conforme",
+    "escala_braden": "conforme",
+    "escala_morse": "conforme",
+    "exame_fisico": "não conforme (Faltam: Respiratório, Genitourinário)",
+    "motivo_internacao": "Não registrado"
+   },
+   "secao_d_evolucao": {
+    "condutas": "conforme",
+    "criacao_evolucao": "conforme",
+    "curativo": "não conforme (IA: tipo de curativo não identificado — dia 12/03)",
+    "escala_braden": "conforme",
+    "escala_morse": "conforme",
+    "exame_fisico": "não conforme (Faltam: Genitourinário, Músculo-esquelético — dia 11/03, 12/03)",
+    "motivo_internacao": "Não registrado (IA: null)"
+   },
+   "secao_e": {
+    "categoria": "Não se aplica",
+    "descricao": "Não se aplica",
+    "tem_outras_categorias": false
+   }
+  },
+  "record_id": "26.696.588"
+ },
+ {
+  "audit_data": {
+   "_ia_meta": {
+    "campos_enviados": [
+     "secao_c.descricao_tecnica",
+     "secao_c.uso_opme",
+     "secao_b_anamnese.hda",
+     "secao_b_anamnese.ap_app",
+     "secao_b_anamnese.af",
+     "secao_b_evolucao.hd_cid",
+     "secao_d_anamnese.motivo_internacao",
+     "secao_d_anamnese.cd",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.curativo",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.curativo",
+     "secao_a.diagnostico_internacao"
+    ],
+    "campos_erro": [],
+    "campos_null": [
+     "secao_c.descricao_tecnica",
+     "secao_c.uso_opme",
+     "secao_b_anamnese.hda",
+     "secao_b_anamnese.ap_app",
+     "secao_b_anamnese.af",
+     "secao_b_evolucao.hd_cid",
+     "secao_d_anamnese.motivo_internacao",
+     "secao_d_anamnese.cd",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.curativo",
+     "secao_d_evolucao.motivo_internacao",
+     "secao_d_evolucao.curativo",
+     "secao_a.diagnostico_internacao"
+    ],
+    "campos_ok": [],
+    "chamadas": 7,
+    "chamadas_ok": 7,
+    "latencia_ia_s": 0.0,
+    "model": "modelo-de-teste",
+    "seed": null,
+    "seed_aplicada": null,
+    "tentativas_total": 7
+   },
+   "conformity_a": {
+    "percent": 87.5,
+    "total": 8,
+    "valid": 7
+   },
+   "conformity_b_anamnese": {
+    "percent": 42.857142857142854,
+    "total": 7,
+    "valid": 3
+   },
+   "conformity_b_evolucao": {
+    "percent": 50.0,
+    "total": 4,
+    "valid": 2
+   },
+   "conformity_c": {
+    "applies": true,
+    "percent": 85.71428571428571,
+    "total": 7,
+    "valid": 6
+   },
+   "conformity_d_anamnese": {
+    "percent": 62.5,
+    "total": 8,
+    "valid": 5
+   },
+   "conformity_d_evolucao": {
+    "percent": 57.14285714285714,
+    "total": 7,
+    "valid": 4
+   },
+   "conformity_e": {
+    "applies": false,
+    "categoria": "Outras",
+    "percent": 100,
+    "total": 0,
+    "valid": 0
+   },
+   "conformity_global": {
+    "invalid": 14,
+    "percent": 65.85365853658537,
+    "total": 41,
+    "valid": 27
+   },
+   "ia_incompleta": false,
+   "matriz_documentos": {
+    "datas": [
+     "22/05/2024",
+     "23/05/2024",
+     "24/05/2024"
+    ],
+    "matriz": {
+     "ENFERMAGEM - Anamnese": {
+      "22/05/2024": 1
+     },
+     "ENFERMAGEM - Evolução": {
+      "23/05/2024": 1,
+      "24/05/2024": 1
+     },
+     "MEDICINA - Anamnese": {
+      "22/05/2024": 1
+     },
+     "MEDICINA - Evolução": {
+      "24/05/2024": 1
+     }
+    }
+   },
+   "secao_a": {
+    "data_nascimento": "20/8/1969",
+    "diagnostico_internacao": "Não registrado (IA: null)",
+    "especialidade_cirurgia": "Cirurgia Geral",
+    "especialidade_internacao": "Cirurgia Geral",
+    "idade": "54 ANOS",
+    "periodo_internacao": "22/05/2024, 14:00 - 25/05/2024, 09:00 (2 dias)",
+    "prontuario": "55.357.130",
+    "unidade_funcional": "Enfermaria de Cirurgia Geral"
+   },
+   "secao_b_anamnese": {
+    "af": "Não registrado",
+    "ap_app": "Não registrado",
+    "cd": "conforme",
+    "criacao_anamnese": "conforme",
+    "exame_fisico": "não conforme (Faltam: Cardiovascular, Respiratório)",
+    "hd_cid": "conforme",
+    "hda": "Não registrado"
+   },
+   "secao_b_evolucao": {
+    "exame_fisico": "conforme",
+    "frequencia_diaria": "não conforme (sem evolução entre 23/05 14:00 e 24/05 14:00)",
+    "hd_cid": "Não registrado (IA: null)",
+    "procedimentos_condutas_queixas": "conforme"
+   },
+   "secao_c": {
+    "descricao_procedimento": "Colecistectomia videolaparoscópica",
+    "descricao_tecnica": "Não registrado (IA: null)",
+    "diagnostico_cid": "K80.0",
+    "especialidade": "Cirurgia Geral",
+    "fim": "23/05/2024, 12:00",
+    "inicio": "23/05/2024, 10:00",
+    "tem_cirurgia": true,
+    "unidade_funcional": "BLOCO CIRURGICO",
+    "uso_opme": "Não se aplica (IA: null)"
+   },
+   "secao_d_anamnese": {
+    "af": "conforme",
+    "ap_app": "conforme",
+    "cd": "Não registrado",
+    "criacao_anamnese": "conforme",
+    "escala_braden": "conforme",
+    "escala_morse": "conforme",
+    "exame_fisico": "não conforme (Faltam: Gastrointestinal, Genitourinário, Músculo-esquelético)",
+    "motivo_internacao": "Não registrado"
+   },
+   "secao_d_evolucao": {
+    "condutas": "conforme",
+    "criacao_evolucao": "conforme",
+    "curativo": "não conforme (IA: tipo de curativo não identificado — dia 23/05, 24/05)",
+    "escala_braden": "conforme",
+    "escala_morse": "conforme",
+    "exame_fisico": "não conforme (Faltam: Genitourinário — dia 23/05, 24/05)",
+    "motivo_internacao": "Não registrado (IA: null)"
+   },
+   "secao_e": {
+    "categoria": "Não se aplica",
+    "descricao": "Não se aplica",
+    "tem_outras_categorias": false
+   }
+  },
+  "record_id": "55.357.130"
+ }
+]

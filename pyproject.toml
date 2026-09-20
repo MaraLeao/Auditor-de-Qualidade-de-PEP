@@ -1,0 +1,30 @@
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]          # `data_extract` e `tests` importáveis sem mexer em sys.path
+
+[tool.ruff]
+line-length = 120
+target-version = "py313"
+extend-exclude = ["evaluation", "worker/venv", "producer/node_modules"]
+
+[tool.ruff.lint]
+# E/W: estilo · F: erros e imports/variáveis não usados · I: ordem dos imports · B: armadilhas comuns
+select = ["E", "W", "F", "I", "B"]
+ignore = [
+    "E501",   # linhas longas: as regras de auditoria têm listas de termos extensas (F1 não reformata)
+]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]   # re-exports da API do pacote
+"tests/**" = ["B011"]
+
+[tool.mypy]
+python_version = "3.13"
+ignore_missing_imports = true
+check_untyped_defs = true       # modo gradual: nada de strict por enquanto
+warn_unused_ignores = true
+files = ["data_extract", "worker"]
+mypy_path = "."
+namespace_packages = true
+explicit_package_bases = true   # data_extract/ e worker/ não têm __init__.py
+exclude = ["worker/venv"]

@@ -60,7 +60,7 @@ function groupByRecordNumber(records) {
   return Array.from(groups.values());
 }
 
-async function publishBatch(rawText, modelName) {
+async function publishBatch(rawText, modelName, seed) {
   const batchId = randomUUID();
   const rawRecords = parsePayload(rawText);
   const patientRecords = groupByRecordNumber(rawRecords);
@@ -85,6 +85,10 @@ async function publishBatch(rawText, modelName) {
       job.model_name = modelName;
     }
 
+    if (seed !== undefined && seed !== null) {
+      job.seed = seed;
+    }
+
     await redis.lPush(QUEUE_KEY, JSON.stringify(job));
     publishedJobs.push({
       record_number: p.number,
@@ -107,4 +111,12 @@ async function getJobResult(jobId) {
   return value ? JSON.parse(value) : null;
 }
 
-export { publishBatch, getResult, getJobResult, redis };
+// Deriva o estado do job: processing | failed | partial | done
+function jobStatusOf(result) {
+  if (!result) return "processing";
+  if (result._job_failed) return "failed";
+  if (result.audit_data && result.audit_data.ia_incompleta) return "partial";
+  return "done";
+}
+
+export { publishBatch, getResult, getJobResult, jobStatusOf, redis };

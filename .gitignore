@@ -30,4 +30,20 @@ __pycache__/
 .env
 
 
-metadataProntuarios.txt
+data_extract/metadataProntuarios.txt
+
+# Caches de ferramentas
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+
+# Saídas geradas (relatórios locais, métricas, resultados de execução)
+artifacts/
+*.tmp
+
+# LibreOffice (arquivos de trava ao abrir CSV/planilhas)
+.~lock.*#
+
+# Ambientes virtuais dos serviços
+worker/venv/

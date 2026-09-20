@@ -1,0 +1,6 @@
+pytest>=8
+fakeredis>=2.26
+redis>=5.0.0
+ruff>=0.16
+mypy>=1.10
+pre-commit>=3.7

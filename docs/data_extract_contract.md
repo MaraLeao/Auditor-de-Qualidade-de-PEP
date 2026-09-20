@@ -119,8 +119,7 @@ O script retorna um **Array de Objetos JSON** impresso no console (`sys.stdout`)
         "escala_braden": "conforme",
         "escala_morse": "conforme",
         "cd": "conforme",
-        "criacao_anamnese": "conforme",
-        "curativo": "Não se aplica"
+        "criacao_anamnese": "conforme"
       },
 
       "secao_d_evolucao": {

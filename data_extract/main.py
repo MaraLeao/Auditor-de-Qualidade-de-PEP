@@ -1,7 +1,8 @@
-import sys
 import json
+import sys
+
 from data_extract.core.auditor import audit_medical_records
-from data_extract.reporters.json_builder import build_json_report
+
 
 def run_audit(records: list) -> list:
     """
@@ -11,16 +12,10 @@ def run_audit(records: list) -> list:
     """
     if not records:
         return []
-        
+
     sys.stderr.write(f"Auditing {len(records)} records...\n")
-    
-    # Process all records using the core auditor
-    results = audit_medical_records(records)
-    
-    # Format the results into final JSON structure
-    final_json = build_json_report(results)
-    
-    return final_json
+
+    return audit_medical_records(records)
 
 if __name__ == "__main__":
     try:
@@ -29,15 +24,15 @@ if __name__ == "__main__":
         if not input_data.strip():
             sys.stderr.write("Erro: Nenhum dado JSON fornecido na entrada padrão (stdin).\n")
             sys.exit(1)
-            
+
         records = json.loads(input_data)
-        
+
         # Executa a auditoria
         json_results = run_audit(records)
-        
+
         # Imprime o resultado como JSON puro no stdout (para o JS capturar)
         print(json.dumps(json_results, ensure_ascii=False))
-        
+
     except json.JSONDecodeError as e:
         sys.stderr.write(f"Erro ao decodificar JSON: {str(e)}\n")
         sys.exit(1)

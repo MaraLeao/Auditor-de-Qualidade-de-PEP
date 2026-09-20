@@ -2,6 +2,7 @@ import json
 import os
 import subprocess
 import time
+
 import redis
 
 from database import AuditDatabase
@@ -18,7 +19,10 @@ db = AuditDatabase()
 QUEUE_KEY = "fila:prontuarios"
 DLQ_KEY = "fila:prontuarios:falhas"
 RESULT_KEY_PREFIX = "resultado:"
-MAX_ATTEMPTS = 3
+# Execuções por job: 2 = 1 repetição, só para erro de infraestrutura (subprocesso caiu ou estourou o tempo).
+# Falha da IA NÃO repete o job: vira resultado parcial (o cliente de IA já tenta 3 vezes por chamada).
+MAX_ATTEMPTS = int(os.getenv("WORKER_MAX_ATTEMPTS", "2"))
+SUBPROCESS_TIMEOUT = int(os.getenv("WORKER_SUBPROCESS_TIMEOUT", "3600"))
 
 def process_patient_record(job: dict) -> dict:
     """
@@ -27,10 +31,12 @@ def process_patient_record(job: dict) -> dict:
     """
     records = job["records"]
     model_name = job.get("model_name")
-    
+
     env = os.environ.copy()
     if model_name:
         env["LLM_MODEL"] = model_name
+    if job.get("seed") is not None:
+        env["LLM_SEED"] = str(job["seed"])
 
     proc = subprocess.run(
         ["python", "-m", "data_extract.main"],
@@ -39,11 +45,12 @@ def process_patient_record(job: dict) -> dict:
         text=True,
         cwd=os.path.dirname(__file__),  # garante que roda com /app como raiz
         env=env,
+        timeout=SUBPROCESS_TIMEOUT,
     )
 
     if proc.returncode != 0:
         raise RuntimeError(f"data_extract failed (code {proc.returncode}): {proc.stderr.strip()}")
-        
+
     if proc.stderr:
         import sys
         sys.stderr.write(proc.stderr)
@@ -51,14 +58,22 @@ def process_patient_record(job: dict) -> dict:
     try:
         output = json.loads(proc.stdout)
     except json.JSONDecodeError as e:
-        raise RuntimeError(f"data_extract returned invalid JSON: {e}\nstdout: {proc.stdout[:500]}")
+        raise RuntimeError(f"data_extract returned invalid JSON: {e}\nstdout: {proc.stdout[:500]}") from e
 
     if not output:
         raise RuntimeError("data_extract returned an empty result")
 
     # o contrato retorna uma lista; como mandamos os registros de 1 prontuário só,
     # pegamos o primeiro (e único) item
-    return output[0]
+    result = output[0]
+
+    audit_data = result.get("audit_data", {})
+    if audit_data.get("ia_incompleta"):
+        # Resultado parcial: a IA falhou (após as tentativas do llm_client) em alguns campos.
+        # Não vai para a DLQ — é entregue com o alerta em audit_data["observacao_ia"].
+        print(f"[PARTIAL] patient record {job.get('record_number')}: {audit_data.get('observacao_ia')}")
+
+    return result
 
 
 def save_result(job: dict, result: dict):
@@ -66,7 +81,7 @@ def save_result(job: dict, result: dict):
     # Redis: fast access for polling
     prontuario_key = f"{RESULT_KEY_PREFIX}{job['record_number']}"
     job_key = f"{RESULT_KEY_PREFIX}{job['job_id']}"
-    
+
     data = json.dumps(result)
     r.set(prontuario_key, data)
     r.set(job_key, data)
@@ -117,8 +132,9 @@ def main():
             error_msg = str(e)
             if isinstance(e, subprocess.TimeoutExpired) or isinstance(e, subprocess.CalledProcessError):
                 if e.stderr:
-                    error_msg += f"\nStderr: {e.stderr}"
-                    
+                    stderr = e.stderr.decode(errors="replace") if isinstance(e.stderr, bytes) else e.stderr
+                    error_msg += f"\nStderr: {stderr}"
+
             print(f"[ERROR] patient record {job.get('record_number')}: {error_msg} (attempt {job['attempts']})")
 
             if job["attempts"] < MAX_ATTEMPTS:
@@ -127,6 +143,11 @@ def main():
             else:
                 job["final_error"] = str(e)
                 r.lpush(DLQ_KEY, json.dumps(job))
+                # Publica a falha no resultado do job, para quem consulta não esperar para sempre
+                r.set(
+                    f"{RESULT_KEY_PREFIX}{job['job_id']}",
+                    json.dumps({"_job_failed": True, "error": error_msg, "attempts": job["attempts"]}),
+                )
 
 
 if __name__ == "__main__":

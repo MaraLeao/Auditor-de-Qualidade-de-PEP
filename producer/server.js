@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import { publishBatch, getResult, getJobResult } from "./producer.js";
+import { publishBatch, getResult, getJobResult, jobStatusOf } from "./producer.js";
 import { getAllAudits, getAuditById, getDashboardStats } from "./db.js";
 import { transformAuditResult } from "./transformer.js";
 
@@ -29,11 +29,20 @@ app.post("/batches", async (req, res) => {
     const rawText = typeof req.body === "string" ? req.body : JSON.stringify(req.body);
     const modelName = req.query.model;
 
-    if (!rawText || !rawText.trim()) {
+    // seed opcional (inteiro): repassada ao worker -> LLM para reprodutibilidade
+    let seed;
+    if (req.query.seed !== undefined && req.query.seed !== "") {
+      if (!/^-?\d+$/.test(String(req.query.seed))) {
+        return res.status(400).json({ error: "Invalid 'seed': must be an integer" });
+      }
+      seed = parseInt(req.query.seed, 10);
+    }
+
+    if (!rawText || typeof rawText !== "string" || !rawText.trim()) {
       return res.status(400).json({ error: "Empty or invalid request body" });
     }
 
-    const result = await publishBatch(rawText, modelName);
+    const result = await publishBatch(rawText, modelName, seed);
 
     res.status(202).json({
       message: "Batch received and queued",
@@ -76,9 +85,9 @@ app.get("/jobs/:id/status", async (req, res) => {
       return res.status(202).json({ status: "processing", job_id: jobId });
     }
 
-    // Transform to frontend format
+    // done | partial (IA não rodou em todos os campos) | failed (esgotou tentativas)
     const transformed = transformAuditResult(result);
-    res.json({ status: "done", result: transformed, raw: result });
+    res.json({ status: jobStatusOf(result), result: transformed, raw: result });
   } catch (err) {
     console.error("Error fetching job result:", err);
     res.status(500).json({ error: err.message });
