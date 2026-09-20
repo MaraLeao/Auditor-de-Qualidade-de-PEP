@@ -40,11 +40,8 @@ function groupByRecordNumber(records) {
   const groups = new Map();
 
   for (const record of records) {
-    const originalNumber = record["Prontuário"];
-    if (!originalNumber) {
-      console.error("Record missing patient record number, skipping:", record["Tipo do registro"]);
-      continue;
-    }
+    const originalNumber = record["Prontuário"] || "Desconhecido";
+    const encounter = record["Atendimento"] || "Não informado";
 
     const number = normalizeRecordNumber(originalNumber);
 

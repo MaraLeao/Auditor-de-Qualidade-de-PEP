@@ -1,33 +1,42 @@
-import React from 'react';
-import { simulateAudit } from '../../domain/usecases/SimulateAuditUseCase.js';
+import React, { useState, useEffect } from 'react';
+import { fetchAllAudits, fetchDashboardStats } from '../../data/apiClient.js';
 
-export default function DashboardView({ onSelectExample, isMobile, examples }) {
-  // Pre-calculate the audited outputs for all examples to get real percentages
-  const auditedExamples = examples.map(ex => {
-    const auditedOutput = simulateAudit(ex.input, examples);
-    return {
-      ...ex,
-      auditedOutput: auditedOutput || ex.output
-    };
-  });
+export default function DashboardView({ onSelectAudit, isMobile }) {
+  const [audits, setAudits] = useState([]);
+  const [stats, setStats] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const totalCharts = auditedExamples.length;
+  useEffect(() => {
+    loadData();
+  }, []);
 
-  const avgCompliance = Math.round(
-    auditedExamples.reduce((acc, ex) => acc + ex.auditedOutput.conformidade_geral, 0) / totalCharts * 10
-  ) / 10;
+  async function loadData() {
+    setLoading(true);
+    setError(null);
+    try {
+      const [auditsRes, statsRes] = await Promise.all([
+        fetchAllAudits(),
+        fetchDashboardStats()
+      ]);
+      setAudits(auditsRes.audits || []);
+      setStats(statsRes);
+    } catch (err) {
+      console.error('Error loading dashboard data:', err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }
 
-  const minChart = auditedExamples.reduce((prev, current) => {
-    return (prev.auditedOutput.conformidade_geral < current.auditedOutput.conformidade_geral) ? prev : current;
-  });
-
-  // Calculate average compliance per section dynamically
+  // Calculate section averages from real data
   const sectionIds = ['A', 'B', 'C', 'D', 'E'];
   const sectionAverages = sectionIds.map(id => {
     let totalScore = 0;
     let count = 0;
-    auditedExamples.forEach(ex => {
-      const sec = ex.auditedOutput.secoes.find(s => s.id === id);
+    audits.forEach(a => {
+      if (!a.audit) return;
+      const sec = a.audit.secoes?.find(s => s.id === id);
       if (sec) {
         totalScore += sec.conformidade;
         count++;
@@ -44,13 +53,13 @@ export default function DashboardView({ onSelectExample, isMobile, examples }) {
     };
   });
 
-  // Calculate recurrent non-conformities dynamically
+  // Calculate recurrent non-conformities from real data
   const nonConformityCounts = {};
-  auditedExamples.forEach(ex => {
-    ex.auditedOutput.nao_conformidades.forEach(nc => {
+  audits.forEach(a => {
+    if (!a.audit?.nao_conformidades) return;
+    a.audit.nao_conformidades.forEach(nc => {
       const parts = nc.item.split(' — ');
       const coreItemName = parts[parts.length - 1];
-
       if (!nonConformityCounts[coreItemName]) {
         nonConformityCounts[coreItemName] = {
           name: coreItemName,
@@ -66,18 +75,122 @@ export default function DashboardView({ onSelectExample, isMobile, examples }) {
     .sort((a, b) => b.count - a.count)
     .slice(0, 5);
 
+  const totalCharts = stats?.total_audits || audits.length;
+  const avgCompliance = stats?.avg_conformity || 0;
 
+  // Loading state
+  if (loading) {
+    return (
+      <div style={{ padding: isMobile ? '12px 10px 80px' : '24px 16px' }}>
+        <div style={{ marginBottom: 32 }}>
+          <h1 style={{ fontSize: isMobile ? 22 : 28, fontWeight: 700, letterSpacing: '-0.03em', display: 'flex', alignItems: 'center', gap: 12 }}>
+            <span>📊</span> Painel de Qualidade PEP
+          </h1>
+        </div>
+        <div style={{ textAlign: 'center', padding: '60px 0' }}>
+          <div style={{ display: 'flex', gap: 4, justifyContent: 'center', marginBottom: 16 }}>
+            {[0, 1, 2].map(i => (
+              <div key={i} style={{
+                width: 8, height: 8, borderRadius: '50%', background: 'var(--accent)',
+                animation: 'pulse 1.2s ease-in-out infinite', animationDelay: `${i * 0.2}s`
+              }} />
+            ))}
+          </div>
+          <div style={{ fontSize: 13, color: 'var(--text2)', fontFamily: 'var(--mono)' }}>
+            Carregando dados do banco...
+          </div>
+        </div>
+        <style>{`@keyframes pulse { 0%,100%{opacity:.3;transform:scale(.8)} 50%{opacity:1;transform:scale(1)} }`}</style>
+      </div>
+    );
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <div style={{ padding: isMobile ? '12px 10px 80px' : '24px 16px' }}>
+        <div style={{ marginBottom: 32 }}>
+          <h1 style={{ fontSize: isMobile ? 22 : 28, fontWeight: 700, letterSpacing: '-0.03em', display: 'flex', alignItems: 'center', gap: 12 }}>
+            <span>📊</span> Painel de Qualidade PEP
+          </h1>
+        </div>
+        <div style={{
+          background: '#2b0d0d', border: '1px solid var(--red)',
+          borderRadius: 12, padding: '20px 24px', textAlign: 'center'
+        }}>
+          <div style={{ fontSize: 14, color: 'var(--red)', fontWeight: 600, marginBottom: 8 }}>
+            ⚠️ Erro ao carregar dados
+          </div>
+          <div style={{ fontSize: 12, color: 'var(--text2)', marginBottom: 16 }}>{error}</div>
+          <button
+            onClick={loadData}
+            style={{
+              background: 'var(--bg4)', border: '1px solid var(--border)',
+              color: 'var(--accent)', padding: '8px 20px', borderRadius: 8,
+              fontSize: 12, fontWeight: 600, cursor: 'pointer'
+            }}
+          >
+            Tentar novamente
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // Empty state
+  if (totalCharts === 0) {
+    return (
+      <div style={{ padding: isMobile ? '12px 10px 80px' : '24px 16px' }}>
+        <div style={{ marginBottom: 32 }}>
+          <h1 style={{ fontSize: isMobile ? 22 : 28, fontWeight: 700, letterSpacing: '-0.03em', display: 'flex', alignItems: 'center', gap: 12 }}>
+            <span>📊</span> Painel de Qualidade PEP
+          </h1>
+          <p style={{ color: 'var(--text2)', fontSize: isMobile ? 13 : 15, marginTop: 8, maxWidth: 640 }}>
+            Indicadores consolidados da auditoria clínica institucional e status de conformidade legal.
+          </p>
+        </div>
+        <div style={{
+          background: 'var(--bg2)', border: '1px solid var(--border)',
+          borderRadius: 12, padding: '40px 24px', textAlign: 'center'
+        }}>
+          <div style={{ fontSize: 48, marginBottom: 16 }}>📭</div>
+          <div style={{ fontSize: 16, fontWeight: 600, color: 'var(--text)', marginBottom: 8 }}>
+            Nenhuma auditoria realizada ainda
+          </div>
+          <div style={{ fontSize: 13, color: 'var(--text2)', maxWidth: 400, margin: '0 auto' }}>
+            Envie prontuários pela aba de Auditoria para que os resultados apareçam aqui.
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div style={{ padding: isMobile ? '12px 10px 80px' : '24px 16px' }}>
       {/* Title */}
-      <div style={{ marginBottom: 32 }}>
-        <h1 style={{ fontSize: isMobile ? 22 : 28, fontWeight: 700, letterSpacing: '-0.03em', display: 'flex', alignItems: 'center', gap: 12 }}>
-          <span>📊</span> Painel de Qualidade PEP
-        </h1>
-        <p style={{ color: 'var(--text2)', fontSize: isMobile ? 13 : 15, marginTop: 8, maxWidth: 640 }}>
-          Indicadores consolidados da auditoria clínica institucional e status de conformidade legal.
-        </p>
+      <div style={{ marginBottom: 32, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 12 }}>
+        <div>
+          <h1 style={{ fontSize: isMobile ? 22 : 28, fontWeight: 700, letterSpacing: '-0.03em', display: 'flex', alignItems: 'center', gap: 12 }}>
+            <span>📊</span> Painel de Qualidade PEP
+          </h1>
+          <p style={{ color: 'var(--text2)', fontSize: isMobile ? 13 : 15, marginTop: 8, maxWidth: 640 }}>
+            Indicadores consolidados da auditoria clínica institucional e status de conformidade legal.
+          </p>
+        </div>
+        <button
+          onClick={loadData}
+          style={{
+            background: 'var(--bg3)', border: '1px solid var(--border)',
+            color: 'var(--accent)', padding: '8px 16px', borderRadius: 8,
+            fontSize: 11, fontWeight: 600, cursor: 'pointer', fontFamily: 'var(--mono)',
+            display: 'flex', alignItems: 'center', gap: 6,
+            transition: 'all 0.15s'
+          }}
+          onMouseOver={e => { e.currentTarget.style.borderColor = 'var(--accent)'; }}
+          onMouseOut={e => { e.currentTarget.style.borderColor = 'var(--border)'; }}
+        >
+          🔄 Atualizar
+        </button>
       </div>
 
       {/* Metric Cards */}
@@ -97,7 +210,7 @@ export default function DashboardView({ onSelectExample, isMobile, examples }) {
         }}>
           <div style={{ fontSize: 12, color: 'var(--text2)', fontFamily: 'var(--mono)' }}>PRONTUÁRIOS AUDITADOS</div>
           <div style={{ fontSize: 32, fontWeight: 700, marginTop: 8, color: 'var(--accent)' }}>{totalCharts}</div>
-          <div style={{ fontSize: 10, color: 'var(--text3)', marginTop: 8 }}>Casos cadastrados na base local</div>
+          <div style={{ fontSize: 10, color: 'var(--text3)', marginTop: 8 }}>Resultados persistidos no banco</div>
         </div>
 
         {/* Metric 2 */}
@@ -127,16 +240,24 @@ export default function DashboardView({ onSelectExample, isMobile, examples }) {
           boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
         }}>
           <div style={{ fontSize: 12, color: 'var(--text2)', fontFamily: 'var(--mono)' }}>ALERTA DE QUALIDADE</div>
-          <div style={{ fontSize: 14, fontWeight: 600, marginTop: 14, color: 'var(--text)' }}>
-            ⚠️ {minChart.name.split(' (')[0]}
-          </div>
-          <div style={{ fontSize: 10, color: 'var(--red)', marginTop: 8 }}>
-            Menor pontuação registrada ({minChart.auditedOutput.conformidade_geral}%)
-          </div>
+          {stats?.min_conformity?.record_number ? (
+            <>
+              <div style={{ fontSize: 14, fontWeight: 600, marginTop: 14, color: 'var(--text)' }}>
+                ⚠️ Prontuário {stats.min_conformity.record_number}
+              </div>
+              <div style={{ fontSize: 10, color: 'var(--red)', marginTop: 8 }}>
+                Menor pontuação registrada ({stats.min_conformity.value}%)
+              </div>
+            </>
+          ) : (
+            <div style={{ fontSize: 14, fontWeight: 600, marginTop: 14, color: 'var(--text2)' }}>
+              — sem dados
+            </div>
+          )}
         </div>
       </div>
 
-      {/* Grid for Section Performance & Charts list */}
+      {/* Grid for Section Performance & Audits list */}
       <div style={{
         display: 'grid',
         gridTemplateColumns: isMobile ? '1fr' : '1.2fr 1fr',
@@ -257,22 +378,24 @@ export default function DashboardView({ onSelectExample, isMobile, examples }) {
           </div>
         </div>
 
-
-        {/* Patients list */}
+        {/* Audits list (real data from DB) */}
         <div style={{
           background: 'var(--bg2)',
           border: '1px solid var(--border)',
           borderRadius: 12,
           padding: 20
         }}>
-          <h3 style={{ fontSize: 15, fontWeight: 600, color: 'var(--text)', marginBottom: 16 }}>Casos Disponíveis para Simulação</h3>
+          <h3 style={{ fontSize: 15, fontWeight: 600, color: 'var(--text)', marginBottom: 16 }}>Prontuários Auditados</h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            {auditedExamples.map((ex, idx) => {
-              const score = ex.auditedOutput.conformidade_geral;
+            {audits.map((audit) => {
+              const score = audit.audit?.conformidade_geral ?? audit.conformity_percent ?? 0;
               const color = score >= 90 ? 'var(--green)' : score >= 75 ? 'var(--yellow)' : 'var(--red)';
+              const dateStr = audit.created_at
+                ? new Date(audit.created_at).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+                : '';
               return (
                 <div
-                  key={ex.id}
+                  key={audit.id || audit.job_id}
                   style={{
                     background: 'var(--bg3)',
                     border: '1px solid var(--border)',
@@ -292,9 +415,12 @@ export default function DashboardView({ onSelectExample, isMobile, examples }) {
                         textOverflow: 'ellipsis',
                         overflow: 'hidden',
                         whiteSpace: isMobile ? 'normal' : 'nowrap'
-                      }}>{ex.name}</div>
+                      }}>
+                        Prontuário {audit.record_number_display || audit.record_number}
+                      </div>
                       <div style={{ fontSize: 10, color: 'var(--text3)', fontFamily: 'var(--mono)', marginTop: 4 }}>
-                        Atendimento: {ex.auditedOutput.prontuario}
+                        {dateStr}
+                        {audit.encounter && ` · Atendimento: ${audit.encounter}`}
                       </div>
                     </div>
                     <span style={{
@@ -306,38 +432,40 @@ export default function DashboardView({ onSelectExample, isMobile, examples }) {
                       padding: '4px 8px',
                       borderRadius: 6
                     }}>
-                      {score}%
+                      {typeof score === 'number' ? `${Math.round(score * 10) / 10}%` : 'N/A'}
                     </span>
                   </div>
 
-                  <button
-                    onClick={() => onSelectExample(idx)}
-                    style={{
-                      background: 'var(--bg4)',
-                      border: '1px solid var(--border2)',
-                      color: 'var(--accent)',
-                      padding: '8px 12px',
-                      borderRadius: 8,
-                      fontSize: 11,
-                      fontWeight: 600,
-                      cursor: 'pointer',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: 6,
-                      transition: 'all 0.15s'
-                    }}
-                    onMouseOver={e => {
-                      e.currentTarget.style.borderColor = 'var(--accent)';
-                      e.currentTarget.style.background = 'rgba(0, 212, 255, 0.05)';
-                    }}
-                    onMouseOut={e => {
-                      e.currentTarget.style.borderColor = 'var(--border2)';
-                      e.currentTarget.style.background = 'var(--bg4)';
-                    }}
-                  >
-                    Iniciar Auditoria ⚡
-                  </button>
+                  {onSelectAudit && audit.audit && (
+                    <button
+                      onClick={() => onSelectAudit(audit)}
+                      style={{
+                        background: 'var(--bg4)',
+                        border: '1px solid var(--border2)',
+                        color: 'var(--accent)',
+                        padding: '8px 12px',
+                        borderRadius: 8,
+                        fontSize: 11,
+                        fontWeight: 600,
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: 6,
+                        transition: 'all 0.15s'
+                      }}
+                      onMouseOver={e => {
+                        e.currentTarget.style.borderColor = 'var(--accent)';
+                        e.currentTarget.style.background = 'rgba(0, 212, 255, 0.05)';
+                      }}
+                      onMouseOut={e => {
+                        e.currentTarget.style.borderColor = 'var(--border2)';
+                        e.currentTarget.style.background = 'var(--bg4)';
+                      }}
+                    >
+                      Ver Detalhes ⚡
+                    </button>
+                  )}
                 </div>
               );
             })}

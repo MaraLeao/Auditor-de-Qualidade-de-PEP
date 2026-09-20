@@ -70,7 +70,7 @@ def validate_missing_fields_with_ai(texto, campos_faltantes, tipo_registro):
             method="POST"
         )
         
-        with urllib.request.urlopen(req, timeout=300) as response:
+        with urllib.request.urlopen(req, timeout=2) as response:
             response_data = response.read().decode("utf-8")
             result_json = json.loads(response_data)
         
