@@ -5,9 +5,18 @@ Demo de IA auditora de prontuários eletrônicos.
 ## Rodando localmente
 
 ```bash
-npm install
-npm run dev
+npm run install:all   # instala apps/web e services/producer
+npm run dev           # front (Vite), em apps/web
+npm test              # testes do front e do Producer
 ```
+
+## Estrutura
+
+- `apps/web/` — front (React + Vite)
+- `services/producer/` — API (Node/Express); o código está em `src/`
+- `services/worker/` — Worker (Python); o pacote está em `worker/`
+- `data_extract/` — motor de auditoria (Python)
+- `db/` — esquema do banco (a preencher) · `scripts/` — utilitários · `evaluation/` — avaliação · `tests/` — testes Python
 
 ## Arquitetura Backend (Docker)
 

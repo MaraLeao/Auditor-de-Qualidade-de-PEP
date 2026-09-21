@@ -4,11 +4,11 @@ WORKDIR /app
 
 ENV PYTHONUNBUFFERED=1
 
-COPY worker/requirements.txt .
+COPY services/worker/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY worker/worker.py .
-COPY worker/database.py .
+COPY services/worker/worker/worker.py .
+COPY services/worker/worker/database.py .
 COPY data_extract/ ./data_extract/
 
 CMD ["python", "worker.py"]

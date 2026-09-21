@@ -8,12 +8,12 @@ WORKDIR /app
 COPY package*.json .
 RUN npm install --omit=dev
 
-COPY producer.js server.js db.js transformer.js ./
+COPY src ./src
 
 # Create data directory for SQLite
 RUN mkdir -p /app/data
 
 EXPOSE 3001
 
-CMD ["node", "server.js"]
+CMD ["node", "src/server.js"]
 

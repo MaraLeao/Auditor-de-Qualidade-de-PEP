@@ -10,7 +10,7 @@ services:
   worker:
     build:
       context: .
-      dockerfile: worker/Dockerfile
+      dockerfile: services/worker/Dockerfile
     depends_on:
       - redis
     environment:
@@ -26,7 +26,7 @@ services:
     restart: unless-stopped
 
   producer-api:
-    build: ./producer
+    build: ./services/producer
     ports:
       - "3001:3001"
     depends_on:

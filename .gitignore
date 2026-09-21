@@ -46,7 +46,7 @@ artifacts/
 .~lock.*#
 
 # Ambientes virtuais dos serviços
-worker/venv/
+services/worker/venv/
 
 # Banco de resultados e usuários: guarda hash de senha e trechos dos prontuários auditados.
 # Ancorado na raiz: `data/` solto também casaria src/data/ e evaluation/notebooks/data/.
@@ -54,3 +54,6 @@ worker/venv/
 *.db
 *.db-shm
 *.db-wal
+
+# PIDs de processos locais
+*.pid

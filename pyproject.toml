@@ -1,11 +1,12 @@
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-pythonpath = ["."]          # `data_extract` e `tests` importáveis sem mexer em sys.path
+pythonpath = [".", "services/worker"]   # `data_extract` e `tests` na raiz; o pacote `worker` em services/worker
 
 [tool.ruff]
 line-length = 120
 target-version = "py313"
-extend-exclude = ["evaluation", "worker/venv", "producer/node_modules"]
+src = [".", "services/worker"]   # `worker` é um pacote do projeto, não de terceiros
+extend-exclude = ["evaluation", ".claude", "services/worker/venv", "services/producer/node_modules", "apps/web/node_modules"]
 
 [tool.ruff.lint]
 # E/W: estilo · F: erros e imports/variáveis não usados · I: ordem dos imports · B: armadilhas comuns
@@ -23,8 +24,8 @@ python_version = "3.13"
 ignore_missing_imports = true
 check_untyped_defs = true       # modo gradual: nada de strict por enquanto
 warn_unused_ignores = true
-files = ["data_extract", "worker"]
-mypy_path = "."
+files = ["data_extract", "services/worker/worker"]
+mypy_path = ".:services/worker"
 namespace_packages = true
 explicit_package_bases = true   # data_extract/ e worker/ não têm __init__.py
-exclude = ["worker/venv"]
+exclude = ["services/worker/venv"]

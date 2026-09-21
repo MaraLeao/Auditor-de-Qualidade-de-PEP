@@ -8,7 +8,7 @@ dizem que o comportamento está certo — só que ele não muda por acidente.
 ```bash
 pip install -r requirements-dev.txt
 python -m pytest                 # tudo (Python)
-cd producer && npm test          # contrato HTTP do Producer (Node >= 22.3)
+npm --prefix services/producer test          # contrato HTTP do Producer (Node >= 22.3)
 ```
 
 ## O que cada arquivo protege
@@ -19,7 +19,7 @@ cd producer && npm test          # contrato HTTP do Producer (Node >= 22.3)
 | `test_audit_snapshot.py` | Saída completa de `run_audit` (regras + IA falsa) nos 5 cenários: `ok_mix`, `all_null`, `timeout`, `invalid_json`, `missing_keys` |
 | `test_business_rules.py` | Regras de negócio decididas na fase N (itens 1–15 do plano), com a origem no prompt original de auditoria |
 | `test_worker_contract.py` | Fila Redis do Worker (sucesso, parcial, retentativas, DLQ) e o caminho real Worker → subprocesso → auditor → LLM falso |
-| `producer/test/api.contract.test.js` | `POST /batches`, `GET /jobs/:id/status`, `GET /records/:n/status`, `/health` |
+| `services/producer/test/api.contract.test.js` | `POST /batches`, `GET /jobs/:id/status`, `GET /records/:n/status`, `/health` |
 
 ## Regras
 
@@ -40,5 +40,5 @@ ruff check data_extract worker tests    # lint (regras no pyproject.toml)
 mypy                                    # tipos, modo gradual
 pre-commit install                      # roda ruff e mypy a cada commit (e pytest no push)
 
-cd producer && npm install && npm run lint && npm run format:check
+cd services/producer && npm install && npm run lint && npm run format:check
 ```

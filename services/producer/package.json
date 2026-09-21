@@ -9,9 +9,9 @@
     },
     "version": "1.0.0",
     "description": "",
-    "main": "producer.js",
+    "main": "src/producer.js",
     "scripts": {
-        "start": "node server.js",
+        "start": "node src/server.js",
         "test": "node --test --test-force-exit --experimental-test-module-mocks \"test/**/*.test.js\"",
         "lint": "eslint .",
         "format": "prettier --write .",

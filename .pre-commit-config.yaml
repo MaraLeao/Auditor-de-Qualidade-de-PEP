@@ -5,7 +5,7 @@ repos:
     hooks:
       - id: ruff            # lint (regras em pyproject.toml)
         args: [--fix]
-        files: ^(data_extract|worker|tests)/
+        files: ^(data_extract|services/worker|tests)/
   - repo: local
     hooks:
       - id: mypy
@@ -13,7 +13,7 @@ repos:
         entry: mypy
         language: system
         pass_filenames: false
-        files: ^(data_extract|worker)/.*\.py$
+        files: ^(data_extract|services/worker)/.*\.py$
       - id: pytest
         name: pytest
         entry: python -m pytest -q

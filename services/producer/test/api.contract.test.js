@@ -34,7 +34,7 @@ const port = await new Promise((resolve) => {
 process.env.PORT = String(port);
 const BASE = `http://127.0.0.1:${port}`;
 
-await import("../server.js");
+await import("../src/server.js");
 
 before(async () => {
   for (let i = 0; i < 50; i++) {

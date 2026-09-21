@@ -4,7 +4,6 @@
  * Handles batch submission, job polling, and dashboard data fetching.
  */
 
-// `?.` porque fora do Vite (nos testes, em Node) `import.meta.env` não existe.
 const API_BASE = import.meta.env?.VITE_API_URL || "";
 
 /**
