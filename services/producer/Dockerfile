@@ -1,19 +1,18 @@
 FROM node:22-slim
 
-# better-sqlite3 requires build tools for native compilation
 RUN apt-get update && apt-get install -y python3 make g++ && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
-COPY package*.json .
-RUN npm install --omit=dev
+COPY package*.json ./
+RUN npm install
 
+COPY tsconfig.json ./
 COPY src ./src
+RUN npm run build && npm prune --omit=dev
 
-# Create data directory for SQLite
 RUN mkdir -p /app/data
 
 EXPOSE 3001
 
-CMD ["node", "src/server.js"]
-
+CMD ["node", "dist/server.js"]
