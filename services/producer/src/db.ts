@@ -54,19 +54,6 @@ export interface DashboardStats {
   max_conformity: ConformityExtreme;
 }
 
-export interface SaveAuditResultInput {
-  batchId: string;
-  jobId: string;
-  recordNumber: string;
-  recordNumberDisplay?: string;
-  encounter?: string;
-  auditData: unknown;
-}
-
-interface ConformityHolder {
-  conformity_global?: { percent?: number };
-}
-
 interface ExtremeRow {
   record_number_display: string | null;
   conformity_percent: number;
@@ -116,13 +103,6 @@ function toExtreme(row: ExtremeRow | undefined): ConformityExtreme {
   };
 }
 
-function extractConformityPercent(auditData: unknown): number {
-  if (!auditData || typeof auditData !== "object") return 0;
-  const source = auditData as ConformityHolder & { audit_data?: ConformityHolder };
-  const data = source.audit_data || source;
-  return data.conformity_global?.percent || 0;
-}
-
 /** Returns every stored audit, most recent first. */
 export function getAllAudits(): AuditRecord[] {
   const conn = getDb();
@@ -145,33 +125,15 @@ export function getAllAudits(): AuditRecord[] {
 }
 
 /** Returns one audit by its database id, or null when it does not exist. */
-export function getAuditById(id: number | string): AuditRecord | null {
-  return findOne("SELECT * FROM audit_results WHERE id = ?", id, "audit by ID");
-}
-
-/** Returns the stored audit for a job id, or null. */
-export function getResultByJobId(jobId: string): AuditRecord | null {
-  return findOne("SELECT * FROM audit_results WHERE job_id = ?", jobId, "result by job ID");
-}
-
-/** Returns the most recent stored audit for a record number, or null. */
-export function getResultByRecordNumber(recordNumber: string): AuditRecord | null {
-  return findOne(
-    "SELECT * FROM audit_results WHERE record_number = ? ORDER BY created_at DESC LIMIT 1",
-    recordNumber,
-    "result by record number",
-  );
-}
-
-function findOne(sql: string, parameter: number | string, description: string): AuditRecord | null {
+export function getAuditById(id: number): AuditRecord | null {
   const conn = getDb();
   if (!conn) return null;
 
   try {
-    const row = conn.prepare(sql).get(parameter) as AuditRow | undefined;
+    const row = conn.prepare("SELECT * FROM audit_results WHERE id = ?").get(id) as AuditRow | undefined;
     return row ? parseRow(row) : null;
   } catch (error) {
-    console.error(`[DB] Error fetching ${description}:`, errorMessage(error));
+    console.error("[DB] Error fetching audit by ID:", errorMessage(error));
     return null;
   }
 }
@@ -205,48 +167,5 @@ export function getDashboardStats(): DashboardStats {
   } catch (error) {
     console.error("[DB] Error fetching dashboard stats:", errorMessage(error));
     return emptyStats();
-  }
-}
-
-/** Inserts an audit result, or updates it when the job id already exists. */
-export function saveAuditResult(input: SaveAuditResultInput): void {
-  const conn = getDb();
-  if (!conn) return;
-
-  const { batchId, jobId, recordNumber, recordNumberDisplay, encounter, auditData } = input;
-
-  try {
-    const conformityPercent = extractConformityPercent(auditData);
-    const auditDataJson = JSON.stringify(auditData);
-    const existing = conn.prepare("SELECT id FROM audit_results WHERE job_id = ?").get(jobId);
-
-    if (existing) {
-      conn
-        .prepare("UPDATE audit_results SET audit_data = ?, conformity_percent = ?, status = 'done' WHERE job_id = ?")
-        .run(auditDataJson, conformityPercent, jobId);
-    } else {
-      conn
-        .prepare(
-          `INSERT INTO audit_results
-           (batch_id, job_id, record_number, record_number_display, encounter, audit_data, conformity_percent, status, created_at)
-           VALUES (?, ?, ?, ?, ?, ?, ?, 'done', ?)`,
-        )
-        .run(
-          batchId,
-          jobId,
-          recordNumber,
-          recordNumberDisplay || recordNumber,
-          encounter || "",
-          auditDataJson,
-          conformityPercent,
-          new Date().toISOString(),
-        );
-    }
-
-    console.log(
-      `[DB] Saved result for record ${recordNumber} (job ${jobId}), conformity: ${roundToTenth(conformityPercent)}%`,
-    );
-  } catch (error) {
-    console.error("[DB] Error saving audit result:", errorMessage(error));
   }
 }
