@@ -66,9 +66,9 @@ test("GET /health", async () => {
 test("POST /batches: agrupa por prontuário (sem pontos), publica 1 job por prontuário com model e seed", async () => {
   reset();
   const payload = JSON.stringify([
-    { "Prontuário": "12.345", Atendimento: "9", "Tipo do registro": "Anamnese" },
-    { "Prontuário": "12.345", Atendimento: "9", "Tipo do registro": "Evolução" },
-    { "Prontuário": "67.890", Atendimento: "7" },
+    { Prontuário: "12.345", Atendimento: "9", "Tipo do registro": "Anamnese" },
+    { Prontuário: "12.345", Atendimento: "9", "Tipo do registro": "Evolução" },
+    { Prontuário: "67.890", Atendimento: "7" },
   ]);
   const res = await post("/batches?model=phi-4&seed=42", payload);
   assert.equal(res.status, 202);
@@ -76,7 +76,10 @@ test("POST /batches: agrupa por prontuário (sem pontos), publica 1 job por pron
 
   assert.equal(body.message, "Batch received and queued");
   assert.equal(body.total_records, 2);
-  assert.deepEqual(body.jobs.map((j) => j.record_number), ["12345", "67890"]);
+  assert.deepEqual(
+    body.jobs.map((j) => j.record_number),
+    ["12345", "67890"],
+  );
 
   assert.equal(pushed.length, 2);
   assert.ok(pushed.every((p) => p.key === "fila:prontuarios"));
@@ -94,7 +97,7 @@ test("POST /batches: agrupa por prontuário (sem pontos), publica 1 job por pron
 
 test("POST /batches: sem model/seed, o job não leva essas chaves", async () => {
   reset();
-  await post("/batches", JSON.stringify([{ "Prontuário": "1" }]));
+  await post("/batches", JSON.stringify([{ Prontuário: "1" }]));
   const job = JSON.parse(pushed[0].value);
   assert.equal("model_name" in job, false);
   assert.equal("seed" in job, false);
@@ -109,7 +112,7 @@ test("POST /batches: aceita o formato {...},{...} (sem colchetes)", async () => 
 
 test("POST /batches: seed que não é inteiro -> 400", async () => {
   reset();
-  const res = await post("/batches?seed=abc", JSON.stringify([{ "Prontuário": "1" }]));
+  const res = await post("/batches?seed=abc", JSON.stringify([{ Prontuário: "1" }]));
   assert.equal(res.status, 400);
   assert.match((await res.json()).error, /seed/);
   assert.equal(pushed.length, 0);
@@ -139,16 +142,16 @@ test("POST /batches: registro sem 'Prontuário' -> 400 e nada é publicado", asy
 
 test("POST /batches: um registro sem 'Prontuário' derruba o lote inteiro (nada é publicado pela metade)", async () => {
   reset();
-  const res = await post("/batches", JSON.stringify([{ "Prontuário": "12.345" }, { Atendimento: "9" }]));
+  const res = await post("/batches", JSON.stringify([{ Prontuário: "12.345" }, { Atendimento: "9" }]));
   assert.equal(res.status, 400);
-  assert.match((await res.json()).error, /registro 2/);
+  assert.match((await res.json()).error, /record 2/);
   assert.equal(pushed.length, 0);
 });
 
 test("POST /batches: 'Prontuário' vazio ou em branco também é recusado", async () => {
   reset();
   for (const valor of ["", "   ", null]) {
-    const res = await post("/batches", JSON.stringify([{ "Prontuário": valor }]));
+    const res = await post("/batches", JSON.stringify([{ Prontuário: valor }]));
     assert.equal(res.status, 400);
   }
   assert.equal(pushed.length, 0);
@@ -166,9 +169,12 @@ test("POST /batches: item que não é objeto -> 400 sem vazar erro interno", asy
 
 test("POST /batches: 'Prontuário' numérico é aceito e vira texto", async () => {
   reset();
-  const res = await post("/batches", JSON.stringify([{ "Prontuário": 12345 }]));
+  const res = await post("/batches", JSON.stringify([{ Prontuário: 12345 }]));
   assert.equal(res.status, 202);
-  assert.deepEqual((await res.json()).jobs.map((j) => j.record_number), ["12345"]);
+  assert.deepEqual(
+    (await res.json()).jobs.map((j) => j.record_number),
+    ["12345"],
+  );
 });
 
 test("GET /jobs/:id/status: processing | done | partial | failed", async () => {

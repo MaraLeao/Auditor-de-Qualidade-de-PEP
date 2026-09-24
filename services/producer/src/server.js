@@ -7,11 +7,13 @@ import { transformAuditResult } from "./transformer.js";
 const app = express();
 
 // CORS: allow frontend dev server
-app.use(cors({
-  origin: ["http://localhost:5173", "http://localhost:5174", "http://localhost:3000"],
-  methods: ["GET", "POST", "OPTIONS"],
-  allowedHeaders: ["Content-Type"],
-}));
+app.use(
+  cors({
+    origin: ["http://localhost:5173", "http://localhost:5174", "http://localhost:3000"],
+    methods: ["GET", "POST", "OPTIONS"],
+    allowedHeaders: ["Content-Type"],
+  }),
+);
 
 // aceita corpo como texto puro (é o formato esperado: {...},{...},{...})
 app.use(express.text({ limit: "20mb", type: "text/*" }));
